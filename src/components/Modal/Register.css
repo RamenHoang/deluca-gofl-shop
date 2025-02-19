@@ -1,0 +1,6 @@
+button.send-email {
+    height: calc(1.5em + .75rem + 7px);
+    line-height: 5px;
+    background: rgb(245, 166, 35);
+    color: white;
+}

@@ -1,0 +1,29 @@
+
+div.content-receiver {
+    min-height: 150px;
+    background: #fff;
+    border-radius: 5px;
+    margin-top: 5px;
+    padding: 10px;
+}
+
+div.content-product-order {
+    background: #fff;
+    margin-top: 20px;
+}
+
+.content-product-order table tfoot tr {
+    border: none;
+}
+
+.content-product-order table tfoot tr td {
+    text-align: right;
+}
+
+table tfoot td {
+    border-top: none !important;
+}
+
+.content-product-order table tfoot tr td span {
+    font-weight: 600;
+}
