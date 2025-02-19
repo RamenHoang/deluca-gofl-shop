@@ -1,0 +1,364 @@
+/* css cho product-page  */
+.product-detail .product-img {
+  transition: 0.2s;
+}
+
+.product-detail .thumb-img {
+  height: 100%;
+  width: 74px;
+  border: 1px solid #f2f2f2;
+}
+
+.product-detail .list-anhchitiet {
+  height: 76px;
+}
+
+.product-detail .thumb-img:hover {
+  cursor: pointer;
+}
+
+.product-detail .thumb-img.vienvang {
+  border: 1px solid #f5a623;
+}
+/* het css cho product-page  */
+
+/* css cho khoi thong tin cua  product-page*/
+.khoithongtin .header hr {
+  margin-top: 10px;
+}
+
+.khoithongtin .rate {
+  color: #d9d9d5;
+  font-size: 14px;
+}
+
+.khoithongtin .rate .active {
+  color: #f5a623;
+}
+
+.khoithongtin .uudai .header {
+  margin-top: 5px;
+  padding: 10px 0px 2px 16px;
+  font-size: 13px;
+}
+
+.khoithongtin .header h4 {
+  font-weight: 400;
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.khoithongtin .gia {
+  font-size: 13px;
+}
+
+.khoithongtin .input-number .btn-spin {
+  background: white;
+  border: 1px solid #ebebeb;
+}
+
+.khoithongtin .input-number .btn-spin:hover {
+  cursor: pointer;
+  color: #2196f3;
+}
+
+.khoithongtin .input-number .soluongsp {
+  width: 38px;
+  border: 1px solid #ebebeb;
+}
+
+.khoithongtin .soluong label {
+  width: 101px;
+  font-size: 14px;
+  margin-top: 9px;
+}
+
+.thongtinsach a.tacgia {
+  color: #f5a623;
+  text-decoration: none;
+}
+
+.thongtinsach ul li {
+  margin-bottom: 5px;
+}
+
+.khoithongtin .thongtinsach ul {
+  list-style: none;
+  margin-bottom: 0px;
+}
+
+.khoithongtin .thongtinsach {
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  padding: 13px;
+  font-size: 13px;
+}
+
+.khoithongtin .uudai ul {
+  list-style: none;
+}
+
+.khoithongtin .uudai ul li::before {
+  content: "\2022";
+  color: #f5a623;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+  font-size: 15px;
+}
+
+.khoithongtin .uudai li a {
+  color: gray;
+}
+
+.khoithongtin .uudai li {
+  margin-left: 33px;
+  margin-bottom: 5px;
+}
+
+.khoithongtin .uudai {
+  background: #fef6e9;
+  border: 1px solid #f5a623;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.khoithongtin .giaban {
+  margin-top: 7px;
+}
+
+.khoithongtin .giaban .giamoi {
+  color: red;
+  font-size: 26px;
+  position: absolute;
+  top: 12px;
+  left: 149px;
+}
+
+/* don vi tien  */
+.khoithongtin .giaban .donvitien {
+  color: red;
+  font-size: 26px;
+  position: absolute;
+  top: 12px;
+  left: 250px;
+  font-weight: bold;
+}
+
+.khoithongtin .giabia .giacu {
+  text-decoration: line-through;
+  color: #b8b8b8;
+}
+
+.khoithongtin .tietkiem {
+  margin-top: 7px;
+}
+
+.khoithongtin .tietkiem .sale {
+  background: #f5a623;
+  border-radius: 6px;
+  font-size: 11px;
+  color: white;
+  padding: 1px 4px;
+  position: absolute;
+  font-weight: bold;
+  left: 140px;
+}
+
+.khoithongtin small.share {
+  font-size: 15px;
+}
+
+.khoithongtin .huongdanmuahang {
+  color: #f7a623;
+  font-size: 13px;
+  margin: 10px 0px;
+  display: block;
+}
+
+.khoithongtin .nutmua {
+  background: linear-gradient(#f5a623, #fd8205);
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.khoithongtin .nutmua:hover {
+  box-shadow: 0px 11px 20px -10px #fd8205;
+}
+
+/* .product-description  */
+.formdanhgia .nutguibl {
+  border: 1px solid #f7a623;
+  color: #f7a623;
+  width: 60%;
+  font-weight: 500;
+}
+
+.formdanhgia .nutguibl:hover {
+  background: #f7a623;
+  color: white;
+}
+
+.formdanhgia .form-group input {
+  padding: 6px 15px;
+  font-size: 14px;
+  border: 1px solid #d7d2d2;
+}
+
+.formdanhgia .danhgiacuaban {
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.formdanhgia .tieude {
+  font-size: 17px !important;
+}
+
+.btn.vietdanhgia {
+  border: 1px solid #f7a623;
+  color: #f7a623;
+  padding: 7px 20px;
+}
+
+.btn.vietdanhgia:hover {
+  color: white;
+  background: #f7a623;
+}
+
+.tiledanhgia .motthanh {
+  margin-bottom: 8px;
+}
+
+#nav-danhgia .tiledanhgia {
+  margin-top: 53px;
+}
+
+.motthanh i.fa.fa-star {
+  margin-left: 6px;
+  color: #a5a5a5;
+}
+
+.progress {
+  width: 80%;
+  height: 10px;
+}
+
+#nav-danhgia p.sonhanxet {
+  font-size: 13px;
+}
+
+/* #nav-danhgia .sao i.fa.fa-star {
+    color: #d1cccc;
+} */
+
+#nav-danhgia .sao .active {
+  color: #f5a623;
+}
+
+#nav-danhgia .diem {
+  font-size: 45px;
+  color: red;
+  font-weight: bold;
+}
+
+.product-description #nav-danhgia p.tieude {
+  margin: 20px 0px 0px 0px;
+}
+
+.product-description h6.tieude {
+  margin-top: 22px;
+  font-size: 18px;
+}
+
+.product-description .nav-tabs a {
+  color: gray;
+  margin-right: 7px;
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.product-description .nav-tabs .nav-item.active {
+  color: black;
+  border-top: 4px solid #f5a623;
+}
+
+.product-description {
+  margin-left: 9px;
+}
+
+.formdanhgia .rating input {
+  display: none;
+}
+
+.formdanhgia .rating label {
+  display: block;
+  cursor: pointer;
+  width: 15px;
+}
+
+.formdanhgia .rating label::before {
+  content: "\f005";
+  font-family: "Font Awesome\ 5 Free";
+  font-weight: 900;
+  position: relative;
+  display: block;
+  font-size: 15px;
+  color: rgb(187, 186, 186);
+}
+
+.formdanhgia .rating label::after {
+  content: "\f005";
+  font-family: "Font Awesome\ 5 Free";
+  font-weight: 900;
+  position: absolute;
+  display: block;
+  font-size: 15px;
+  color: #f7a623;
+  top: 290px;
+  opacity: 0;
+  transition: 0.2s;
+}
+
+.formdanhgia .rating label:hover::after,
+.formdanhgia .rating label:hover ~ label::after,
+.formdanhgia .rating input:checked ~ label::after {
+  opacity: 1;
+}
+/* het css cho .product-description  */
+
+.khoisanpham .gia .sale {
+  background: #f5a623;
+  border-radius: 6px;
+  font-size: 11px;
+  color: white;
+  padding: 1px 4px;
+  position: absolute;
+  font-weight: bold;
+  left: 140px;
+}
+
+.comment-list {
+}
+
+.comment-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px 5px;
+}
+
+.comment-list .comment-item img {
+  width: 50px;
+  padding: 5px;
+  border-radius: 25px;
+  background: #a5a5a5;
+}
+
+.comment-item .comment-text {
+  word-wrap: break-word;
+}
+
+.comment-item .comment-date {
+  padding-top: 15px;
+}

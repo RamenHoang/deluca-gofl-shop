@@ -1,0 +1,104 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.header-khoi-sp {
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 10px;
+}
+
+select {
+    color: #727272;
+    border-radius: 3px;
+}
+
+.header-khoi-sp .sort {
+    color: #727272;
+}
+
+label.label-select {
+    margin-right: 4px;
+}
+
+.sort .sap-xep {
+    margin-left: 17px;
+}
+
+.header-khoi-sp .tag, .header-khoi-sp .sort {
+    margin: 10px 20px 0 15px;
+}
+
+.header-khoi-sp label {
+    font-size: 13px;
+}
+
+.header-khoi-sp a {
+    font-size: 13px;
+    margin: 0 3px 0 3px;
+    color: #F5A623;
+}
+
+.page-item .page-link {
+    color: #939393;
+}
+
+.page-item.active  .page-link {
+    background: #F5A623;
+    border: 1px solid #F5A623;
+    color: white;
+}
+
+.item .card {
+    border: none;
+}
+
+.item .sale {
+    background: #F5A623;
+    border-radius: 6px;
+    font-size: 11px;color: white;
+    padding: 1px 4px;
+    position: absolute;
+    right: 0;
+    top: 2px;
+}
+
+.item-filter {
+    padding: 0px 10px 5px;
+}
+
+/* .item-filter h6 {
+    padding-left: 10px;
+} */
+.item-filter span.badge {
+    background: #F5A623;
+    color: rgb(244, 241, 241);
+    padding: 5px;
+    cursor: pointer;
+}
+
+.rating-list i.active::before {
+    color: #F5A623;
+}
+
+.rating-list i {
+    line-height: 15px;
+}
+
+.rating-list a {
+    text-decoration: none;
+    display: flex;
+    padding: 5px 0px;
+}
+
+.rating-list span.text {
+    font-size: 14px;
+    margin-left: 7px;
+    line-height: 15px;
+    color: #aaa;
+}
+
+.pagination-bar ul {
+    float: right;
+}

@@ -1,0 +1,27 @@
+
+span.item-info {
+    display: block;
+    padding: 7px 0px;
+    margin: 0;
+}
+
+span.item-info:hover {
+    background: #EEEEEE;
+}
+
+span.item-info a {
+    text-decoration: none;
+    color: #343a40;
+}
+
+span.item-info i {
+    color: #F5A623;
+}
+
+.img-avatar {
+    height: 40px;
+    border-radius: 20px;
+    position: absolute;
+    top: 7px;
+    right: 85px;
+}
