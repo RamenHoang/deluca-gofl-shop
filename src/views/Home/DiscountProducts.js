@@ -3,11 +3,11 @@ import ItemBook from "../../components/ItemBook/ItemBook";
 import homeAPI from './../../apis/homeAPI';
 import "./DiscountProducts.css";
 
-const NewBook = () => {
+const DiscountProducts = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    homeAPI.getNewBooks().then((res) => {
+    homeAPI.getDiscountProducts().then((res) => {
       setProducts(res.data.data);
     }).catch((err) => {
       console.log(err);
@@ -17,8 +17,8 @@ const NewBook = () => {
   return (
     <div className="container mt-5">
       <div className="row">
-        <h2>Best Sellers.</h2>
-        <h2 style={{color: "#4B5563CC"}}>&nbsp;Sản phẩm được ưa chuộng nhất trong tháng</h2>
+        <h2>Danh mục ưu đãi.</h2>
+        <h2 style={{color: "#4B5563CC"}}>&nbsp;Deluca giá tốt nhất dành cho bạn</h2>
       </div>
       <div className="row">
         {products.map((product, index) => (
@@ -31,4 +31,4 @@ const NewBook = () => {
   );
 };
 
-export default NewBook;
+export default DiscountProducts;

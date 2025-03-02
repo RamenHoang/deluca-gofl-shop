@@ -18,11 +18,11 @@ const Client = (props) => {
   return (
     <>
       <HeaderTop totalItem={props.cntItem} />
-      {isUrl === "/" ? <HeaderBottom /> : <HeaderBottomWithMenu />}
+      {/* {isUrl === "/" ? <HeaderBottom /> : <HeaderBottomWithMenu />} */}
       {props.children}
-      <FooterTop />
+      {/* <FooterTop /> */}
       <FooterBottom />
-      <BackToTop />
+      {/* <BackToTop /> */}
       <Login />
       <Register />
       {/* <MessengerCustomerChat 

@@ -5,6 +5,9 @@ import { successToast } from "../Toasts/Toasts";
 import getCookie from "./../../utils/getCookie";
 import FormSearch from "./FormSearch";
 import "./HeaderTop.css";
+import logo from "./../../assets/images/logo.png";
+import cartIcon from "./../../assets/images/cart-icon.png";
+import userIcon from "./../../assets/images/user-icon.png";
 
 const token = getCookie("authUserToken");
 
@@ -31,11 +34,11 @@ const HeaderTop = (props) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-md bg-white navbar-light">
+    <nav className="navbar navbar-expand-md navbar-light" style={{ backgroundColor: "#111827" }}>
       <div className="container">
         {/* logo  */}
-        <Link className="navbar-brand" to="/" style={{ color: "#00FFFF" }}>
-          <b>Deluca Golf Shop </b>
+        <Link className="navbar-brand" to="/">
+          <img src={logo} alt="Logo" style={{ height: "60px" }} />
         </Link>
         {/* navbar-toggler  */}
         <button
@@ -90,11 +93,11 @@ const HeaderTop = (props) => {
                 </li>
                 <div className="dropdown-menu">
                   <span className="item-info">
-                    <i className="fa fa-user" />
+                    <img src={userIcon} alt="user-icon" style={{width: "24px", height: "24px"}}/>
                     <Link to="/account"> Quản lý tài khoản </Link>
                   </span>
                   <span className="item-info">
-                    <i className="fas fa-cart-plus" />
+                    <img src={cartIcon} alt="cart-icon" style={{width: "24px", height: "24px"}}/>
                     <Link to="/orders/history">Quản lý đơn hàng</Link>{" "}
                   </span>
                   <span className="item-info" onClick={handleLogout}>
@@ -111,13 +114,13 @@ const HeaderTop = (props) => {
                   data-toggle="dropdown"
                   id="dropdownMenuButton"
                 >
-                  <a href="# " className="btn btn-secondary rounded-circle">
-                    <i className="fa fa-user" />
+                  <a href="# " className="btn btn-secondary rounded-circle _icon">
+                    <img src={userIcon} alt="user-icon" style={{width: "24px", height: "24px"}}/>
                   </a>
                   <a
                     className="nav-link text-dark text-uppercase"
                     href="# "
-                    style={{ display: "inline-block" }}
+                    style={{ display: "none" }}
                   >
                     Tài khoản
                   </a>
@@ -146,14 +149,14 @@ const HeaderTop = (props) => {
               </div>
             )}
             <li className="nav-item giohang">
-              <Link to="/cart" className="btn btn-secondary rounded-circle">
-                <i className="fa fa-shopping-cart" />
+              <Link to="/cart" className="btn btn-secondary rounded-circle _icon">
+                <img src={cartIcon} alt="cart-icon" style={{width: "24px", height: "24px"}}/>
                 <div className="cart-amount"> {props.totalItem} </div>
               </Link>
               <Link
                 to="/cart"
                 className="nav-link text-dark giohang text-uppercase"
-                style={{ display: "inline-block" }}
+                style={{ display: "none" }}
               >
                 Giỏ Hàng
               </Link>

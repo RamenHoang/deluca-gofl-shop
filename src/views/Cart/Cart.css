@@ -1,7 +1,7 @@
 /* css cho navbar  */
 body,
 html {
-  background-color: #f8f9fa;
+  background-color: #fff;
 }
 
 .navbar-nav li .nav-link {
@@ -10,9 +10,9 @@ html {
   font-weight: 400;
 }
 
-.navbar input.form-control {
+/* .navbar input.form-control {
   border: 2px solid #f3f700 !important;
-}
+} */
 
 li.nav-item a {
   transition: 0.2s;

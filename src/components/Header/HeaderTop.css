@@ -25,3 +25,13 @@ span.item-info i {
     top: 7px;
     right: 85px;
 }
+
+.navbar input.form-control {
+    background-color: #F8F8F8;
+    border: none;
+}
+
+a.btn.btn-secondary.rounded-circle._icon {
+    border: none;
+    background-color: transparent;
+}

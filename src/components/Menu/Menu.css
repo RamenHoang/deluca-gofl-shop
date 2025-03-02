@@ -2,3 +2,45 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.categorycontent .category-item-container {
+    display: flex !important;
+    justify-content: center;
+}
+
+.category-item:nth-child(1) {
+    background-color: #f0f0f0;
+}
+
+.category-item:nth-child(2) {
+    background-color: #e0e0e0;
+}
+
+.category-item:nth-child(3) {
+    background-color: #d0d0d0;
+}
+
+.categorycontent .category-item {
+    border: 1px solid #000000;
+    border-radius: 16px;
+    padding: 25px;
+    width: 98% !important;
+    color: #111827;
+}
+
+.categorycontent .category-item .category-item-link {
+    text-decoration: none;
+    color: #111827;
+    position: relative;
+}
+
+.categorycontent .category-item .category-item-link::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 100%;
+    width: 3px;
+    background-color: #111827;
+  }

@@ -62,6 +62,11 @@ const homeAPI = {
     searchBooks: (query) => {
         let url = `/home/search-books?q=${query}`;
         return axiosClient.get(url);
+    },
+
+    getDiscountProducts: () => {
+        let url = '/home/get-discount-products';
+        return axiosClient.get(url);
     }
 }
 
