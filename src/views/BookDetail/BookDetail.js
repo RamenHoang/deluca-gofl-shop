@@ -14,11 +14,21 @@ const BookDetail = (props) => {
   const [book, setBook] = useState({});
   const [booksRelated, setBooksRelated] = useState([]);
   const [itemCart, setItemCart] = useState(1);
+  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedVariant, setSelectedVariant] = useState({});
+  const [selectedThumbnail, setSelectedThumbnail] = useState(0);
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
 
   useEffect(() => {
     let bookId = queryString.parse(props.location.search).pid;
     homeAPI.getBookById(bookId).then((res) => {
       setBook(res.data.data);
+      setSelectedImage(res.data.data.variants[0].image.url);
+      setSelectedVariant(res.data.data.variants[0]);
+      setSelectedThumbnail(0);
+      setSelectedColor(res.data.data.variants[0].option_values.find(option => option.option.name === "Màu sắc").value);
+      setSelectedSize(res.data.data.variants[0].option_values.find(option => option.option.name === "Kích cỡ").value);
     }).catch(err => {
       console.log(err);
     });
@@ -30,7 +40,6 @@ const BookDetail = (props) => {
     window.scrollTo(0, 0);
 
   }, [props.location.search]);
-
 
   let itemCartDecrease = () => {
     if (itemCart > 1) {
@@ -45,7 +54,7 @@ const BookDetail = (props) => {
   }
 
   let onChangeItemCart = (e) => {
-
+    setItemCart(e.target.value);
   }
 
   let handleClickBuy = () => {
@@ -59,6 +68,56 @@ const BookDetail = (props) => {
     props.totalItem(total);
     setItemCart(1);
   }
+
+  const handleVariantChange = (optionId, value) => {
+    const newVariant = book.variants.find(variant =>
+      variant.option_values.some(optionValue =>
+        optionValue.option._id === optionId && optionValue.value === value
+      )
+    );
+    setSelectedVariant(newVariant);
+    setSelectedImage(newVariant.image.url);
+    if (optionId === book.variants[0].option_values.find(option => option.option.name === "Màu sắc").option._id) {
+      setSelectedColor(value);
+      if (!newVariant.option_values.some(option => option.option.name === "Kích cỡ" && option.value === selectedSize)) {
+        setSelectedSize(newVariant.option_values.find(option => option.option.name === "Kích cỡ").value);
+      }
+    } else if (optionId === book.variants[0].option_values.find(option => option.option.name === "Kích cỡ").option._id) {
+      setSelectedSize(value);
+    }
+  };
+
+  const handleThumbnailClick = (index, url) => {
+    setSelectedThumbnail(index);
+    setSelectedImage(url);
+  };
+
+  const getUniqueOptions = (optionName) => {
+    const uniqueOptions = [];
+    book.variants.forEach(variant => {
+      variant.option_values.forEach(optionValue => {
+        if (optionValue.option.name === optionName && !uniqueOptions.includes(optionValue.value)) {
+          uniqueOptions.push(optionValue.value);
+        }
+      });
+    });
+    return uniqueOptions;
+  };
+
+  const isOptionDisabled = (optionName, value) => {
+    if (optionName === "Màu sắc") {
+      return !book.variants.some(variant =>
+        variant.option_values.some(option => option.option.name === "Màu sắc" && option.value === value) &&
+        variant.option_values.some(option => option.option.name === "Kích cỡ" && option.value === selectedSize)
+      );
+    } else if (optionName === "Kích cỡ") {
+      return !book.variants.some(variant =>
+        variant.option_values.some(option => option.option.name === "Kích cỡ" && option.value === value) &&
+        variant.option_values.some(option => option.option.name === "Màu sắc" && option.value === selectedColor)
+      );
+    }
+    return false;
+  };
 
   return (
     <>
@@ -80,84 +139,123 @@ const BookDetail = (props) => {
           <div className="product-detail bg-white p-4">
             <div className="row">
               {/* ảnh  */}
+              <div className="col-md-2 khoianh">
+                <div className="thumbnail-container">
+                  {book.variants && book.variants.map((variant, index) => (
+                    <img
+                      key={index}
+                      className="thumbnail"
+                      src={variant.image.url}
+                      alt={`Thumbnail ${index}`}
+                      onClick={() => handleThumbnailClick(index, variant.image.url)}
+                      style={{
+                        cursor: 'pointer',
+                        marginBottom: '10px',
+                        width: '80px',
+                        height: '80px',
+                        border: selectedThumbnail === index ? '1px solid #0EA5E9CC' : 'none',
+                        borderRadius: '16px'
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+              {/* preview area */}
               <div className="col-md-5 khoianh">
                 <div className="anhto mb-4">
                   <a className="active" href="# " data-fancybox="thumb-img">
-                    <img className="product-image" src={book.p_image_detail ? book.p_image_detail.url : ''} alt={book.p_name} style={{ width: '100%' }} />
+                    <img className="product-image" src={selectedImage} alt={book.p_name} style={{ width: '100%' }} />
                   </a>
                 </div>
               </div>
-              {/* thông tin sản phẩm: tên, giá bìa giá bán tiết kiệm, các khuyến mãi, nút chọn mua.... */}
-              <div className="col-md-7 khoithongtin">
+              {/* thông tin sản phẩm */}
+              <div className="col-md-5 khoithongtin" style={{ border: '1px solid #E5E7EB', borderRadius: '16px', padding: '20px' }}>
                 <div className="row">
-                  <div className="col-md-12 header">
-                    <h4 className="ten">{book.p_name}</h4>
-                    <div className="rate">
-                      <i className="fa fa-star active" />
-                      <i className="fa fa-star active" />
-                      <i className="fa fa-star active" />
-                      <i className="fa fa-star active" />
-                      <i className="fa fa-star " />
+                  <div className="col-md-12 header d-flex justify-content-between">
+                    <div className="d-flex">
+                      <i className="fa fa-star" style={{ color: "#FBBF24", fontSize: "12px", lineHeight: "1.5" }} />
+                      <span style={{fontSize: "12px", color: "#4B5563"}}>
+                        &nbsp;{book.rating}&nbsp;({book.number_of_rating})
+                      </span>
                     </div>
-                    <hr />
+                    <div>
+                      <div className="giabia">{formatCurrency(book.p_price)} ₫</div>
+                      <div className="giaban">{formatCurrency(book.p_promotion)} ₫</div>
+                    </div>
                   </div>
-                  <div className="col-md-7">
-                    <div className="gia">
-                      <div className="giabia">Giá bìa:<span className="giacu ml-2">{formatCurrency(book.p_price)} ₫</span></div>
-                      <div className="giaban">Giá bán tại DeLuCa: <span className="giamoi font-weight-bold"> {formatCurrency(book.p_promotion)} ₫</span></div>
-                      <div className="tietkiem">Tiết kiệm: <b>{formatCurrency(book.p_price - book.p_promotion)} ₫</b>
+                  <div className="col-md-12">
+                    {book.variants && book.variants[0].option_values.map((optionValue, index) => (
+                      <div key={index}>
+                        <label>{optionValue.option.name}</label>
+                        {optionValue.option.name === "Màu sắc" ? (
+                          <div className="d-flex">
+                            {getUniqueOptions("Màu sắc").map((value, i) => (
+                              <img
+                                key={i}
+                                src={book.variants.find(variant => variant.option_values.some(option => option.value === value)).image.url}
+                                alt={value}
+                                onClick={() => handleVariantChange(optionValue.option._id, value)}
+                                style={{
+                                  cursor: 'pointer',
+                                  marginRight: '10px',
+                                  width: '40px',
+                                  height: '40px',
+                                  border: selectedVariant.option_values && selectedVariant.option_values.find(option => option.option._id === optionValue.option._id).value === value ? '2px solid #000' : 'none',
+                                  opacity: isOptionDisabled("Màu sắc", value) ? 0.5 : 1
+                                }}
+                              />
+                            ))}
+                          </div>
+                        ) : optionValue.option.name === "Kích cỡ" ? (
+                          <div className="d-flex">
+                            {getUniqueOptions("Kích cỡ").map((value, i) => (
+                              <button
+                                key={i}
+                                onClick={() => handleVariantChange(optionValue.option._id, value)}
+                                style={{
+                                  cursor: 'pointer',
+                                  marginRight: '10px',
+                                  padding: '5px 10px',
+                                  border: selectedVariant.option_values && selectedVariant.option_values.find(option => option.option._id === optionValue.option._id).value === value ? '2px solid #000' : '1px solid #ccc',
+                                  backgroundColor: selectedVariant.option_values && selectedVariant.option_values.find(option => option.option._id === optionValue.option._id).value === value ? '#0EA5E9' : '#fff',
+                                  color: selectedVariant.option_values && selectedVariant.option_values.find(option => option.option._id === optionValue.option._id).value === value ? '#fff' : '#000',
+                                  opacity: isOptionDisabled("Kích cỡ", value) ? 0.5 : 1,
+                                  pointerEvents: isOptionDisabled("Kích cỡ", value) ? 'none' : 'auto'
+                                }}
+                              >
+                                {value}
+                              </button>
+                            ))}
+                          </div>
+                        ) : (
+                          <select className="form-control" onChange={(e) => handleVariantChange(optionValue.option._id, e.target.value)}>
+                            {book.variants.filter(variant =>
+                              variant.option_values.some(value => value.option._id === optionValue.option._id)
+                            ).map((variant, i) => (
+                              <option key={i} value={variant.option_values.find(value => value.option._id === optionValue.option._id).value}>
+                                {variant.option_values.find(value => value.option._id === optionValue.option._id).value}
+                              </option>
+                            ))}
+                          </select>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="col-md-12 d-flex align-items-center mt-3">
+                    <label className="font-weight-bold mr-3">Số lượng: </label>
+                    <div className="input-number input-group mb-3">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text btn-spin btn-dec" onClick={itemCartDecrease}>-</span>
+                      </div>
+                      <input type="text" value={itemCart} className="soluongsp text-center" onChange={onChangeItemCart} />
+                      <div className="input-group-append">
+                        <span className="input-group-text btn-spin btn-inc" onClick={itemCartIncrease}>+</span>
                       </div>
                     </div>
-                    <div className="uudai my-3">
-                      <h6 className="header font-weight-bold">Khuyến mãi &amp; Ưu đãi tại DeLuCa:</h6>
-                      <ul>
-                        <li><b>Miễn phí giao hàng </b>cho đơn hàng từ 150.000đ ở HN và 300.000đ ở
-                          Tỉnh/Thành khác <a href="# ">&gt;&gt; Chi tiết</a></li>
-                        <li><b>Combo sách HOT - GIẢM 25% </b><a href="# ">&gt;&gt;Xem ngay</a></li>
-                        <li>Bao sách miễn phí (theo yêu cầu)</li>
-                      </ul>
-                    </div>
-
-                    <div className="soluong d-flex">
-                      <label className="font-weight-bold">Số lượng: </label>
-                      <div className="input-number input-group mb-3">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text btn-spin btn-dec" onClick={itemCartDecrease}>-</span>
-                        </div>
-                        <input type="text" value={itemCart} className="soluongsp text-center" onChange={onChangeItemCart} />
-                        <div className="input-group-append">
-                          <span className="input-group-text btn-spin btn-inc" onClick={itemCartIncrease}>+</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="nutmua btn w-100 text-uppercase" onClick={handleClickBuy}>Chọn mua</div>
-
-
-
-                    <a className="huongdanmuahang text-decoration-none" href="# ">(Vui lòng xem hướng dẫn mua hàng)</a>
-                    <div className="fb-like" data-href="https://www.facebook.com/DealBook-110745443947730/" data-width="300px" data-layout="button" data-action="like" data-size="small" data-share="true" />
+                    <button className="btn btn-primary ml-3" onClick={handleClickBuy}>Thêm vào giỏ hàng</button>
                   </div>
-                  {/* thông tin khác của sản phẩm:  tác giả, ngày xuất bản, kích thước ....  */}
-                  <div className="col-md-5">
-                    <div className="thongtinsach">
-                      <ul>
-                        <li>Tác giả: <a href="# " className="tacgia">
-                          {book.author ? book.author.map((v, i) => {
-                            return (
-                              <span key={i}>
-                                {`${v.a_name}  -`}
-                              </span>
-                            )
-                          }) : ''
-                          }
-                        </a>
-                        </li>
-                        <li>Ngày xuất bản: <b>{book.p_datepublic}</b></li>
-                        <li>Nhà xuất bản: {book.company ? book.company.c_name : ''} </li>
-                        <li>Số trang: <b>336</b></li>
-                        <li>Cân nặng: <b>0</b></li>
-                      </ul>
-                    </div>
+                  <div className="col-md-12 mt-3">
+                    <h6>Ước tính tổng tiền: {formatCurrency((book.p_promotion > 0 ? book.p_promotion : book.p_price) * itemCart)} ₫</h6>
                   </div>
                 </div>
               </div>
