@@ -9,7 +9,9 @@ const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   autoplay: true,
-  autoplaySpeed: 2000
+  autoplaySpeed: 2000,
+  arrows: false,
+  pauseOnHover: true,
 };
 
 const Carousel = () => {
@@ -23,19 +25,18 @@ const Carousel = () => {
   }, []);
 
   return (
-    <section className="header bg-light">
+    <section className="header">
       <div className="container">
         <div className="row">
-          <div className="col-md-3" style={{ marginRight: '-15px' }}>
+          {/* <div className="col-md-3" style={{ marginRight: '-15px' }}>
             <Menu />
-          </div>
-          <div className="col-md-9 px-0">
-
+          </div> */}
+          <div className="col-md-12 px-0">
             <Slider  {...settings}>
               {banners.map((v, i) => {
                 return (
-                  <div key={i}>
-                    <a href="# "><img src={v.b_image.url} className="img-fluid" style={{ height: '386px' }} width="900px" alt="First slide" /></a>
+                  <div key={i} style={{ overflow: "hidden" }}>
+                    <a href="# "><img src={v.b_image.url} className="img-fluid" style={{ maxHeight: "600px" }} width="100%" alt="First slide" /></a>
                   </div>
                 )
               })}
