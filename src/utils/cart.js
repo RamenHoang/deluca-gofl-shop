@@ -39,19 +39,24 @@ class Cart {
      * @param {json} product productInfo
      * @param {string} id productId
      * @param {number} quantity quantity of product want to add cart
+     * @param {json} variant selected variant
      */
-    addCartWithQuantity (product, id, quantity) {
-        let newProduct = { productInfo: product, quantity: 0, price: product.p_promotion };
+    addCartWithQuantity (product, quantity, variant) {
+        const id = `${product._id}-${variant._id}`
+        let newProduct = {
+            productInfo: product,
+            quantity: 0,
+            price: product.p_promotion > 0 ? product.p_promotion : product.p_price,
+            variant: variant
+        };
 
         if (this.products[id]) {
             newProduct = this.products[id];
         }
 
         newProduct.quantity += quantity;
-        newProduct.price = product.p_promotion * newProduct.quantity;
-
         this.products[id] = newProduct;
-        this.totalPrice += quantity * (product.p_promotion);
+        this.totalPrice += quantity * (product.p_promotion > 0 ? product.p_promotion : product.p_price);
         this.totalPriceDiscount += quantity * (product.p_price - product.p_promotion);
         this.totalQuantity += quantity;
     }

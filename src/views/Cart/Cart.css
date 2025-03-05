@@ -570,7 +570,7 @@ footer .header {
 .cart-item a.img {
   width: 90px;
   height: auto;
-  border: 1px solid #c8c8c8;
+  /* border: 1px solid #c8c8c8; */
 }
 
 .cart {

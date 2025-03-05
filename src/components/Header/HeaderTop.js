@@ -64,7 +64,7 @@ const HeaderTop = (props) => {
                   type="button"
                   data-toggle="dropdown"
                 >
-                  <a href="# " className="btn btn-secondary rounded-circle">
+                  {/* <a href="# " className="btn btn-secondary rounded-circle">
                     {user.avatar ? (
                       <img
                         src={user.avatar}
@@ -78,15 +78,15 @@ const HeaderTop = (props) => {
                         className="img-avatar"
                       />
                     )}
-                  </a>
+                  </a> */}
                   <div className="info-logout">
                     <a
                       href="# "
-                      className="nav-link text-dark text-uppercase username"
+                      className="nav-link text-light text-uppercase username"
                     >
                       {user.username}
                     </a>
-                    <a className="nav-link text-dark logout" href="# ">
+                    <a className="nav-link text-light logout" href="# ">
                       Tài khoản <i className="fas fa-caret-down"></i>
                     </a>
                   </div>
@@ -114,9 +114,9 @@ const HeaderTop = (props) => {
                   data-toggle="dropdown"
                   id="dropdownMenuButton"
                 >
-                  <a href="# " className="btn btn-secondary rounded-circle _icon">
+                  {/* <a href="# " className="btn btn-secondary rounded-circle _icon">
                     <img src={userIcon} alt="user-icon" style={{width: "24px", height: "24px"}}/>
-                  </a>
+                  </a> */}
                   <a
                     className="nav-link text-dark text-uppercase"
                     href="# "
