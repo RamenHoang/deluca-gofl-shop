@@ -87,7 +87,7 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
         <a href="product-item.html" className="img">
           <img
             src={
-              info.productInfo.p_image_detail?.url ||
+              info.productInfo.variants[0].image.url ||
               "/assets/images/dai-dich-tren-con-duong-to-lua.jpg"
             }
             className="img-fluid"
@@ -100,7 +100,15 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
               to={`/categories/${info.productInfo.category?.c_slug}.html?pid=${info.productInfo?._id}&p_slug=${info.productInfo?.p_slug}`}
               className="ten"
             >
-              {info.productInfo?.p_name}
+              <span className="font-weight-bold">{info.productInfo?.p_name}</span><br/>
+              {info.variant.option_values.map((optionValue, index) => (
+                <>
+                  <span key={index} className="ml-2">
+                    {optionValue.option.name} - {optionValue.value}
+                  </span>
+                  <br/>
+                </>
+              ))}
             </Link>
             <div className="soluong d-flex">
               <div className="input-number input-group mb-3">

@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import homeAPI from '../../apis/homeAPI';
 import './BookDetail.css';
-import SimpleSlider from '../../components/Slick/SimpleSlider';
 import TabEvaluate from './TabEvaluate';
 import Cart from './../../utils/cart';
 import { successToast } from './../../components/Toasts/Toasts';
 import formatCurrency from 'format-currency';
+import ItemBook from '../../components/ItemBook/ItemBook';
+import addToCartIcon from '../../assets/images/add-to-cart-icon.png';
 
 const BookDetail = (props) => {
   const [book, setBook] = useState({});
@@ -60,7 +61,7 @@ const BookDetail = (props) => {
   let handleClickBuy = () => {
     let oldCart = JSON.parse(localStorage.getItem('cart'));
     let newCart = new Cart(oldCart ? oldCart : null);
-    newCart.addCartWithQuantity(book, book._id, parseInt(itemCart));
+    newCart.addCartWithQuantity(book, parseInt(itemCart), selectedVariant);
     localStorage.removeItem('cart');
     localStorage.setItem('cart', JSON.stringify(newCart));
     successToast("Thêm sản phẩm vào giỏ hàng thành công !");
@@ -70,20 +71,36 @@ const BookDetail = (props) => {
   }
 
   const handleVariantChange = (optionId, value) => {
-    const newVariant = book.variants.find(variant =>
-      variant.option_values.some(optionValue =>
-        optionValue.option._id === optionId && optionValue.value === value
-      )
+    let newVariant = book.variants.find(variant => variant.option_values.some(optionValue => {
+        const a = optionValue.option._id === optionId && optionValue.value === value;
+        let b = false;
+        // Selected option is color
+        if (optionId === book.variants[0].option_values.find(option => option.option.name === "Màu sắc").option._id) {
+          b = variant.option_values.some(option => option.option.name === "Kích cỡ" && option.value === selectedSize);
+          setSelectedColor(value);
+        } else if (optionId === book.variants[0].option_values.find(option => option.option.name === "Kích cỡ").option._id) {
+          b = variant.option_values.some(option => option.option.name === "Màu sắc" && option.value === selectedColor);
+          setSelectedSize(value);
+        }
+
+        return a && b;
+      })
     );
-    setSelectedVariant(newVariant);
-    setSelectedImage(newVariant.image.url);
-    if (optionId === book.variants[0].option_values.find(option => option.option.name === "Màu sắc").option._id) {
-      setSelectedColor(value);
-      if (!newVariant.option_values.some(option => option.option.name === "Kích cỡ" && option.value === selectedSize)) {
-        setSelectedSize(newVariant.option_values.find(option => option.option.name === "Kích cỡ").value);
-      }
-    } else if (optionId === book.variants[0].option_values.find(option => option.option.name === "Kích cỡ").option._id) {
-      setSelectedSize(value);
+
+    if (!newVariant) {
+      newVariant = book.variants.find(variant =>
+        variant.option_values.some(optionValue => optionValue.option._id === optionId && optionValue.value === value)
+      );
+      setSelectedColor(newVariant.option_values.find(option => option.option.name === "Màu sắc").value);
+      setSelectedSize(newVariant.option_values.find(option => option.option.name === "Kích cỡ").value);
+    }
+
+    if (newVariant) {
+      setSelectedVariant(newVariant);
+      setSelectedImage(newVariant.image.url);
+
+      const newThumbnailIndex = book.variants.indexOf(newVariant);
+      setSelectedThumbnail(newThumbnailIndex);
     }
   };
 
@@ -153,7 +170,7 @@ const BookDetail = (props) => {
                         marginBottom: '10px',
                         width: '80px',
                         height: '80px',
-                        border: selectedThumbnail === index ? '1px solid #0EA5E9CC' : 'none',
+                        border: selectedThumbnail === index ? '2px solid #0EA5E9CC' : 'none',
                         borderRadius: '16px'
                       }}
                     />
@@ -164,12 +181,12 @@ const BookDetail = (props) => {
               <div className="col-md-5 khoianh">
                 <div className="anhto mb-4">
                   <a className="active" href="# " data-fancybox="thumb-img">
-                    <img className="product-image" src={selectedImage} alt={book.p_name} style={{ width: '100%' }} />
+                    <img className="product-image" src={selectedImage} alt={book.p_name} style={{ width: '100%', borderRadius: '16px' }} />
                   </a>
                 </div>
               </div>
               {/* thông tin sản phẩm */}
-              <div className="col-md-5 khoithongtin" style={{ border: '1px solid #E5E7EB', borderRadius: '16px', padding: '20px' }}>
+              <div className="col-md-5 khoithongtin" style={{border: "1px solid #E5E7EB", borderRadius: "16px", padding: "20px"}}>
                 <div className="row">
                   <div className="col-md-12 header d-flex justify-content-between">
                     <div className="d-flex">
@@ -179,14 +196,14 @@ const BookDetail = (props) => {
                       </span>
                     </div>
                     <div>
-                      <div className="giabia">{formatCurrency(book.p_price)} ₫</div>
-                      <div className="giaban">{formatCurrency(book.p_promotion)} ₫</div>
+                      <div className="giabia">{formatCurrency(book.p_promotion > 0 ? book.p_promotion : book.p_price)} ₫</div>
+                      {book.p_promotion > 0 && (<div className="giacu text-muted">{formatCurrency(book.p_price)} ₫</div>)}
                     </div>
                   </div>
                   <div className="col-md-12">
                     {book.variants && book.variants[0].option_values.map((optionValue, index) => (
-                      <div key={index}>
-                        <label>{optionValue.option.name}</label>
+                      <div key={index} className='mb-3'>
+                        <label className="font-weight-bold">{optionValue.option.name} - {optionValue.option.name === "Màu sắc" ? selectedColor : selectedSize}</label>
                         {optionValue.option.name === "Màu sắc" ? (
                           <div className="d-flex">
                             {getUniqueOptions("Màu sắc").map((value, i) => (
@@ -198,9 +215,10 @@ const BookDetail = (props) => {
                                 style={{
                                   cursor: 'pointer',
                                   marginRight: '10px',
-                                  width: '40px',
-                                  height: '40px',
+                                  width: '70px',
+                                  height: '70px',
                                   border: selectedVariant.option_values && selectedVariant.option_values.find(option => option.option._id === optionValue.option._id).value === value ? '2px solid #000' : 'none',
+                                  borderRadius: '12px',
                                   opacity: isOptionDisabled("Màu sắc", value) ? 0.5 : 1
                                 }}
                               />
@@ -212,6 +230,7 @@ const BookDetail = (props) => {
                               <button
                                 key={i}
                                 onClick={() => handleVariantChange(optionValue.option._id, value)}
+                                className="col-2"
                                 style={{
                                   cursor: 'pointer',
                                   marginRight: '10px',
@@ -220,7 +239,8 @@ const BookDetail = (props) => {
                                   backgroundColor: selectedVariant.option_values && selectedVariant.option_values.find(option => option.option._id === optionValue.option._id).value === value ? '#0EA5E9' : '#fff',
                                   color: selectedVariant.option_values && selectedVariant.option_values.find(option => option.option._id === optionValue.option._id).value === value ? '#fff' : '#000',
                                   opacity: isOptionDisabled("Kích cỡ", value) ? 0.5 : 1,
-                                  pointerEvents: isOptionDisabled("Kích cỡ", value) ? 'none' : 'auto'
+                                  pointerEvents: isOptionDisabled("Kích cỡ", value) ? 'none' : 'auto',
+                                  borderRadius: '12px',
                                 }}
                               >
                                 {value}
@@ -241,21 +261,37 @@ const BookDetail = (props) => {
                       </div>
                     ))}
                   </div>
-                  <div className="col-md-12 d-flex align-items-center mt-3">
-                    <label className="font-weight-bold mr-3">Số lượng: </label>
-                    <div className="input-number input-group mb-3">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text btn-spin btn-dec" onClick={itemCartDecrease}>-</span>
-                      </div>
-                      <input type="text" value={itemCart} className="soluongsp text-center" onChange={onChangeItemCart} />
-                      <div className="input-group-append">
-                        <span className="input-group-text btn-spin btn-inc" onClick={itemCartIncrease}>+</span>
+                  <div className="col-md-12 d-flex align-items-center justify-content-between mt-3">
+                    <div className="input-number input-group col-6">
+                      <div className="d-flex" style={{backgroundColor: "#F8F8F8", borderRadius: "9999px", padding: "8px"}}>
+                        <div className="input-group-prepend">
+                          <span className="input-group-text btn-spin btn-dec d-flex" style={{borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center"}} onClick={itemCartDecrease}>-</span>
+                        </div>
+                        <input type="text" value={itemCart} className="soluongsp text-center" style={{backgroundColor: "transparent", border: "none"}} onChange={onChangeItemCart} />
+                        <div className="input-group-append">
+                          <span className="input-group-text btn-spin btn-inc" style={{borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center"}} onClick={itemCartIncrease}>+</span>
+                        </div>
                       </div>
                     </div>
-                    <button className="btn btn-primary ml-3" onClick={handleClickBuy}>Thêm vào giỏ hàng</button>
+                    <button className="btn btn-primary ml-3" style={{borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "14px"}} onClick={handleClickBuy}>
+                      <img src={addToCartIcon} alt="Add to cart" style={{width: "16px", height: "16px", marginRight: "5px"}} />
+                      Thêm vào giỏ hàng
+                    </button>
+                  </div>
+                  <div className="col-md-12 mt-3 d-flex justify-content-between">
+                    <div>
+                      {formatCurrency((book.p_promotion > 0 ? book.p_promotion : book.p_price))} ₫ x {itemCart}
+                    </div>
+                    <div>
+                      {formatCurrency((book.p_promotion > 0 ? book.p_promotion : book.p_price) * itemCart)} ₫
+                    </div>
                   </div>
                   <div className="col-md-12 mt-3">
-                    <h6>Ước tính tổng tiền: {formatCurrency((book.p_promotion > 0 ? book.p_promotion : book.p_price) * itemCart)} ₫</h6>
+                    <hr />
+                  </div>
+                  <div className="col-md-12 mt-3 d-flex justify-content-between">
+                    <h6>Tổng tiền:</h6>
+                    <h6>{formatCurrency((book.p_promotion > 0 ? book.p_promotion : book.p_price) * itemCart)} ₫</h6>
                   </div>
                 </div>
               </div>
@@ -289,15 +325,19 @@ const BookDetail = (props) => {
         <div className="container">
           <div className="noidung bg-white" style={{ width: '100%' }}>
             <div className="row">
-              <div className="col-12 d-flex justify-content-between align-items-center pb-2 bg-light">
-                <h5 className="header text-uppercase" style={{ fontWeight: 400 }}>SẢN PHẨM LIÊN QUAN</h5>
+              <h2 className="header">Sản phẩm gợi ý</h2>
+              {/* <div className="col-12 d-flex justify-content-between align-items-center pb-2 bg-light">
                 <a href="# " className="btn btn-warning btn-sm text-white">Xem tất cả</a>
-              </div>
+              </div> */}
             </div>
             <div className="khoisanpham">
-              <SimpleSlider
-                books={booksRelated}
-              />
+              <div className="row">
+                {booksRelated.map((product, index) => (
+                  <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={index}>
+                    <ItemBook info={product} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

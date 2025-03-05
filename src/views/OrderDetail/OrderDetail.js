@@ -11,8 +11,6 @@ const OrderDetail = (props) => {
     orderAPI.getOrderDetailByCode(props.match.params.code).then((res) => {
       setOrder(res.data.data.order);
       setProducts(res.data.data.products);
-      // console.log(res.data.data);
-      // console.log(res.data.data.order);
     }).catch((err) => {
       console.log(err);
     })
@@ -72,9 +70,19 @@ const OrderDetail = (props) => {
                       products.map((v, i) => {
                         return (
                           <tr key={i}>
-                            <td>{v.product.p_name}</td>
                             <td>
-                              <img src={ v.product.p_image_detail.url } alt="product" style={{ height: '100px' }} />
+                              <span className="font-weight-bold">{v.product.p_name}</span><br/>
+                              {v.variant.option_values.map((optionValue, index) => (
+                                <>
+                                  <span key={index} className="ml-2">
+                                    {optionValue.option.name} - {optionValue.value}
+                                  </span>
+                                  <br/>
+                                </>
+                              ))}
+                            </td>
+                            <td>
+                              <img src={ v.variant.image.url } alt="product" style={{ height: '100px' }} />
                             </td>
                             <td>{formatCurrency(v.product.p_price)} ₫</td>
                             <td>{v.quantity}</td>

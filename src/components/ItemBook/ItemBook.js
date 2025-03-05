@@ -18,7 +18,7 @@ const ItemBook = ({ info }) => {
           <h3 className="card-title ten">{info.p_name}</h3>
           <div className="gia d-flex align-items-baseline">
             <div className="giamoi">{formatCurrency(info.p_promotion > 0 ? info.p_promotion : info.p_price)} ₫</div>
-            <div className="giacu text-muted">{formatCurrency(info.p_price)} ₫</div>
+            {info.p_promotion > 0 && (<div className="giacu text-muted">{formatCurrency(info.p_price)} ₫</div>)}
           </div>
           <div className="danhgia">
             <ul className="d-flex" style={{ listStyle: "none" }}>
