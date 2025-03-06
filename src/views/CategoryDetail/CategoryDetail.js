@@ -3,20 +3,20 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import queryString from "query-string";
 import homeAPI from "./../../apis/homeAPI";
-import skt from "./../../assets/images/banner-sach-ktkn.jpg";
 import "./CategoryDetail.css";
 import ItemBook from "../../components/ItemBook/ItemBook";
 import FilterPrice from "./FilterPrice";
-import FilterRating from "./FilterRating";
+import FilterCategory from "./FilterCategory";
 import ReactPaginate from "react-paginate";
 import useFullPageLoader from "../../hooks/useFullPageLoader";
+import { debounce } from 'lodash';
 
 const CategoryDetail = (props) => {
   const [loader, showLoader, hideLoader] = useFullPageLoader();
 
   //pagination
   const [currentPage, setCurrentPage] = useState(0);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(6);
   const [offSet, setOffSet] = useState(0);
   const [pageCount, setPageCount] = useState(0);
 
@@ -25,36 +25,37 @@ const CategoryDetail = (props) => {
   //all books
   const [books, setBooks] = useState([]);
 
+  // Filter states
   const cateId = queryString.parse(props.location.search).cateid;
+  const [selectedCategories, setSelectedCategories] = useState(cateId ? [cateId] : []);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000000);
 
   useEffect(() => {
-    // const cateId = queryString.parse(props.location.search).cateid;
-    homeAPI
-      .getCateById(cateId)
-      .then((res) => {
-        setCate(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    receivedData(cateId);
+    receivedData();
     window.scrollTo(0, 0);
-  }, [props.location.search]);
+  }, [props.location.search, selectedCategories, minPrice, maxPrice]);
 
-  let receivedData = (cateId) => {
+  const debouncedReceivedData = debounce(() => {
+    showLoader();
     homeAPI
-      .getBooksByCateId(cateId)
+      .getBooksByCateIds(selectedCategories, minPrice, maxPrice)
       .then((res) => {
         let data = res.data.data;
         let slice = data.slice(offSet, offSet + perPage);
 
         setBooks(slice);
         setPageCount(Math.ceil(data.length / perPage));
+        hideLoader();
       })
       .catch((err) => {
         console.log(err);
+        hideLoader();
       });
+  }, 500);
+
+  let receivedData = () => {
+    debouncedReceivedData();
   };
 
   //Click vao nut chuyen trang
@@ -65,7 +66,7 @@ const CategoryDetail = (props) => {
     setOffSet(offset);
     showLoader();
     homeAPI
-      .getBooksByCateId(cateId)
+      .getBooksByCateIds(selectedCategories, minPrice, maxPrice)
       .then((res) => {
         let data = res.data.data;
         let slice = data.slice(offset, offset + perPage);
@@ -93,7 +94,7 @@ const CategoryDetail = (props) => {
               <Link to="/">Trang chủ</Link>
             </li>
             <li className="breadcrumb-item active">
-              <a href="# ">{cate.c_name}</a>
+              <a href="# ">Cửa hàng</a>
             </li>
           </ol>
         </div>
@@ -109,25 +110,33 @@ const CategoryDetail = (props) => {
         <div className="container">
           <div className="noidung bg-white" style={{ width: "100%" }}>
             {/* header của khối sản phẩm : tag(tác giả), bộ lọc và sắp xếp  */}
-            <div className="header-khoi-sp d-flex justify-content-between py-2">
-              <h5 className="pt-2 pl-2">TẤT CẢ SÁCH</h5>
-            </div>
+            {/* <div className="header-khoi-sp d-flex justify-content-between py-2">
+              <h5 className="pt-2 pl-2">TẤT CẢ SẢN PHẨM</h5>
+            </div> */}
             {/* các sản phẩm  */}
             <div className="row">
               <div className="col-12 col-md-3 col-sm-3">
-                <h5 style={{ paddingTop: "10px", textAlign: "center" }}>
+                {/* <h5 style={{ paddingTop: "10px", textAlign: "center" }}>
                   CHẾ ĐỘ LỌC
-                </h5>
+                </h5> */}
+
+                <FilterCategory
+                  selectedCategories={selectedCategories}
+                  setSelectedCategories={setSelectedCategories}
+                />
 
                 <FilterPrice
-                  handleFilter={handleFilter}
-                  cateId={queryString.parse(props.location.search).cateid}
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                  setMinPrice={setMinPrice}
+                  setMaxPrice={setMaxPrice}
                 />
 
-                <FilterRating
+                {/* <FilterRating
                   handleFilter={handleFilter}
                   cateId={queryString.parse(props.location.search).cateid}
-                />
+                  books={books}
+                /> */}
 
                 {/* <div className="item-filter">
                   <h6>TÁC GIẢ</h6>

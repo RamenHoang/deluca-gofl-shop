@@ -186,8 +186,8 @@ const BookDetail = (props) => {
                 </div>
               </div>
               {/* thông tin sản phẩm */}
-              <div className="col-md-5 khoithongtin" style={{border: "1px solid #E5E7EB", borderRadius: "16px", padding: "20px"}}>
-                <div className="row">
+              <div className="col-md-5 khoithongtin">
+                <div className="row" style={{border: "1px solid #E5E7EB", borderRadius: "16px", padding: "20px"}}>
                   <div className="col-md-12 header d-flex justify-content-between">
                     <div className="d-flex">
                       <i className="fa fa-star" style={{ color: "#FBBF24", fontSize: "12px", lineHeight: "1.5" }} />
@@ -262,7 +262,7 @@ const BookDetail = (props) => {
                     ))}
                   </div>
                   <div className="col-md-12 d-flex align-items-center justify-content-between mt-3">
-                    <div className="input-number input-group col-6">
+                    <div className="input-number input-group col-4" style={{paddingLeft: "0px"}}>
                       <div className="d-flex" style={{backgroundColor: "#F8F8F8", borderRadius: "9999px", padding: "8px"}}>
                         <div className="input-group-prepend">
                           <span className="input-group-text btn-spin btn-dec d-flex" style={{borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center"}} onClick={itemCartDecrease}>-</span>
@@ -273,10 +273,12 @@ const BookDetail = (props) => {
                         </div>
                       </div>
                     </div>
-                    <button className="btn btn-primary ml-3" style={{borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "14px"}} onClick={handleClickBuy}>
-                      <img src={addToCartIcon} alt="Add to cart" style={{width: "16px", height: "16px", marginRight: "5px"}} />
-                      Thêm vào giỏ hàng
-                    </button>
+                    <div className="col-8 d-flex justify-content-end" style={{paddingRight: "0px"}}>
+                      <button className="btn btn-primary ml-3" style={{borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "14px"}} onClick={handleClickBuy}>
+                        <img src={addToCartIcon} alt="Add to cart" style={{width: "16px", height: "16px", marginRight: "5px"}} />
+                        Thêm vào giỏ hàng
+                      </button>
+                    </div>
                   </div>
                   <div className="col-md-12 mt-3 d-flex justify-content-between">
                     <div>

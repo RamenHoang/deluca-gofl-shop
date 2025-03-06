@@ -30,8 +30,12 @@ const homeAPI = {
         let url = `/home/categories/${id}`;
         return axiosClient.get(url);
     },
-    getBooksByCateId: (cateId) => {
-        let url = `/home/get-book-by-cateid/${cateId}`;
+    getBooksByCateId: (cateId, minPrice, maxPrice) => {
+        let url = `/home/get-book-by-cateid/${cateId}?minPrice=${minPrice}&maxPrice=${maxPrice}`;
+        return axiosClient.get(url);
+    },
+    getBooksByCateIds: (cateIds, minPrice, maxPrice) => {
+        let url = `/home/get-books-by-cate-ids?cateIds=${cateIds.join(',')}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
         return axiosClient.get(url);
     },
 

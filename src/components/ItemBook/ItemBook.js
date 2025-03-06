@@ -7,7 +7,7 @@ const ItemBook = ({ info }) => {
   return (
     <div className="card" style={{border: "none", position: "relative"}}>
       {info.p_promotion > 0 && (
-        <div style={{ position: "absolute", top: "10px", left: "10px", backgroundColor: "#F8F8F8", color: "#4B5563", padding: "5px 10px", borderRadius: "9999px", zIndex: "9999", fontSize: "12px", display: "flex" }}>
+        <div style={{ position: "absolute", top: "10px", left: "10px", backgroundColor: "#F8F8F8", color: "#4B5563", padding: "5px 10px", borderRadius: "9999px", zIndex: "1", fontSize: "12px", display: "flex" }}>
           <img src={discountIcon} alt="Discount Icon" style={{ marginRight: "5px", width: "14px", height: "14px" }} />
           {Math.round(((info.p_price - info.p_promotion) / info.p_price) * 100)}% Discount
         </div>
