@@ -114,9 +114,9 @@ const HeaderTop = (props) => {
                   data-toggle="dropdown"
                   id="dropdownMenuButton"
                 >
-                  {/* <a href="# " className="btn btn-secondary rounded-circle _icon">
+                  <a href="# " className="btn btn-secondary rounded-circle _icon">
                     <img src={userIcon} alt="user-icon" style={{width: "24px", height: "24px"}}/>
-                  </a> */}
+                  </a>
                   <a
                     className="nav-link text-dark text-uppercase"
                     href="# "

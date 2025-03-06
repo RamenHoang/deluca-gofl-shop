@@ -1,30 +1,59 @@
-import React from 'react';
-import filterAPI from '../../apis/filterAPI';
-import useFullPageLoader from './../../hooks/useFullPageLoader';
+import React, { useState } from 'react';
+import Slider from '@mui/material/Slider';
+import './FilterPrice.css';
 
-const FilterPrice = (props) => {
-  const [loader, showLoader, hideLoader] = useFullPageLoader();
+const FilterPrice = ({ minPrice, maxPrice, setMinPrice, setMaxPrice }) => {
+  // Set reasonable default values
+  const defaultMin = 0;
+  const defaultMax = 1000000;
 
-  let handleClick = (range) => {
-    showLoader();
-    filterAPI.filterPrice(props.cateId, { range: range }).then(res => {
-      hideLoader();
-      props.handleFilter(res.data.data);
-    });
-  }
+  // Price range state
+  const [priceRange, setPriceRange] = useState({
+    min: defaultMin,
+    max: defaultMax,
+    currentMin: minPrice,
+    currentMax: maxPrice
+  });
+
+  const formatPrice = (price) => {
+    if (typeof price !== 'number' || isNaN(price)) {
+      return '0đ';
+    }
+    return `${price.toLocaleString('vi-VN')}đ`;
+  };
+
+  const handleSliderChange = (event, newValue) => {
+    console.log(newValue);
+    setPriceRange(prev => ({
+      ...prev,
+      currentMin: newValue[0],
+      currentMax: newValue[1]
+    }));
+    setMinPrice(newValue[0]);
+    setMaxPrice(newValue[1]);
+  };
 
   return (
-    <div className="item-filter">
+    <div className="item-filter price-filter">
       <h6>GIÁ</h6>
-      <div>
-        <div><span className="badge" onClick={() => handleClick("max-50")} > Dưới 50.000 ₫</span></div>
-        <div><span className="badge" onClick={() => handleClick("from-50-to-150")} > Từ 50.000 ₫ đến 150.000 ₫</span></div>
-        <div><span className="badge" onClick={() => handleClick("min-150")} > Trên 150.000 ₫</span></div>
+
+      <div className="price-range">
+        <div className="price-display">
+          <span>{formatPrice(priceRange.currentMin)}</span> -
+          <span>{formatPrice(priceRange.currentMax)}</span>
+        </div>
+        <Slider
+          value={[priceRange.currentMin, priceRange.currentMax]}
+          onChange={handleSliderChange}
+          valueLabelDisplay="auto"
+          min={priceRange.min}
+          max={priceRange.max}
+        />
       </div>
+
       <hr />
-      { loader}
     </div>
-  )
-}
+  );
+};
 
 export default FilterPrice;

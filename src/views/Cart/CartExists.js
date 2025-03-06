@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ItemCart from './../../components/ItemCart/ItemCart';
-import { Link } from 'react-router-dom';
 import formatCurrency from 'format-currency';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -11,6 +10,9 @@ import iconPayATM from './../../assets/images/icon-payment-atm.svg';
 import useFullPageLoader from '../../hooks/useFullPageLoader';
 import orderAPI from '../../apis/orderAPI';
 import { errorToast, successToast } from '../../components/Toasts/Toasts';
+import contactInforIcon from './../../assets/images/contact-infor-icon.png';
+import shippingAddressIcon from './../../assets/images/shipping-address-icon.png';
+import paymentIcon from './../../assets/images/payment-icon.png';
 
 const token = getCookie('authUserToken');
 
@@ -76,23 +78,39 @@ const CartExists = (props) => {
 
   let orderFormik = useFormik({
     initialValues: {
-      inputUsername: user.username,
-      inputAddress: user.address ? user.address : '',
-      inputPhoneNumber: user.phone ? user.phone : '',
+      inputPhone: user.phone ? user.phone : '',
+      inputEmail: user.email ? user.email : '',
+      inputFirstName: '',
+      inputLastName: '',
+      inputAddress1: '',
+      inputHouseNumber: '',
+      inputAddress2: '',
+      inputCity: '',
+      inputCountry: '',
+      inputState: '',
+      inputPostalcode: '',
       inputPayment: 'pay-cash',
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      inputAddress: Yup.string()
+      inputEmail: Yup.string()
         .required("Bắt buộc nhập địa chỉ"),
-      inputPhoneNumber: Yup.string()
+      inputPhone: Yup.string()
         .required("Bắt buộc nhập số điện thoại")
     }),
     onSubmit: (values) => {
       let data = {
-        o_shippingAddress: values.inputAddress,
-        o_phoneReceiver: values.inputPhoneNumber,
-        o_nameReceiver: values.inputUsername,
+        o_phone: values.inputPhone,
+        o_email: values.inputEmail,
+        o_firstName: values.inputFirstName,
+        o_lastName: values.inputLastName,
+        o_shippingAddress1: values.inputAddress1,
+        o_shippingHouseNumber: values.inputHouseNumber,
+        o_shippingAddress2: values.inputAddress2,
+        o_shippingCity: values.inputCity,
+        o_shippingCountry: values.inputCountry,
+        o_shippingState: values.inputState,
+        o_shippingPostalcode: values.inputPostalcode,
         o_shippingFee: shippingFee,
         o_payment: values.inputPayment,
         products: items,
@@ -121,9 +139,242 @@ const CartExists = (props) => {
 
   return (
     <>
-      <div className="col-md-8 cart">
+      <div className="col-md-6 mt-3 cart-steps">
+
+        {token === '' ? (
+          <button className="btn btn-block nutdangnhap" data-toggle="modal" data-target="#formdangnhap" style={{ background: '#F5A623', color: 'white' }}>Tiến hành đặt hàng</button>
+        ) : (
+
+          <div id="cart-steps-accordion" role="tablist" aria-multiselectable="true">
+            <form onSubmit={orderFormik.handleSubmit} name="orderForm">
+              <div className="card" style={{ borderRadius: "12px" }}>
+                <div id="step2contentid" className="collapse in show" role="tabpanel" aria-labelledby="step2header">
+                  <div className="card-body" style={{ padding: '0' }}>
+                    <div className="form-diachigiaohang">
+                      <div className="col-12 mt-3">
+                        <img src={contactInforIcon} alt="contact-infor-icon" style={{ width: "16px", height: "16px" }} />
+                        <span style={{ fontSize: "16px" }} className="ml-1">Thông tin liên hệ</span>
+                      </div>
+                      <hr />
+                      <div className="d-flex">
+                        <div className="form-group col-6">
+                          <label htmlFor="inputPhone">Số điện thoại</label>
+                          <input type="text" className="form-control" name="inputPhone" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputPhone || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputPhone && orderFormik.touched.inputPhone && (
+                            <small className="active-error" >{orderFormik.errors.inputPhone}</small>
+                          )}
+                        </div>
+                        <div className="form-group col-6">
+                          <label htmlFor="inputEmail">Email</label>
+                          <input type="text" className="form-control" name="inputEmail" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputEmail || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputEmail && orderFormik.touched.inputEmail && (
+                            <small className="active-error" >{orderFormik.errors.inputEmail}</small>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card mt-3" style={{ borderRadius: "12px" }}>
+                <div id="step2contentid" className="collapse in show" role="tabpanel" aria-labelledby="step2header">
+                  <div className="card-body" style={{ padding: '0' }}>
+                    <div className="form-diachigiaohang">
+                      <div className="col-12 mt-3">
+                        <img src={shippingAddressIcon} alt="contact-infor-icon" style={{ width: "16px", height: "16px" }} />
+                        <span style={{ fontSize: "16px" }} className="ml-1">Địa chỉ giao hàng</span>
+                      </div>
+                      <hr />
+                      <div className="d-flex">
+                        <div className="form-group col-6">
+                          <label htmlFor="inputFirstName">Họ</label>
+                          <input type="text" className="form-control" name="inputFirstName" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputFirstName || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputFirstName && orderFormik.touched.inputFirstName && (
+                            <small className="active-error" >{orderFormik.errors.inputFirstName}</small>
+                          )}
+                        </div>
+                        <div className="form-group col-6">
+                          <label htmlFor="inputLastName">Tên</label>
+                          <input type="text" className="form-control" name="inputLastName" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputLastName || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputLastName && orderFormik.touched.inputLastName && (
+                            <small className="active-error" >{orderFormik.errors.inputLastName}</small>
+                          )}
+                        </div>
+                      </div>
+                      <div className="d-flex">
+                        <div className="form-group col-8">
+                          <label htmlFor="inputAddress1">Địa chỉ 1</label>
+                          <input type="text" className="form-control" name="inputAddress1" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputAddress1 || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputAddress1 && orderFormik.touched.inputAddress1 && (
+                            <small className="active-error" >{orderFormik.errors.inputAddress1}</small>
+                          )}
+                        </div>
+                        <div className="form-group col-4">
+                          <label htmlFor="inputHouseNumber">Số nhà</label>
+                          <input type="text" className="form-control" name="inputHouseNumber" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputHouseNumber || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputHouseNumber && orderFormik.touched.inputHouseNumber && (
+                            <small className="active-error" >{orderFormik.errors.inputHouseNumber}</small>
+                          )}
+                        </div>
+                      </div>
+                      <div className="d-flex">
+                        <div className="form-group col-12">
+                          <label htmlFor="inputAddress2">Địa chỉ 2</label>
+                          <input type="text" className="form-control" name="inputAddress2" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputAddress2 || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputAddress2 && orderFormik.touched.inputAddress2 && (
+                            <small className="active-error" >{orderFormik.errors.inputAddress2}</small>
+                          )}
+                        </div>
+                      </div>
+                      <div className="d-flex">
+                        <div className="form-group col-6">
+                          <label htmlFor="inputCity">Thành phố</label>
+                          <input type="text" className="form-control" name="inputCity" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputCity || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputCity && orderFormik.touched.inputCity && (
+                            <small className="active-error" >{orderFormik.errors.inputCity}</small>
+                          )}
+                        </div>
+                        <div className="form-group col-6">
+                          <label htmlFor="inputCountry">Quốc gia</label>
+                          <input type="text" className="form-control" name="inputCountry" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputCountry || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputCountry && orderFormik.touched.inputCountry && (
+                            <small className="active-error" >{orderFormik.errors.inputCountry}</small>
+                          )}
+                        </div>
+                      </div>
+                      <div className="d-flex">
+                        <div className="form-group col-6">
+                          <label htmlFor="inputState">Quận huyện</label>
+                          <input type="text" className="form-control" name="inputState" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputState || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputState && orderFormik.touched.inputState && (
+                            <small className="active-error" >{orderFormik.errors.inputState}</small>
+                          )}
+                        </div>
+                        <div className="form-group col-6">
+                          <label htmlFor="inputPostalCode">Mã bưu chính</label>
+                          <input type="text" className="form-control" name="inputPostalCode" style={{ borderRadius: "12px" }}
+                            value={orderFormik.values.inputPostalCode || ''}
+                            onChange={orderFormik.handleChange}
+                          />
+                          {orderFormik.errors.inputPostalCode && orderFormik.touched.inputPostalCode && (
+                            <small className="active-error" >{orderFormik.errors.inputPostalCode}</small>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card mt-3" style={{ borderRadius: "12px" }}>
+                {/* <div className="card-header" role="tab" id="step3header">
+                <h5 className="mb-0">
+                  <a data-toggle="collapse" data-parent="#cart-steps-accordion" href="#step3contentid" aria-expanded="true" aria-controls="step3contentid" className="text-uppercase header">
+                    <span className="steps">2</span>
+                    <span className="label">Thanh toán đặt mua</span>
+                    <i className="fa fa-chevron-right float-right" />
+                  </a>
+                </h5>
+              </div> */}
+                <div id="step3contentid" className="collapse in show" role="tabpanel" aria-labelledby="step3header">
+                  <div className="card-body" style={{ padding: '0' }}>
+
+                    {/* <div className="goigiaohang">
+                    <div className="form-check">
+                      <input className="form-check-input" type="radio" name="inputDelivery" id="inputDeliveryBasic" 
+                        value="delivery-basic" defaultChecked
+                        onChange={handleChangeDelivery}
+                      />
+                      <label className="form-check-label" htmlFor="inputDeliveryBasic"> Giao hàng tiêu chuẩn</label>
+                    </div>
+
+                    <div className="form-check">
+                      <input className="form-check-input" type="radio" name="inputDelivery" id="inputDeliveryFast" 
+                        value="delivery-fast"
+                        onChange={handleChangeDelivery}
+                      />
+                      <label className="form-check-label" htmlFor="inputDeliveryFast">Giao hàng nhanh (2h - 3h)</label>
+                    </div>
+                  </div> */}
+
+                    <div className="pttt">
+                      <div className="col-12 mt-3">
+                        <img src={paymentIcon} alt="contact-infor-icon" style={{ width: "16px", height: "16px" }} />
+                        <span style={{ fontSize: "16px" }} className="ml-1">Thanh toán</span>
+                      </div>
+                      <hr />
+
+                      <div className="d-flex">
+                        <div className="form-group col-12 d-flex">
+                          <input className="mr-2" type="radio" name="inputPayment" id="payCash"
+                            value="pay-cash"
+                            checked={orderFormik.values.inputPayment === "pay-cash"}
+                            onChange={orderFormik.handleChange}
+                          />
+                          <label className="form-check-label" htmlFor="payCash">
+                            <img src={iconPayCash} alt="payment-cash" className="payment" />
+                            Thanh toán tiền mặt khi nhận hàng
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="form-group col-12 d-flex">
+                        <input className="mr-2" type="radio" name="inputPayment" id="payATM"
+                          value="pay-atm"
+                          checked={orderFormik.values.inputPayment === "pay-atm"}
+                          onChange={orderFormik.handleChange}
+                        />
+                        <label className="form-check-label" htmlFor="payATM">
+                          <img src={iconPayATM} alt="payment-atm" className="payment" />
+                          Thẻ ATM nội địa/Internet Banking (Miễn phí thanh toán)
+                        </label>
+                      </div>
+
+                    </div>
+                    {/* <hr /> */}
+                    {/* <p className="text-center note-before-checkout">(Vui lòng kiểm tra lại đơn hàng trước khi Đặt Mua)</p> */}
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        )}
+      </div>
+      <div className="col-md-6 cart">
         <div className="cart-content py-3 pl-3">
-          <h4 className="header-gio-hang">GIỎ HÀNG CỦA BẠN <span>( {JSON.parse(localStorage.getItem('cart')).totalQuantity} sản phẩm)</span></h4>
+          <h4 className=""><strong>Thông tin đơn hàng</strong></h4>
+          <hr></hr>
 
           <div className="cart-list-items">
             {
@@ -141,169 +392,42 @@ const CartExists = (props) => {
           </div>
 
           <div className="row">
-            <div className="col-md-5">
-              <Link to="/" className="btn nutmuathem mb-3">Mua thêm</Link>
-            </div>
-           
-            <div className="col-md-4 offset-md-3">
+            <div className="col-md-12">
               <div className="tonggiatien">
                 <div className="group d-flex justify-content-between">
-                  <p className="label">Tạm tính:</p>
+                  <p className="label">Tạm tính</p>
                   <p className="tamtinh">{formatCurrency(totalPrice)} ₫</p>
                 </div>
-                <div className="group d-flex justify-content-between">
+                {/* <div className="group d-flex justify-content-between">
                   <p className="label">Giảm giá:</p>
                   <p className="giamgia">{ formatCurrency(totalPriceDiscount) } ₫</p>
-                </div>
+                </div> */}
                 <div className="group d-flex justify-content-between">
-                  <p className="label">Phí vận chuyển:</p>
+                  <p className="label">Phí vận chuyển</p>
                   <p className="phivanchuyen">{formatCurrency(shippingFee)} ₫</p>
                 </div>
                 <div className="group d-flex justify-content-between align-items-center">
-                  <strong className="text-uppercase">Tổng cộng:</strong>
+                  <strong className="text-uppercase">Tổng cộng</strong>
                   <p className="tongcong">{formatCurrency(totalPrice + shippingFee)} ₫</p>
                 </div>
-                <small className="note d-flex justify-content-end text-muted"> (Giá đã bao gồm VAT) </small>
+                {/* <small className="note d-flex justify-content-end text-muted"> (Giá đã bao gồm VAT) </small> */}
               </div>
             </div>
           </div>
 
+          <br />
+          <button
+            type="submit"
+            className="btn btn-lg btn-block btn-checkout text-uppercase text-white"
+            style={{ borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "14px" }}
+            form="orderForm"
+            onClick={orderFormik.handleSubmit}
+          >
+            Đặt mua
+          </button>
         </div>
       </div>
-
-      <div className="col-md-4 mt-3 cart-steps">
-
-        {token === '' ? (
-          <button className="btn btn-block nutdangnhap" data-toggle="modal" data-target="#formdangnhap" style={{ background: '#F5A623', color: 'white' }}>Tiến hành đặt hàng</button>
-        ) : (
-
-          <div id="cart-steps-accordion" role="tablist" aria-multiselectable="true">
-            <form onSubmit={orderFormik.handleSubmit}>
-              <div className="card">
-                <div className="card-header" role="tab" id="step2header">
-                  <h5 className="mb-0">
-                    <a data-toggle="collapse" data-parent="#cart-steps-accordion" href="#step2contentid" aria-expanded="true" aria-controls="step2contentid" className="text-uppercase header">
-                      <span className="steps">1</span>
-                      <span className="label">Địa chỉ giao hàng</span>
-                      <i className="fa fa-chevron-right float-right" />
-                    </a>
-                  </h5>
-                </div>
-                <div id="step2contentid" className="collapse in" role="tabpanel" aria-labelledby="step2header">
-                  <div className="card-body">
-                    <div className="form-diachigiaohang">
-
-                      <h4>{user.username}</h4>
-
-                      <hr />
-                      <div className="form-group">
-                        <label htmlFor="inputUsername">Người nhận (*)</label>
-                        <input type="text" className="form-control" name="inputUsername"
-                          value={orderFormik.values.inputUsername || ''}
-                          onChange={orderFormik.handleChange}
-                        />
-                        { orderFormik.errors.inputUsername && orderFormik.touched.inputUsername && (
-                          <small className="active-error" >{ orderFormik.errors.inputUsername }</small>
-                        ) }
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="inputAddress">Địa chỉ nhận hàng (*)</label>
-                        <input type="text" className="form-control" name="inputAddress"
-                          value={orderFormik.values.inputAddress || ''}
-                          onChange={orderFormik.handleChange}
-                        />
-                         { orderFormik.errors.inputAddress && orderFormik.touched.inputAddress && (
-                          <small className="active-error" >{ orderFormik.errors.inputAddress }</small>
-                        ) }
-                      </div>
-
-                      <div className="form-group">
-                        <label htmlFor="inputPhoneNumber">Số điện thoại (*)</label>
-                        <input type="text" className="form-control" name="inputPhoneNumber"
-                          value={orderFormik.values.inputPhoneNumber || ''}
-                          onChange={orderFormik.handleChange} 
-                        />
-                          { orderFormik.errors.inputPhoneNumber && orderFormik.touched.inputPhoneNumber && (
-                          <small className="active-error" >{ orderFormik.errors.inputPhoneNumber }</small>
-                        ) }
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              <div className="card">
-                <div className="card-header" role="tab" id="step3header">
-                  <h5 className="mb-0">
-                    <a data-toggle="collapse" data-parent="#cart-steps-accordion" href="#step3contentid" aria-expanded="true" aria-controls="step3contentid" className="text-uppercase header">
-                      <span className="steps">2</span>
-                      <span className="label">Thanh toán đặt mua</span>
-                      <i className="fa fa-chevron-right float-right" />
-                    </a>
-                  </h5>
-                </div>
-                <div id="step3contentid" className="collapse in" role="tabpanel" aria-labelledby="step3header">
-                  <div className="card-body" style={{ padding: '15px' }}>
-
-                    <div className="goigiaohang">
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="inputDelivery" id="inputDeliveryBasic" 
-                          value="delivery-basic" defaultChecked
-                          onChange={handleChangeDelivery}
-                        />
-                        <label className="form-check-label" htmlFor="inputDeliveryBasic"> Giao hàng tiêu chuẩn</label>
-                      </div>
-
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="inputDelivery" id="inputDeliveryFast" 
-                          value="delivery-fast"
-                          onChange={handleChangeDelivery}
-                        />
-                        <label className="form-check-label" htmlFor="inputDeliveryFast">Giao hàng nhanh (2h - 3h)</label>
-                      </div>
-                    </div>
-
-                    <hr />
-                    <div className="pttt">
-                      <h6 className="header text-uppercase">Chọn phương thức thanh toán</h6>
-
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="payment" id="payCash" 
-                          value="pay-cash"
-                          checked={ orderFormik.values.inputPayment === "pay-cash" }
-                          onChange={orderFormik.handleChange}
-                        />
-                        <label className="form-check-label" htmlFor="payCash">
-                          <img src={iconPayCash} alt="payment-cash" className="payment" />
-                        Thanh toán tiền mặt khi nhận hàng
-                      </label>
-                      </div>
-
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="payment" id="payATM" 
-                          value="pay-atm" 
-                          checked={ orderFormik.values.inputPayment === "pay-atm" }
-                          onChange={orderFormik.handleChange}  
-                        />
-                        <label className="form-check-label" htmlFor="payATM">
-                          <img src={iconPayATM} alt="payment-atm" className="payment" />
-                        Thẻ ATM nội địa/Internet Banking (Miễn phí thanh toán) (<b>Định hướng phát triển</b>)
-                      </label>
-                      </div>
-
-                    </div>
-                    <hr />
-                    <button type="submit" className="btn btn-lg btn-block btn-checkout text-uppercase text-white" style={{ background: '#F5A623' }}>Đặt mua</button>
-                    <p className="text-center note-before-checkout">(Vui lòng kiểm tra lại đơn hàng trước khi Đặt Mua)</p>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        )}
-      </div>
-      { loader}
+      {loader}
     </>
   )
 }

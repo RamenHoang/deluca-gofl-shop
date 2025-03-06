@@ -20,7 +20,7 @@ const Cart = (props) => {
         <div className="container">
           <ol className="breadcrumb mb-0 p-0 bg-transparent">
             <li className="breadcrumb-item"><Link to="/" >Trang chủ</Link></li>
-            <li className="breadcrumb-item active"><a href="# ">Giỏ hàng</a></li>
+            <li className="breadcrumb-item active"><a href="# ">Thanh toán</a></li>
           </ol>
         </div>
       </section>

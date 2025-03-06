@@ -33,9 +33,15 @@ const OrderDetail = (props) => {
             <div className="col-4 col-md-4">
               <div className="title">ĐỊA CHỈ NGƯỜI NHẬN</div>
               <div className="content-receiver">
-                <h6>{order.o_nameReceiver}</h6>
-                <p>Địa chỉ: {order.o_shippingAddress}</p>
-                <p>Số điện thoại: {order.o_phoneReceiver} </p>
+                <p>{order.o_firstName} {order.o_lastName}</p>
+                <p>Số điện thoại: {order.o_phone} </p>
+                <p>Địa chỉ 1: {order.o_shippingAddress1}</p>
+                <p>Số nhà: {order.o_shippingHouseNumber}</p>
+                <p>Địa chỉ 2: {order.o_shippingAddress2}</p>
+                <p>Quốc gia: {order.o_shippingCountry} </p>
+                <p>Thành phố: {order.o_shippingCity} </p>
+                <p>Quận/Huyện: {order.o_shippingState} </p>
+                <p>Mã bưu điện: {order.o_shippingPostalcode} </p>
               </div>
             </div>
             <div className="col-4 col-md-4">
@@ -84,7 +90,7 @@ const OrderDetail = (props) => {
                             <td>
                               <img src={ v.variant.image.url } alt="product" style={{ height: '100px' }} />
                             </td>
-                            <td>{formatCurrency(v.product.p_price)} ₫</td>
+                            <td>{formatCurrency(v.product.p_promotion > 0 ? v.product.p_promotion : v.product.p_price)} ₫</td>
                             <td>{v.quantity}</td>
                             <td>{formatCurrency(v.price)} ₫</td>
                           </tr>
@@ -97,10 +103,10 @@ const OrderDetail = (props) => {
                       <td colSpan="4"><span>Tạm tính</span></td>
                       <td>{formatCurrency(order.o_totalPrice - order.o_shippingFee) } ₫</td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                       <td colSpan="4"><span>Giảm giá</span></td>
                       <td>0 ₫</td>
-                    </tr>
+                    </tr> */}
                     <tr>
                       <td colSpan="4"><span>Phí vận chuyển</span></td>
                       <td>{formatCurrency(order.o_shippingFee)} ₫</td>

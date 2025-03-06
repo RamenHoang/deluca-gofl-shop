@@ -65,7 +65,8 @@ class Cart {
      * remove product from cart
      * @param {string} id 
      */
-    removeItemCart (id) {
+    removeItemCart (product_id, variant_id) {
+        const id = `${product_id}-${variant_id}`;
         this.totalQuantity -= this.products[id].quantity;
         this.totalPrice -= this.products[id].price;
         this.totalPriceDiscount -= this.products[id].quantity * (this.products[id].productInfo.p_price - this.products[id].productInfo.p_promotion);
@@ -73,7 +74,8 @@ class Cart {
         delete this.products[id];
     }
 
-    updateCartById (id, quantity) {
+    updateCartById (product_id, variant_id, quantity) {
+        const id = `${product_id}-${variant_id}`;
         this.totalQuantity -= this.products[id].quantity;
         this.totalPrice -= this.products[id].price;
         this.totalPriceDiscount -= this.products[id].quantity * (this.products[id].productInfo.p_price - this.products[id].productInfo.p_promotion);
