@@ -150,7 +150,7 @@ const BookDetail = (props) => {
         </div>
       </section>
 
-      <section className="product-page mb-4">
+      <section className="product-page mb-5">
         <div className="container">
           {/* chi tiết 1 sản phẩm */}
           <div className="product-detail bg-white p-4">
@@ -298,7 +298,7 @@ const BookDetail = (props) => {
                 </div>
               </div>
               {/* decripstion của 1 sản phẩm: giới thiệu , đánh giá độc giả  */}
-              <div className="product-description col-md-12 col-12">
+              <div className="product-description col-md-12 col-12 mt-5">
                 {/* 2 tab ở trên  */}
                 <nav>
                   <div className="nav nav-tabs" id="nav-tab" role="tablist">
@@ -323,10 +323,10 @@ const BookDetail = (props) => {
         </div>
       </section>
 
-      <section className="_1khoi combohot mt-4">
+      <section className="_1khoi combohot mt-5">
         <div className="container">
           <div className="noidung bg-white" style={{ width: '100%' }}>
-            <div className="row">
+            <div className="">
               <h2 className="header">Sản phẩm gợi ý</h2>
               {/* <div className="col-12 d-flex justify-content-between align-items-center pb-2 bg-light">
                 <a href="# " className="btn btn-warning btn-sm text-white">Xem tất cả</a>
@@ -335,7 +335,7 @@ const BookDetail = (props) => {
             <div className="khoisanpham">
               <div className="row">
                 {booksRelated.map((product, index) => (
-                  <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={index}>
+                  <div className="col-6 col-lg-3 col-md-4" key={index}>
                     <ItemBook info={product} />
                   </div>
                 ))}

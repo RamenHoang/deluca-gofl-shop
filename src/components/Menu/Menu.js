@@ -24,15 +24,26 @@ const Menu = (props) => {
     autoplay: false,
     autoplaySpeed: 2000,
     arrows: false,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true
+        }
+      }
+    ]
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <h2>Bắt đầu khám phá.</h2>
-        <h2 style={{color: "#4B5563CC"}}>&nbsp;Những điều tuyệt vời đang chờ đón bạn.</h2>
+    <div className="container mt-5 categories">
+      <div className="d-flex justify-content-start">
+        <h2 className="title-1">Bắt đầu khám phá.</h2>
+        <h2 className="title-2" style={{color: "#4B5563CC"}}>Những điều tuyệt vời đang chờ đón bạn.</h2>
       </div>
-      <div className="row categorycontent">
+      <div className="categorycontent">
         <Slider {...settings}>
           {categories.map((v, i) => {
             return (
@@ -40,11 +51,11 @@ const Menu = (props) => {
                 <div className="category-item">
                   <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                     <div>
-                      <span style={{fontSize: "1.5rem"}}>{v.c_name}</span>
+                      <span className="category-name">{v.c_name}</span>
                       <br></br>
-                      <span style={{color: "#3D3D3D"}} dangerouslySetInnerHTML={{ __html: v.c_description }} />
+                      <span className="category-desciption" style={{color: "#3D3D3D"}} dangerouslySetInnerHTML={{ __html: v.c_description }} />
                     </div>
-                    <Link to={`/categories?cateid=${v._id}&c_slug=${v.c_slug}`} className="category-item-link" style={{fontSize: "14px"}}>
+                    <Link to={`/categories?cateid=${v._id}&c_slug=${v.c_slug}`} className="category-link" >
                       SHOP NOW →
                     </Link>
                   </div>

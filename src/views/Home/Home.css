@@ -449,23 +449,6 @@ li.active .fa-star {
   top: 2px;
 }
 
-.giacu.text-muted {
-  font-size: 13px;
-  color: #919191 !important;
-  text-decoration: line-through;
-}
-
-.gia .giamoi {
-  color: red;
-  font-size: 14px;
-  font-weight: 500;
-  padding-right: 10px;
-}
-
-.gia.d-flex {
-  position: relative;
-}
-
 small.tacgia.text-muted {
   font-size: 12px;
   overflow: hidden;
@@ -475,19 +458,6 @@ small.tacgia.text-muted {
   -webkit-box-orient: vertical;
   transition: 0.3s;
   /* padding: 3px 0px; */
-}
-
-h3.card-title.ten {
-  font-weight: 400;
-  margin-bottom: 4px;
-  font-size: 15px;
-  height: 35px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  transition: 0.3s;
 }
 
 .card-body.noidungsp {
@@ -614,7 +584,7 @@ footer .header {
 }
 /* het css cho footer  */
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .navbar form .input-group {
     width: 100% !important;
   }
@@ -624,19 +594,19 @@ footer .header {
   }
 
   .navbar ul li.account {
-    border-top: 1px dashed #f3f700;
-    border-bottom: 1px dashed #f3f700;
+    /* border-top: 1px dashed #f3f700; */
+    /* border-bottom: 1px dashed #f3f700; */
     padding-bottom: 0.5rem;
     margin-bottom: 0.25rem;
   }
   .navbar ul li.giohang {
-    border-bottom: 1px dashed #f3f700;
+    /* border-bottom: 1px dashed #f3f700; */
     padding-bottom: 0.5rem;
     margin-right: 8px;
   }
-  .categorycontent {
+  /* .categorycontent {
     display: none;
-  }
+  } */
 }
 
 .active-error {

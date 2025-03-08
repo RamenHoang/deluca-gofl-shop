@@ -23,3 +23,51 @@
   width: 1px;
   background-color: #E5E7EB;
 }
+
+.information-item span:nth-child(1) {
+  font-size: 18px;
+}
+.information-item span:nth-child(2) {
+  font-size: 13px;
+}
+
+@media screen and (max-width: 768px) {
+  .information-container {
+    display: block;
+  }
+
+  .information-item:not(:last-child)::after {
+    display: none;
+  }
+
+  .information-item {
+    padding: 10px 0;
+  }
+
+
+  .information-container {
+    margin: 10px 0;
+  }
+  
+  .information-item {
+    padding: 10px 0;
+    font-size: 14px;
+  }
+
+
+  .information-item {
+    line-height: 1.5;
+  }
+  
+  .information-container {
+    flex-direction: column;
+  }
+
+  .information-item span:nth-child(1) {
+    font-size: 15px;
+  }
+  
+  .information-item span:nth-child(2) {
+    font-size: 10px;
+  }
+}

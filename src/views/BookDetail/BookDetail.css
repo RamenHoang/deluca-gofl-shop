@@ -362,3 +362,9 @@
 .comment-item .comment-date {
   padding-top: 15px;
 }
+
+@media screen and (max-width: 768px) {
+  .khoianh:nth-child(1) {
+    display: none;
+  }
+}

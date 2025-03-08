@@ -800,13 +800,13 @@ label.chuyenkhoan {
   }
 
   .navbar ul li.account {
-    border-top: 1px dashed #f3f700;
-    border-bottom: 1px dashed #f3f700;
+    /* border-top: 1px dashed #f3f700; */
+    /* border-bottom: 1px dashed #f3f700; */
     padding-bottom: 0.5rem;
     margin-bottom: 0.25rem;
   }
   .navbar ul li.giohang {
-    border-bottom: 1px dashed #f3f700;
+    /* border-bottom: 1px dashed #f3f700; */
     padding-bottom: 0.5rem;
     margin-right: 8px;
   }
