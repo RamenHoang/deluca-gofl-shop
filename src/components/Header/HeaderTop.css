@@ -35,3 +35,19 @@ a.btn.btn-secondary.rounded-circle._icon {
     border: none;
     background-color: transparent;
 }
+
+.logo-image {
+    height: 60px;
+}
+
+.navbar-light .navbar-toggler-icon {
+    background-image: url('./../../assets/images/hamburger-menu-icon.png');
+}
+
+
+/* ----------- RESPONSIVE ------------- */
+@media (max-width: 768px) {
+    .logo-image {
+        height: 35px;
+    }
+}

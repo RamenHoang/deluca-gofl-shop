@@ -15,14 +15,14 @@ const NewBook = () => {
   }, []);
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <h2>Best Sellers.</h2>
-        <h2 style={{color: "#4B5563CC"}}>&nbsp;Sản phẩm được ưa chuộng nhất trong tháng</h2>
+    <div className="container mt-5 discount-products">
+      <div className="d-flex justify-content-start">
+        <h2 className="title-1">Best Sellers.</h2>
+        <h2 className="title-2" style={{color: "#4B5563CC"}}>Sản phẩm được ưa chuộng nhất trong tháng</h2>
       </div>
       <div className="row">
         {products.map((product, index) => (
-          <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={index}>
+          <div className="col-6 col-md-4 col-lg-3  mb-4" key={index}>
             <ItemBook info={product} />
           </div>
         ))}

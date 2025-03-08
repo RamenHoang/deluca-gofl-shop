@@ -38,7 +38,7 @@ const HeaderTop = (props) => {
       <div className="container">
         {/* logo  */}
         <Link className="navbar-brand" to="/">
-          <img src={logo} alt="Logo" style={{ height: "60px" }} />
+          <img src={logo} alt="Logo" className="logo-image" />
         </Link>
         {/* navbar-toggler  */}
         <button
