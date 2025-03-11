@@ -6,8 +6,13 @@ const homeAPI = {
         return axiosClient.get(url);
     },
 
-    getNewBooks: () => {
+    getNewBooks: (page) => {
         let url = '/home/new-books';
+
+        if (page) {
+            url += `?page=${page}`;
+        }
+
         return axiosClient.get(url);
     },
 
@@ -68,8 +73,13 @@ const homeAPI = {
         return axiosClient.get(url);
     },
 
-    getDiscountProducts: () => {
+    getDiscountProducts: (page) => {
         let url = '/home/get-discount-products';
+
+        if (page) {
+            url += `?page=${page}`;
+        }
+
         return axiosClient.get(url);
     }
 }

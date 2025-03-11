@@ -612,3 +612,11 @@ footer .header {
 .active-error {
   color: red;
 }
+
+.load-more-btn {
+  border-radius: 9999px;
+  background-color: rgb(17, 24, 39) !important;
+  color: white !important;
+  border: none;
+  padding: 7px 14px;
+}

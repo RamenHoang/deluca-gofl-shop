@@ -7,13 +7,11 @@ import { ToastProvider } from "./components/Toasts/Toasts";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <GoogleOAuthProvider clientId="409046483115-kfrj23aj030pd6dlvr02c538ju0ns4e3.apps.googleusercontent.com">
-      <ToastProvider>
-        <App />
-      </ToastProvider>
-    </GoogleOAuthProvider>
-  </React.StrictMode>
+  <GoogleOAuthProvider clientId="409046483115-kfrj23aj030pd6dlvr02c538ju0ns4e3.apps.googleusercontent.com">
+    <ToastProvider>
+      <App />
+    </ToastProvider>
+  </GoogleOAuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
