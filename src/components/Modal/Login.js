@@ -236,7 +236,7 @@ const Login = () => {
 
             {forgotPass ? <ForgotPassword /> : ""}
 
-            <GoogleLogin
+            {/* <GoogleLogin
               clientId={clientId}
               render={(renderProps) => (
                 <>
@@ -264,7 +264,7 @@ const Login = () => {
               cssClass="btn btn-lg btn-facebook btn-block text-uppercase"
               icon="fab fa-facebook-f mr-2"
               textButton="Đăng nhập bằng facebook"
-            />
+            /> */}
           </div>
         </div>
       </div>

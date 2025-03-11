@@ -274,9 +274,9 @@ const BookDetail = (props) => {
                       </div>
                     </div>
                     <div className="col-8 d-flex justify-content-end" style={{paddingRight: "0px"}}>
-                      <button className="btn btn-primary ml-3" style={{borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "14px"}} onClick={handleClickBuy}>
+                      <button className="btn btn-primary ml-3" style={{borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "10px"}} onClick={handleClickBuy}>
                         <img src={addToCartIcon} alt="Add to cart" style={{width: "16px", height: "16px", marginRight: "5px"}} />
-                        Thêm vào giỏ hàng
+                        Thêm giỏ hàng
                       </button>
                     </div>
                   </div>
@@ -304,7 +304,7 @@ const BookDetail = (props) => {
                   <div className="nav nav-tabs" id="nav-tab" role="tablist">
                     <a className="nav-item nav-link active text-uppercase" id="nav-gioithieu-tab" data-toggle="tab" href="#nav-gioithieu" role="tab" aria-controls="nav-gioithieu" aria-selected="true">Giới thiệu</a>
                     <a className="nav-item nav-link text-uppercase" id="nav-danhgia-tab" data-toggle="tab" href="#nav-danhgia" role="tab" aria-controls="nav-danhgia" aria-selected="false">Đánh
-                      giá của độc giả</a>
+                      giá</a>
                   </div>
                 </nav>
                 {/* nội dung của từng tab  */}
