@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Menu from '../../components/Menu/Menu';
 import homeAPI from '../../apis/homeAPI';
 import Slider from "react-slick";
 
