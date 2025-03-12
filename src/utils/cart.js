@@ -40,14 +40,16 @@ class Cart {
      * @param {string} id productId
      * @param {number} quantity quantity of product want to add cart
      * @param {json} variant selected variant
+     * @param {json} size selected size
      */
-    addCartWithQuantity (product, quantity, variant) {
-        const id = `${product._id}-${variant._id}`
+    addCartWithQuantity (product, quantity, variant, size) {
+        const id = `${product._id}-${variant._id}-${size._id}`;
         let newProduct = {
             productInfo: product,
             quantity: 0,
             price: product.p_promotion > 0 ? product.p_promotion : product.p_price,
-            variant: variant
+            variant: variant,
+            size: size // added size to the product in cart
         };
 
         if (this.products[id]) {
@@ -63,10 +65,12 @@ class Cart {
 
     /**
      * remove product from cart
-     * @param {string} id 
+     * @param {string} product_id 
+     * @param {string} variant_id 
+     * @param {string} size_id 
      */
-    removeItemCart (product_id, variant_id) {
-        const id = `${product_id}-${variant_id}`;
+    removeItemCart (product_id, variant_id, size_id) {
+        const id = `${product_id}-${variant_id}-${size_id}`; // include size in id
         this.totalQuantity -= this.products[id].quantity;
         this.totalPrice -= this.products[id].price;
         this.totalPriceDiscount -= this.products[id].quantity * (this.products[id].productInfo.p_price - this.products[id].productInfo.p_promotion);
@@ -74,8 +78,8 @@ class Cart {
         delete this.products[id];
     }
 
-    updateCartById (product_id, variant_id, quantity) {
-        const id = `${product_id}-${variant_id}`;
+    updateCartById (product_id, variant_id, quantity, size_id) {
+        const id = `${product_id}-${variant_id}-${size_id}`; // include size in id
         this.totalQuantity -= this.products[id].quantity;
         this.totalPrice -= this.products[id].price;
         this.totalPriceDiscount -= this.products[id].quantity * (this.products[id].productInfo.p_price - this.products[id].productInfo.p_promotion);
