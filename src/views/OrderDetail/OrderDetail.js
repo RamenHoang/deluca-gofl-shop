@@ -3,6 +3,7 @@ import './OrderDetail.css';
 import { Link } from 'react-router-dom';
 import orderAPI from '../../apis/orderAPI';
 import formatCurrency from 'format-currency';
+import { size } from 'lodash';
 
 const OrderDetail = (props) => {
   const [order, setOrder] = useState({});
@@ -78,17 +79,17 @@ const OrderDetail = (props) => {
                           <tr key={i}>
                             <td>
                               <span className="font-weight-bold">{v.product.p_name}</span><br/>
-                              {v.variant.option_values.map((optionValue, index) => (
-                                <>
-                                  <span key={index} className="ml-2">
-                                    {optionValue.option.name} - {optionValue.value}
-                                  </span>
-                                  <br/>
-                                </>
-                              ))}
+                              <span className="ml-2">
+                                Màu sắc - {v.variant.color.name}
+                              </span>
+                              <br/>
+                              <span className="ml-2">
+                                Kích thước - {v.size.name}
+                              </span>
+                              <br/>
                             </td>
                             <td>
-                              <img src={ v.variant.image.url } alt="product" style={{ height: '100px' }} />
+                              <img src={v.variant.images[0].url} alt="product" style={{ height: '100px' }} />
                             </td>
                             <td>{formatCurrency(v.product.p_promotion > 0 ? v.product.p_promotion : v.product.p_price)} ₫</td>
                             <td>{v.quantity}</td>

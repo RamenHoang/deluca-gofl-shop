@@ -16,7 +16,7 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
     let oldCart = JSON.parse(localStorage.getItem("cart"));
     let newCart = new Cart(oldCart ? oldCart : null);
     showLoader();
-    newCart.updateCartById(info.productInfo._id, info.variant._id, item);
+    newCart.updateCartById(info.productInfo._id, info.variant._id, item, info.size._id);
     localStorage.removeItem("cart");
     localStorage.setItem("cart", JSON.stringify(newCart));
     hideLoader();
@@ -46,7 +46,7 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
       let oldCart = JSON.parse(localStorage.getItem("cart"));
       let newCart = new Cart(oldCart ? oldCart : null);
       showLoader();
-      newCart.updateCartById(info.productInfo._id, info.variant._id, item);
+      newCart.updateCartById(info.productInfo._id, info.variant._id, item, info.size._id);
       localStorage.removeItem("cart");
       localStorage.setItem("cart", JSON.stringify(newCart));
       hideLoader();
@@ -74,7 +74,7 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
   let removeItemFromCart = () => {
     let oldCart = JSON.parse(localStorage.getItem("cart"));
     let newCart = new Cart(oldCart ? oldCart : null);
-    newCart.removeItemCart(info.productInfo._id, info.variant._id);
+    newCart.removeItemCart(info.productInfo._id, info.variant._id, info.size._id);
     localStorage.removeItem("cart");
     localStorage.setItem("cart", JSON.stringify(newCart));
     let total = JSON.parse(localStorage.getItem("cart")).totalQuantity;
@@ -88,7 +88,7 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
         <a href="product-item.html" className="img">
           <img
             src={
-              info.variant.image.url ||
+              info.variant.images[0].url ||
               "/assets/images/dai-dich-tren-con-duong-to-lua.jpg"
             }
             className="img-fluid"
@@ -101,15 +101,15 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
               to={`/categories/${info.productInfo.category?.c_slug}.html?pid=${info.productInfo?._id}&p_slug=${info.productInfo?.p_slug}`}
               className="ten"
             >
-              <span className="font-weight-bold">{info.productInfo?.p_name}</span><br/>
-              {info.variant.option_values.map((optionValue, index) => (
-                <>
-                  <span key={index} className="ml-2">
-                    {optionValue.option.name} - {optionValue.value}
-                  </span>
-                  <br/>
-                </>
-              ))}
+              <span className="font-weight-bold">{info.productInfo?.p_name}</span>
+              <br/>
+              <span className="ml-2">
+                Màu sắc - {info.variant.color.name}
+              </span>
+              <br/>
+              <span className="ml-2">
+                Kích thước - {info.size.size.name}
+              </span>
             </Link>
             <div className="soluong d-flex">
               <div className="input-number input-group">
