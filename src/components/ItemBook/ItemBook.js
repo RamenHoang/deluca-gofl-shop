@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import formatCurrency from 'format-currency';
 import discountIcon from '../../assets/images/discount-icon.png';
 import './ItemBook.css';
 
@@ -30,8 +29,14 @@ const ItemBook = ({ info }) => {
               </div>
             </div>
             <div>
-              <div className="giamoi">{formatCurrency(info.p_promotion > 0 ? info.p_promotion : info.p_price)} ₫</div>
-              {info.p_promotion > 0 && (<div className="giacu">{formatCurrency(info.p_price)} ₫</div>)}
+              <div className="giamoi">{new Intl.NumberFormat('vi-VN', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              }).format(info.p_promotion > 0 ? info.p_promotion : info.p_price)} ₫</div>
+              {info.p_promotion > 0 && (<div className="giacu">{new Intl.NumberFormat('vi-VN', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              }).format(info.p_price)} ₫</div>)}
             </div>
           </div>
         </div>

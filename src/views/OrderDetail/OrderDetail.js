@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './OrderDetail.css';
 import { Link } from 'react-router-dom';
 import orderAPI from '../../apis/orderAPI';
-import formatCurrency from 'format-currency';
+
 import { size } from 'lodash';
 
 const OrderDetail = (props) => {
@@ -48,7 +48,7 @@ const OrderDetail = (props) => {
             <div className="col-4 col-md-4">
               <div className="title">HÌNH THỨC GIAO HÀNG</div>
               <div className="content-receiver">
-                <p> {order.o_shippingFee  === 15000 ? 'Giao hàng chuẩn' : 'Giao hàng nhanh (2h-3h)'} </p>
+                <p> {order.o_shippingFee === 15000 ? 'Giao hàng chuẩn' : 'Giao hàng nhanh (2h-3h)'} </p>
               </div>
             </div>
             <div className="col-4 col-md-4">
@@ -78,22 +78,28 @@ const OrderDetail = (props) => {
                         return (
                           <tr key={i}>
                             <td>
-                              <span className="font-weight-bold">{v.product.p_name}</span><br/>
+                              <span className="font-weight-bold">{v.product.p_name}</span><br />
                               <span className="ml-2">
                                 Màu sắc - {v.variant.color.name}
                               </span>
-                              <br/>
+                              <br />
                               <span className="ml-2">
                                 Kích thước - {v.size.name}
                               </span>
-                              <br/>
+                              <br />
                             </td>
                             <td>
                               <img src={v.variant.images[0].url} alt="product" style={{ height: '100px' }} />
                             </td>
-                            <td>{formatCurrency(v.product.p_promotion > 0 ? v.product.p_promotion : v.product.p_price)} ₫</td>
+                            <td>{new Intl.NumberFormat('vi-VN', {
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0
+                            }).format(v.product.p_promotion > 0 ? v.product.p_promotion : v.product.p_price)} ₫</td>
                             <td>{v.quantity}</td>
-                            <td>{formatCurrency(v.price)} ₫</td>
+                            <td>{new Intl.NumberFormat('vi-VN', {
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0
+                            }).format(v.price)} ₫</td>
                           </tr>
                         )
                       })
@@ -102,7 +108,10 @@ const OrderDetail = (props) => {
                   <tfoot>
                     <tr>
                       <td colSpan="4"><span>Tạm tính</span></td>
-                      <td>{formatCurrency(order.o_totalPrice - order.o_shippingFee) } ₫</td>
+                      <td>{new Intl.NumberFormat('vi-VN', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      }).format(order.o_totalPrice - order.o_shippingFee)} ₫</td>
                     </tr>
                     {/* <tr>
                       <td colSpan="4"><span>Giảm giá</span></td>
@@ -110,24 +119,30 @@ const OrderDetail = (props) => {
                     </tr> */}
                     <tr>
                       <td colSpan="4"><span>Phí vận chuyển</span></td>
-                      <td>{formatCurrency(order.o_shippingFee)} ₫</td>
+                      <td>{new Intl.NumberFormat('vi-VN', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      }).format(order.o_shippingFee)} ₫</td>
                     </tr>
                     <tr>
                       <td colSpan="4"><span>Tổng cộng</span></td>
-                      <td>{ formatCurrency(order.o_totalPrice)} ₫</td>
+                      <td>{new Intl.NumberFormat('vi-VN', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      }).format(order.o_totalPrice)} ₫</td>
                     </tr>
                   </tfoot>
                 </table>
               </div>
             </div>
           </div>
-          
+
           <div className="row">
             <div className="col-12 py-2">
-                {
-                  order.o_status === 'Đã hủy' ? (<button className="btn" style={{ background: '#F5A623', minWidth: '200px' }} >Đơn hàng đã hủy</button>) :
-                   (<Link to={`/orders/tracking/${props.match.params.code}`} className="btn" style={{ background: '#F5A623', minWidth: '200px' }}>Theo dõi đơn hàng</Link>)
-                }
+              {
+                order.o_status === 'Đã hủy' ? (<button className="btn" style={{ background: '#F5A623', minWidth: '200px' }} >Đơn hàng đã hủy</button>) :
+                  (<Link to={`/orders/tracking/${props.match.params.code}`} className="btn" style={{ background: '#F5A623', minWidth: '200px' }}>Theo dõi đơn hàng</Link>)
+              }
             </div>
           </div>
         </div>

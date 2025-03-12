@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import orderAPI from '../../apis/orderAPI';
-import formatCurrency from 'format-currency';
+
 import formatDate from './../../utils/formatDate';
 import { errorToast, successToast } from './../../components/Toasts/Toasts';
 
@@ -63,15 +63,18 @@ const Order = () => {
                         <Link to={`/orders/view/${v.o_code}`} >  {v.o_code} </Link>
                       </td>
                       <td> {formatDate(v.createdAt)} </td>
-                      <td>{formatCurrency(v.o_totalPrice)} ₫</td>
+                      <td>{new Intl.NumberFormat('vi-VN', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      }).format(v.o_totalPrice)} ₫</td>
                       <td>{v.o_status}</td>
                       <td>
                         {
-                          v.o_status === "Đã hủy" ? (`Đã hủy lúc: ` + formatDate(v.updatedAt) ) :
-                            ( v.o_status === "Đang giao hàng" || v.o_status === "Đã giao hàng" ? '' :
-                            (<button className="btn btn-danger" onClick={() => destroyOrder(v._id)}>
-                            <i className="fas fa-trash-alt mr-1"></i>
-                            Hủy đơn hàng </button>) )
+                          v.o_status === "Đã hủy" ? (`Đã hủy lúc: ` + formatDate(v.updatedAt)) :
+                            (v.o_status === "Đang giao hàng" || v.o_status === "Đã giao hàng" ? '' :
+                              (<button className="btn btn-danger" onClick={() => destroyOrder(v._id)}>
+                                <i className="fas fa-trash-alt mr-1"></i>
+                                Hủy đơn hàng </button>))
                         }
                       </td>
                     </tr>

@@ -7,7 +7,7 @@ import './BookDetail.css';
 import TabEvaluate from './TabEvaluate';
 import Cart from './../../utils/cart';
 import { successToast } from './../../components/Toasts/Toasts';
-import formatCurrency from 'format-currency';
+
 import ItemBook from '../../components/ItemBook/ItemBook';
 import addToCartIcon from '../../assets/images/add-to-cart-icon.png';
 
@@ -140,8 +140,14 @@ const BookDetail = (props) => {
                       </span>
                     </div>
                     <div>
-                      <div className="giabia">{formatCurrency(book.p_promotion > 0 ? book.p_promotion : book.p_price)} ₫</div>
-                      {book.p_promotion > 0 && (<div className="giacu text-muted">{formatCurrency(book.p_price)} ₫</div>)}
+                      <div className="giabia">{new Intl.NumberFormat('vi-VN', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      }).format(book.p_promotion > 0 ? book.p_promotion : book.p_price)} ₫</div>
+                      {book.p_promotion > 0 && (<div className="giacu text-muted">{new Intl.NumberFormat('vi-VN', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      }).format(book.p_price)} ₫</div>)}
                     </div>
                   </div>
                   <div className="col-md-12">
@@ -210,10 +216,16 @@ const BookDetail = (props) => {
                   </div>
                   <div className="col-md-12 mt-3 d-flex justify-content-between">
                     <div>
-                      {formatCurrency((book.p_promotion > 0 ? book.p_promotion : book.p_price))} ₫ x {itemCart}
+                      {new Intl.NumberFormat('vi-VN', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      }).format((book.p_promotion > 0 ? book.p_promotion : book.p_price))} ₫ x {itemCart}
                     </div>
                     <div>
-                      {formatCurrency((book.p_promotion > 0 ? book.p_promotion : book.p_price) * itemCart)} ₫
+                      {new Intl.NumberFormat('vi-VN', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      }).format((book.p_promotion > 0 ? book.p_promotion : book.p_price) * itemCart)} ₫
                     </div>
                   </div>
                   <div className="col-md-12 mt-3">
@@ -221,7 +233,10 @@ const BookDetail = (props) => {
                   </div>
                   <div className="col-md-12 mt-3 d-flex justify-content-between">
                     <h6>Tổng tiền:</h6>
-                    <h6>{formatCurrency((book.p_promotion > 0 ? book.p_promotion : book.p_price) * itemCart)} ₫</h6>
+                    <h6>{new Intl.NumberFormat('vi-VN', {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0
+                    }).format((book.p_promotion > 0 ? book.p_promotion : book.p_price) * itemCart)} ₫</h6>
                   </div>
                 </div>
               </div>

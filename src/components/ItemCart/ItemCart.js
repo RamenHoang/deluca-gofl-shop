@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import formatCurrency from "format-currency";
 import Cart from "./../../utils/cart";
 import { successToast } from "../Toasts/Toasts";
 import useFullPageLoader from "./../../hooks/useFullPageLoader";
@@ -102,24 +101,24 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
               className="ten"
             >
               <span className="font-weight-bold">{info.productInfo?.p_name}</span>
-              <br/>
+              <br />
               <span className="ml-2">
                 Màu sắc - {info.variant.color.name}
               </span>
-              <br/>
+              <br />
               <span className="ml-2">
                 Kích thước - {info.size.size.name}
               </span>
             </Link>
             <div className="soluong d-flex">
               <div className="input-number input-group">
-                <div className="d-flex" style={{backgroundColor: "#F8F8F8", borderRadius: "9999px", padding: "8px"}}>
+                <div className="d-flex" style={{ backgroundColor: "#F8F8F8", borderRadius: "9999px", padding: "8px" }}>
                   <div className="input-group-prepend">
-                    <span className="input-group-text btn-spin btn-dec d-flex" style={{borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center"}} onClick={handleDecreaseItem}>-</span>
+                    <span className="input-group-text btn-spin btn-dec d-flex" style={{ borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center" }} onClick={handleDecreaseItem}>-</span>
                   </div>
-                  <input type="text" value={valueItem} className="soluongsp text-center" style={{backgroundColor: "transparent", border: "none"}} onChange={handleChangeItem} />
+                  <input type="text" value={valueItem} className="soluongsp text-center" style={{ backgroundColor: "transparent", border: "none" }} onChange={handleChangeItem} />
                   <div className="input-group-append">
-                    <span className="input-group-text btn-spin btn-inc" style={{borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center"}} onClick={handleIncreaseItem}>+</span>
+                    <span className="input-group-text btn-spin btn-inc" style={{ borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center" }} onClick={handleIncreaseItem}>+</span>
                   </div>
                 </div>
               </div>
@@ -151,10 +150,16 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
           </div>
           <div className="item-price ml-auto d-flex flex-column align-items-end">
             <div className="giamoi">
-              {formatCurrency(info.productInfo?.p_promotion)} ₫
+              {new Intl.NumberFormat('vi-VN', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              }).format(info.productInfo?.p_promotion)} ₫
             </div>
             <div className="giacu">
-              {formatCurrency(info.productInfo?.p_price)} ₫
+              {new Intl.NumberFormat('vi-VN', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              }).format(info.productInfo?.p_price)} ₫
             </div>
             <span className="remove mt-auto">
               <i className="far fa-trash-alt" onClick={removeItemFromCart} />
