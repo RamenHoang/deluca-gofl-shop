@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ItemCart from './../../components/ItemCart/ItemCart';
-import formatCurrency from 'format-currency';
+
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import getCookie from '../../utils/getCookie';
@@ -396,19 +396,31 @@ const CartExists = (props) => {
               <div className="tonggiatien">
                 <div className="group d-flex justify-content-between">
                   <p className="label">Tạm tính</p>
-                  <p className="tamtinh">{formatCurrency(totalPrice)} ₫</p>
+                  <p className="tamtinh">{new Intl.NumberFormat('vi-VN', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                  }).format(totalPrice)} ₫</p>
                 </div>
                 {/* <div className="group d-flex justify-content-between">
                   <p className="label">Giảm giá:</p>
-                  <p className="giamgia">{ formatCurrency(totalPriceDiscount) } ₫</p>
+                  <p className="giamgia">{ new Intl.NumberFormat('vi-VN', {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0
+}).format(totalPriceDiscount) } ₫</p>
                 </div> */}
                 <div className="group d-flex justify-content-between">
                   <p className="label">Phí vận chuyển</p>
-                  <p className="phivanchuyen">{formatCurrency(shippingFee)} ₫</p>
+                  <p className="phivanchuyen">{new Intl.NumberFormat('vi-VN', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                  }).format(shippingFee)} ₫</p>
                 </div>
                 <div className="group d-flex justify-content-between align-items-center">
                   <strong className="text-uppercase">Tổng cộng</strong>
-                  <p className="tongcong">{formatCurrency(totalPrice + shippingFee)} ₫</p>
+                  <p className="tongcong">{new Intl.NumberFormat('vi-VN', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                  }).format(totalPrice + shippingFee)} ₫</p>
                 </div>
                 {/* <small className="note d-flex justify-content-end text-muted"> (Giá đã bao gồm VAT) </small> */}
               </div>
