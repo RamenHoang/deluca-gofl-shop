@@ -10,6 +10,7 @@ import { successToast } from './../../components/Toasts/Toasts';
 
 import ItemBook from '../../components/ItemBook/ItemBook';
 import addToCartIcon from '../../assets/images/add-to-cart-icon.png';
+import { toast } from 'react-toastify';
 
 const BookDetail = (props) => {
   const [book, setBook] = useState({});
@@ -19,6 +20,8 @@ const BookDetail = (props) => {
   const [selectedVariant, setSelectedVariant] = useState({});
   const [selectedThumbnail, setSelectedThumbnail] = useState(0);
   const [selectedSize, setSelectedSize] = useState({});
+  const [showSizeChart, setShowSizeChart] = useState(false);
+  const [soldOut, setSoldOut] = useState(false);
 
   useEffect(() => {
     let bookId = queryString.parse(props.location.search).pid;
@@ -27,7 +30,12 @@ const BookDetail = (props) => {
       setSelectedImage(res.data.data.variants[0].images[0].url);
       setSelectedVariant(res.data.data.variants[0]);
       setSelectedThumbnail(0);
-      setSelectedSize(res.data.data.variants[0].sizes.filter((size) => size)[0]);
+      if (res.data.data.variants[0].sizes.filter((size) => size && size.stock > 0).length > 0) {
+        setSelectedSize(res.data.data.variants[0].sizes.filter((size) => size && size.stock > 0)[0]);
+      } else {
+        toast.error('Sản phẩm đã hết hàng');
+        setSoldOut(true);
+      }
     }).catch(err => {
       console.log(err);
     });
@@ -48,24 +56,34 @@ const BookDetail = (props) => {
   }
 
   let itemCartIncrease = () => {
+    if (selectedSize.stock < itemCart + 1) {
+      toast.error('Số lượng sản phẩm không đủ');
+      return;
+    }
+
     let item = itemCart + 1;
     setItemCart(item);
   }
 
   let onChangeItemCart = (e) => {
+    if (e.target.value > selectedSize.stock) {
+      toast.error('Số lượng sản phẩm không đủ');
+      return;
+    }
     setItemCart(e.target.value);
   }
 
   let handleClickBuy = () => {
     let oldCart = JSON.parse(localStorage.getItem('cart'));
     let newCart = new Cart(oldCart ? oldCart : null);
-    newCart.addCartWithQuantity(book, parseInt(itemCart), selectedVariant, selectedSize);
-    localStorage.removeItem('cart');
-    localStorage.setItem('cart', JSON.stringify(newCart));
-    successToast("Thêm sản phẩm vào giỏ hàng thành công !");
-    let total = JSON.parse(localStorage.getItem('cart')).totalQuantity;
-    props.totalItem(total);
-    setItemCart(1);
+    if (newCart.addCartWithQuantity(book, parseInt(itemCart), selectedVariant, selectedSize)) {
+      localStorage.removeItem('cart');
+      localStorage.setItem('cart', JSON.stringify(newCart));
+      successToast("Thêm sản phẩm vào giỏ hàng thành công !");
+      let total = JSON.parse(localStorage.getItem('cart')).totalQuantity;
+      props.totalItem(total);
+      setItemCart(1);
+    }
   }
 
   const handleThumbnailClick = (index, url) => {
@@ -75,10 +93,26 @@ const BookDetail = (props) => {
 
   const handleChangeVariant = (variant) => {
     setSelectedVariant(variant);
-    setSelectedSize(variant.sizes.filter((size) => size)[0]);
+    if (variant.sizes.filter((size) => size && size.stock > 0).length > 0) {
+      setSelectedSize(variant.sizes.filter((size) => size)[0]);
+    }
     setSelectedThumbnail(0);
     setSelectedImage(variant.images[0].url);
   }
+
+  const handleSizeChartClick = () => {
+    setShowSizeChart(true);
+  };
+
+  const handleCloseSizeChart = () => {
+    setShowSizeChart(false);
+  };
+
+  const handleOutsideClick = (e) => {
+    if (e.target.className === 'size-chart-popup') {
+      setShowSizeChart(false);
+    }
+  };
 
   return (
     <>
@@ -140,11 +174,11 @@ const BookDetail = (props) => {
                       </span>
                     </div>
                     <div>
-                      <div className="giabia">{new Intl.NumberFormat('vi-VN', {
+                      <div className="giabia" style={{ fontWeight: "bold" }}>{new Intl.NumberFormat('vi-VN', {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
                       }).format(book.p_promotion > 0 ? book.p_promotion : book.p_price)} ₫</div>
-                      {book.p_promotion > 0 && (<div className="giacu text-muted">{new Intl.NumberFormat('vi-VN', {
+                      {book.p_promotion > 0 && (<div className="giacu text-muted" style={{ textDecoration: 'line-through' }}>{new Intl.NumberFormat('vi-VN', {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
                       }).format(book.p_price)} ₫</div>)}
@@ -177,16 +211,16 @@ const BookDetail = (props) => {
                       {selectedVariant.sizes && selectedVariant.sizes.filter((size) => size).map((size, index) => (
                         <button
                           key={index}
-                          onClick={() => setSelectedSize(size)}
+                          onClick={() => size.stock > 0 ? setSelectedSize(size) : null}
                           className="col-2"
                           style={{
-                            cursor: 'pointer',
+                            cursor: size.stock > 0 ? 'pointer' : 'not-allowed',
                             marginRight: '10px',
                             marginBottom: '10px',
                             padding: '5px 10px',
                             border: selectedSize === size ? '2px solid #000' : '1px solid #ccc',
-                            backgroundColor: selectedSize === size ? '#0EA5E9' : '#fff',
-                            color: selectedSize === size ? '#fff' : '#000',
+                            backgroundColor: size.stock <= 0 ? '' : (selectedSize === size ? '#0EA5E9' : '#fff'),
+                            color: size.stock <= 0 ? '#fff' : (selectedSize === size ? '#fff' : '#000'),
                             borderRadius: '12px',
                           }}
                         >
@@ -194,26 +228,33 @@ const BookDetail = (props) => {
                         </button>
                       ))}
                     </div>
+                    {book.sizeChart && (
+                      <div>
+                        <button onClick={handleSizeChartClick} className="btn btn-link" style={{ textDecoration: "underline", color: "black", fontWeight: "bold" }}>Size Chart</button>
+                      </div>
+                    )}
                   </div>
-                  <div className="col-md-12 d-flex align-items-center justify-content-between mt-3">
-                    <div className="input-number input-group col-4" style={{ paddingLeft: "0px" }}>
-                      <div className="d-flex" style={{ backgroundColor: "#F8F8F8", borderRadius: "9999px", padding: "8px" }}>
-                        <div className="input-group-prepend">
-                          <span className="input-group-text btn-spin btn-dec d-flex" style={{ borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center" }} onClick={itemCartDecrease}>-</span>
-                        </div>
-                        <input type="text" value={itemCart} className="soluongsp text-center" style={{ backgroundColor: "transparent", border: "none" }} onChange={onChangeItemCart} />
-                        <div className="input-group-append">
-                          <span className="input-group-text btn-spin btn-inc" style={{ borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center" }} onClick={itemCartIncrease}>+</span>
+                  {!soldOut && (
+                    <div className="col-md-12 d-flex align-items-center justify-content-between mt-3">
+                      <div className="input-number input-group col-4" style={{ paddingLeft: "0px" }}>
+                        <div className="d-flex" style={{ backgroundColor: "#F8F8F8", borderRadius: "9999px", padding: "8px" }}>
+                          <div className="input-group-prepend">
+                            <span className="input-group-text btn-spin btn-dec d-flex" style={{ borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center" }} onClick={itemCartDecrease}>-</span>
+                          </div>
+                          <input type="text" value={itemCart} className="soluongsp text-center" style={{ backgroundColor: "transparent", border: "none" }} onChange={onChangeItemCart} />
+                          <div className="input-group-append">
+                            <span className="input-group-text btn-spin btn-inc" style={{ borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center" }} onClick={itemCartIncrease}>+</span>
+                          </div>
                         </div>
                       </div>
+                      <div className="col-8 d-flex justify-content-end" style={{ paddingRight: "0px" }}>
+                        <button className="btn btn-primary ml-3" style={{ borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "10px" }} onClick={handleClickBuy}>
+                          <img src={addToCartIcon} alt="Add to cart" style={{ width: "16px", height: "16px", marginRight: "5px" }} />
+                          Thêm giỏ hàng
+                        </button>
+                      </div>
                     </div>
-                    <div className="col-8 d-flex justify-content-end" style={{ paddingRight: "0px" }}>
-                      <button className="btn btn-primary ml-3" style={{ borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "10px" }} onClick={handleClickBuy}>
-                        <img src={addToCartIcon} alt="Add to cart" style={{ width: "16px", height: "16px", marginRight: "5px" }} />
-                        Thêm giỏ hàng
-                      </button>
-                    </div>
-                  </div>
+                  )}
                   <div className="col-md-12 mt-3 d-flex justify-content-between">
                     <div>
                       {new Intl.NumberFormat('vi-VN', {
@@ -286,6 +327,15 @@ const BookDetail = (props) => {
           </div>
         </div>
       </section>
+
+      {showSizeChart && (
+        <div className="size-chart-popup" onClick={handleOutsideClick}>
+          <div className="size-chart-content">
+            <span className="close" onClick={handleCloseSizeChart}>&times;</span>
+            <img src={book.sizeChart.url} alt="Size Chart" style={{ width: '100%' }} />
+          </div>
+        </div>
+      )}
     </>
   )
 }
