@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 class Cart {
     products = {};
     totalPrice = 0;
@@ -33,7 +35,7 @@ class Cart {
         this.totalPriceDiscount += (product.p_price - product.p_promotion);
         this.totalQuantity++;
     }
-    
+
     /**
      * add multi product into cart
      * @param {json} product productInfo
@@ -42,7 +44,7 @@ class Cart {
      * @param {json} variant selected variant
      * @param {json} size selected size
      */
-    addCartWithQuantity (product, quantity, variant, size) {
+    addCartWithQuantity(product, quantity, variant, size) {
         const id = `${product._id}-${variant._id}-${size._id}`;
         let newProduct = {
             productInfo: product,
@@ -53,7 +55,12 @@ class Cart {
         };
 
         if (this.products[id]) {
-            newProduct = this.products[id];
+            newProduct.quantity = this.products[id].quantity;
+        }
+
+        if (size.stock < newProduct.quantity + quantity) {
+            toast.error('Số lượng sản phẩm không đủ');
+            return false;
         }
 
         newProduct.quantity += quantity;
@@ -61,6 +68,8 @@ class Cart {
         this.totalPrice += quantity * (product.p_promotion > 0 ? product.p_promotion : product.p_price);
         this.totalPriceDiscount += quantity * (product.p_price - product.p_promotion);
         this.totalQuantity += quantity;
+
+        return true;
     }
 
     /**
@@ -69,7 +78,7 @@ class Cart {
      * @param {string} variant_id 
      * @param {string} size_id 
      */
-    removeItemCart (product_id, variant_id, size_id) {
+    removeItemCart(product_id, variant_id, size_id) {
         const id = `${product_id}-${variant_id}-${size_id}`; // include size in id
         this.totalQuantity -= this.products[id].quantity;
         this.totalPrice -= this.products[id].price;
@@ -78,7 +87,7 @@ class Cart {
         delete this.products[id];
     }
 
-    updateCartById (product_id, variant_id, quantity, size_id) {
+    updateCartById(product_id, variant_id, quantity, size_id) {
         const id = `${product_id}-${variant_id}-${size_id}`; // include size in id
         this.totalQuantity -= this.products[id].quantity;
         this.totalPrice -= this.products[id].price;
@@ -94,4 +103,6 @@ class Cart {
     }
 }
 
-module.exports = Cart;
+// module.exports = Cart;
+
+export default Cart;
