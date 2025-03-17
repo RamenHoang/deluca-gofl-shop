@@ -45,7 +45,7 @@ class Cart {
      * @param {json} size selected size
      */
     addCartWithQuantity(product, quantity, variant, size) {
-        const id = `${product._id}-${variant._id}-${size._id}`;
+        const id = `${product._id}-${variant.color._id}-${size.size._id}`;
         let newProduct = {
             productInfo: product,
             quantity: 0,

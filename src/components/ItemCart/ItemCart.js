@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Cart from "./../../utils/cart";
-import { successToast } from "../Toasts/Toasts";
+import { errorToast, successToast } from "../Toasts/Toasts";
 import useFullPageLoader from "./../../hooks/useFullPageLoader";
 
 const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
@@ -10,12 +10,18 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
 
   let handleIncreaseItem = () => {
     let item = valueItem + 1;
+
+    if (item > info.size.stock) {
+      errorToast("Số lượng sản phẩm trong kho không đủ !");
+      return;
+    }
+
     setValueItem(item);
 
     let oldCart = JSON.parse(localStorage.getItem("cart"));
     let newCart = new Cart(oldCart ? oldCart : null);
     showLoader();
-    newCart.updateCartById(info.productInfo._id, info.variant._id, item, info.size._id);
+    newCart.updateCartById(info.productInfo._id, info.variant.color._id, item, info.size.size._id);
     localStorage.removeItem("cart");
     localStorage.setItem("cart", JSON.stringify(newCart));
     hideLoader();
@@ -45,7 +51,7 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
       let oldCart = JSON.parse(localStorage.getItem("cart"));
       let newCart = new Cart(oldCart ? oldCart : null);
       showLoader();
-      newCart.updateCartById(info.productInfo._id, info.variant._id, item, info.size._id);
+      newCart.updateCartById(info.productInfo._id, info.variant.color._id, item, info.size.size._id);
       localStorage.removeItem("cart");
       localStorage.setItem("cart", JSON.stringify(newCart));
       hideLoader();
@@ -73,7 +79,7 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
   let removeItemFromCart = () => {
     let oldCart = JSON.parse(localStorage.getItem("cart"));
     let newCart = new Cart(oldCart ? oldCart : null);
-    newCart.removeItemCart(info.productInfo._id, info.variant._id, info.size._id);
+    newCart.removeItemCart(info.productInfo._id, info.variant.color._id, info.size.size._id);
     localStorage.removeItem("cart");
     localStorage.setItem("cart", JSON.stringify(newCart));
     let total = JSON.parse(localStorage.getItem("cart")).totalQuantity;
