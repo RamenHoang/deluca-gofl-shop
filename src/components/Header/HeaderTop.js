@@ -215,7 +215,7 @@ const HeaderTop = (props) => {
           </ul>
         </div>
       </div>
-      <div className="container">
+      <div className="container" style={{ justifyContent: "center" }}>
         <div className="list-categories-container">
           <ul className="navbar-nav mr-auto list-categories">
             {renderCategories()}
