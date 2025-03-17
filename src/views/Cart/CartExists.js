@@ -13,6 +13,7 @@ import { errorToast, successToast } from '../../components/Toasts/Toasts';
 import contactInforIcon from './../../assets/images/contact-infor-icon.png';
 import shippingAddressIcon from './../../assets/images/shipping-address-icon.png';
 import paymentIcon from './../../assets/images/payment-icon.png';
+import homeAPI from '../../apis/homeAPI';
 
 const token = getCookie('authUserToken');
 
@@ -26,11 +27,96 @@ const CartExists = (props) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    setTotalPrice(JSON.parse(localStorage.getItem('cart')).totalPrice);
-    setItems(Object.values(JSON.parse(localStorage.getItem('cart')).products));
-    setTotalPriceDiscount(JSON.parse(localStorage.getItem('cart')).totalPriceDiscount);
-    //api get user
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    if (!cart) return;
 
+    // Initialize state with cart data
+    setTotalPrice(cart.totalPrice);
+    setItems(Object.values(cart.products));
+    setTotalPriceDiscount(cart.totalPriceDiscount);
+    
+    // Check stock for each product in cart
+    const checkProductStock = async () => {
+      let updatedCart = {...cart};
+      let isCartChanged = false;
+      const removedItems = [];
+      
+      for (const itemId in updatedCart.products) {
+        try {
+          // Get the latest product information
+          const response = await homeAPI.getBookById(updatedCart.products[itemId].productInfo._id);
+          const product = response.data.data;
+          const variant = product.variants.find(v => v.color._id === updatedCart.products[itemId].variant.color._id);
+          const size = variant.sizes.find(s => s.size._id === updatedCart.products[itemId].size.size._id);
+
+          updatedCart.products[itemId].variant = variant;
+          updatedCart.products[itemId].size = size;
+          
+          // Check if product is out of stock
+          if (size.stock === 0) {
+            // Remove product from cart
+            delete updatedCart.products[itemId];
+            isCartChanged = true;
+          } else if (size.stock < updatedCart.products[itemId].quantity) {
+            // If available stock is less than cart quantity, update the quantity
+            updatedCart.products[itemId].quantity = size.stock;
+            isCartChanged = true;
+          }
+          
+          // Update product info with latest data
+          if (updatedCart.products[itemId]) {
+            updatedCart.products[itemId].productInfo = product;
+          }
+        } catch (err) {
+          console.log(`Error checking product ${itemId}:`, err);
+        }
+      }
+      
+      // If cart was modified, update localStorage and state
+      if (isCartChanged) {
+        // Recalculate totals
+        let totalPrice = 0;
+        let totalQuantity = 0;
+        let totalPriceDiscount = 0;
+        
+        Object.values(updatedCart.products).forEach(item => {
+          totalPrice += (item.productInfo.p_promotion ? item.productInfo.p_promotion : item.productInfo.p_price) * item.quantity;
+          totalQuantity += item.quantity;
+          totalPriceDiscount += (item.productInfo.p_price - item.productInfo.p_promotion) * item.quantity;
+        });
+        
+        updatedCart.totalPrice = totalPrice;
+        updatedCart.totalQuantity = totalQuantity;
+        updatedCart.totalPriceDiscount = totalPriceDiscount;
+        
+        // If cart is empty after removing items, remove it from localStorage
+        if (totalQuantity === 0) {
+          localStorage.removeItem('cart');
+          window.location.href = '/cart'; // Redirect to cart page which will show empty cart
+        } else {
+          // Update localStorage with modified cart
+          localStorage.setItem('cart', JSON.stringify(updatedCart));
+          
+          // Update component state
+          setTotalPrice(updatedCart.totalPrice);
+          setTotalPriceDiscount(updatedCart.totalPriceDiscount);
+          setItems(Object.values(updatedCart.products));
+          
+          // Update cart quantity in parent component
+          props.callBackUpdateCart(updatedCart.totalQuantity);
+        }
+        
+        // Notify about removed items
+        if (removedItems.length > 0) {
+          errorToast(`${removedItems.join(', ')} đã hết hàng và đã bị xóa khỏi giỏ hàng của bạn.`);
+        }
+      }
+    };
+    
+    // Execute stock check
+    checkProductStock();
+
+    // Get user info
     if (getCookie('currentUserId')) {
       userAPI.getUserById(getCookie('currentUserId')).then((res) => {
         setUser(res.data.data);
@@ -38,7 +124,6 @@ const CartExists = (props) => {
         console.log(err);
       });
     }
-
   }, []);
 
   //Remove cart
@@ -401,14 +486,7 @@ const CartExists = (props) => {
                     maximumFractionDigits: 0
                   }).format(totalPrice)} ₫</p>
                 </div>
-                {/* <div className="group d-flex justify-content-between">
-                  <p className="label">Giảm giá:</p>
-                  <p className="giamgia">{ new Intl.NumberFormat('vi-VN', {
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0
-}).format(totalPriceDiscount) } ₫</p>
-                </div> */}
-                <div className="group d-flex justify-content-between">
+                <div className="group d-flex justify-content-between"></div>
                   <p className="label">Phí vận chuyển</p>
                   <p className="phivanchuyen">{new Intl.NumberFormat('vi-VN', {
                     minimumFractionDigits: 0,
@@ -438,7 +516,6 @@ const CartExists = (props) => {
             Đặt mua
           </button>
         </div>
-      </div>
       {loader}
     </>
   )
