@@ -13,6 +13,7 @@ import Order from "./views/Order/Order";
 import OrderDetail from "./views/OrderDetail/OrderDetail";
 import TrackingOrder from "./views/TrackingOrder/TrackingOrder";
 import Search from "./views/Search/Search";
+import About from "./views/About/About";
 
 const App = () => {
   useEffect(() => {}, []);
@@ -34,6 +35,13 @@ const App = () => {
           exact
           path="/"
           component={Home}
+          layout={Client}
+          cntItem={totalItem}
+        />
+        <PublicRoute
+          exact
+          path="/about"
+          component={About}
           layout={Client}
           cntItem={totalItem}
         />

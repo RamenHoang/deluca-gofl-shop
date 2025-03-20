@@ -17,8 +17,8 @@ const FooterBottom = () => {
               <h3 className="header text-uppercase font-weight-bold">
                 Về DeLuCa
               </h3>
-              <a href="/">Giới thiệu về DeLuCa</a>
-              <a href="https://www.facebook.com/groups/774483150431930/user/61556549114607/?locale=vi_VN">Tuyển dụng</a>
+              <a href="http://shop.deluca-gofl/about">Giới thiệu về DeLuCa</a>
+              <a href="https://www.facebook.com/profile.php?id=61556549114607">Tuyển dụng</a>
             </div>
           </div>
           <div className="col-md-3 col-xs-6">
@@ -26,16 +26,16 @@ const FooterBottom = () => {
               <h3 className="header text-uppercase font-weight-bold">
                 HỖ TRỢ KHÁCH HÀNG
               </h3>
-              <a href="https://www.facebook.com/groups/774483150431930/user/61556549114607/?locale=vi_VN">
+              <a href="https://www.facebook.com/profile.php?id=61556549114607">
                 Hướng dẫn đặt hàng
               </a>
-              <a href="https://www.facebook.com/groups/774483150431930/user/61556549114607/?locale=vi_VN">
+              <a href="https://www.facebook.com/profile.php?id=61556549114607">
                 Phương thức thanh toán
               </a>
-              <a href="https://www.facebook.com/groups/774483150431930/user/61556549114607/?locale=vi_VN">
+              <a href="https://www.facebook.com/profile.php?id=61556549114607">
                 Phương thức vận chuyển
               </a>
-              <a href="https://www.facebook.com/groups/774483150431930/user/61556549114607/?locale=vi_VN">
+              <a href="https://www.facebook.com/profile.php?id=61556549114607">
                 Chính sách đổi trả
               </a>
             </div>
