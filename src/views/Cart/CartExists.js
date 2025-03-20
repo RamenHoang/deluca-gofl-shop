@@ -34,7 +34,6 @@ const CartExists = (props) => {
     setTotalPrice(cart.totalPrice);
     setItems(Object.values(cart.products));
     setTotalPriceDiscount(cart.totalPriceDiscount);
-    
     // Check stock for each product in cart
     const checkProductStock = async () => {
       let updatedCart = {...cart};
@@ -208,7 +207,7 @@ const CartExists = (props) => {
           successToast("Đặt hàng thành công, kiểm tra hóa đơn đã gửi vào email !");
           localStorage.clear();
           setTimeout(() => {
-            window.location.reload();
+            window.location = '/orders/view/' + res.data.data.o_code;
           }, 1000);
         }
         if (res.data.message === 'FAILED') {
@@ -436,16 +435,15 @@ const CartExists = (props) => {
 
                       <div className="form-group col-12 d-flex">
                         <input className="mr-2" type="radio" name="inputPayment" id="payATM"
-                          value="pay-atm"
-                          checked={orderFormik.values.inputPayment === "pay-atm"}
+                          value="pay-qr-code"
+                          checked={orderFormik.values.inputPayment === "pay-qr-code"}
                           onChange={orderFormik.handleChange}
                         />
                         <label className="form-check-label" htmlFor="payATM">
                           <img src={iconPayATM} alt="payment-atm" className="payment" />
-                          Thẻ ATM nội địa/Internet Banking (Miễn phí thanh toán)
+                          Thanh toán QR Code (Miễn phí thanh toán)
                         </label>
                       </div>
-
                     </div>
                     {/* <hr /> */}
                     {/* <p className="text-center note-before-checkout">(Vui lòng kiểm tra lại đơn hàng trước khi Đặt Mua)</p> */}

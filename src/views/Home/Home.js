@@ -27,10 +27,10 @@ const Home = () => {
   return (
     <>
       <Carousel />
-      <Information />
       <Menu />
       <DiscountProducts />
       <NewBook />
+      <Information />
     </>
   );
 };
