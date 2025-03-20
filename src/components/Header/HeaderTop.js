@@ -86,7 +86,7 @@ const HeaderTop = (props) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-md navbar-light" style={{ backgroundColor: "#fff", display: "block" }}>
+    <nav className="navbar navbar-expand-md navbar-light sticky-top" style={{ backgroundColor: "#fff", display: "block" }}>
       <div className="container">
 
         {/* logo  */}

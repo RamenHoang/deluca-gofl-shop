@@ -131,41 +131,36 @@ const BookDetail = (props) => {
       <section className="product-page mb-5">
         <div className="container">
           {/* chi tiết 1 sản phẩm */}
-          <div className="product-detail bg-white p-4">
+          <div className="product-detail bg-white">
             <div className="row">
-              {/* ảnh  */}
-              <div className="col-md-2 khoianh">
-                <div className="thumbnail-container">
-                  {selectedVariant.images && selectedVariant.images.map((image, index) => (
-                    <img
-                      key={index}
-                      className="thumbnail"
-                      src={image.url}
-                      alt={`Thumbnail ${index}`}
-                      onClick={() => handleThumbnailClick(index, image.url)}
-                      style={{
-                        cursor: 'pointer',
-                        marginBottom: '10px',
-                        width: '80px',
-                        height: '80px',
-                        border: selectedThumbnail === index ? '2px solid #0EA5E9CC' : 'none',
-                        borderRadius: '16px'
-                      }}
-                    />
-                  ))}
+              <div className="col-md-7 d-flex khoianh-container">
+                {/* ảnh  */}
+                <div className="col-md-2 khoianh">
+                  <div className="thumbnail-container">
+                    {selectedVariant.images && selectedVariant.images.map((image, index) => (
+                      <img
+                        key={index}
+                        className="thumbnail"
+                        src={image.url}
+                        alt={`Thumbnail ${index}`}
+                        onClick={() => handleThumbnailClick(index, image.url)}
+                        style={{ border: selectedThumbnail === index ? '2px solid #0EA5E9CC' : 'none' }}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-              {/* preview area */}
-              <div className="col-md-5 khoianh">
-                <div className="anhto mb-4">
-                  <a className="active" href="# " data-fancybox="thumb-img">
-                    <img className="product-image" src={selectedImage} alt={book.p_name} style={{ width: '100%', borderRadius: '16px' }} />
-                  </a>
+                {/* preview area */}
+                <div className="col-md-10 khoianh">
+                  <div className="anhto mb-4">
+                    <a className="active" href="# " data-fancybox="thumb-img">
+                      <img className="product-image" src={selectedImage} alt={book.p_name} style={{ width: '100%', borderRadius: '16px' }} />
+                    </a>
+                  </div>
                 </div>
               </div>
               {/* thông tin sản phẩm */}
               <div className="col-md-5 khoithongtin">
-                <div className="row" style={{ border: "1px solid #E5E7EB", borderRadius: "16px", padding: "20px" }}>
+                <div className="d-flex" style={{ border: "1px solid #E5E7EB", borderRadius: "16px", padding: "10px 0px", flexDirection: "column" }}>
                   <div className="col-md-12 header d-flex justify-content-between">
                     <div className="d-flex">
                       <i className="fa fa-star" style={{ color: "#FBBF24", fontSize: "12px", lineHeight: "1.5" }} />
@@ -230,6 +225,7 @@ const BookDetail = (props) => {
                     </div>
                     {book.sizeChart && (
                       <div>
+                        <img src="//www.callawayapparel.com/cdn/shop/t/434/assets/size-chart-icon.svg?v=9763383541208223451740753041" width="30" height="auto" alt="Size Guide Image - See the size chart" title="See the size chart"></img>
                         <button onClick={handleSizeChartClick} className="btn btn-link" style={{ textDecoration: "underline", color: "black", fontWeight: "bold" }}>Size Chart</button>
                       </div>
                     )}

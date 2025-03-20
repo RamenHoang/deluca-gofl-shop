@@ -20,6 +20,7 @@
 .product-detail .thumb-img.vienvang {
   border: 1px solid #f5a623;
 }
+
 /* het css cho product-page  */
 
 /* css cho khoi thong tin cua  product-page*/
@@ -285,10 +286,6 @@
   border-top: 4px solid #f5a623;
 }
 
-.product-description {
-  margin-left: 9px;
-}
-
 .formdanhgia .rating input {
   display: none;
 }
@@ -323,10 +320,11 @@
 }
 
 .formdanhgia .rating label:hover::after,
-.formdanhgia .rating label:hover ~ label::after,
-.formdanhgia .rating input:checked ~ label::after {
+.formdanhgia .rating label:hover~label::after,
+.formdanhgia .rating input:checked~label::after {
   opacity: 1;
 }
+
 /* het css cho .product-description  */
 
 .khoisanpham .gia .sale {
@@ -340,8 +338,7 @@
   left: 140px;
 }
 
-.comment-list {
-}
+.comment-list {}
 
 .comment-item {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -363,12 +360,6 @@
   padding-top: 15px;
 }
 
-@media screen and (max-width: 768px) {
-  .khoianh:nth-child(1) {
-    display: none;
-  }
-}
-
 .size-chart-popup {
   position: fixed;
   top: 0;
@@ -384,10 +375,9 @@
 
 .size-chart-content {
   background-color: #fff;
-  padding: 20px;
+  padding: 5px;
   border-radius: 8px;
-  max-width: 60%;
-  max-height: 60%;
+  max-width: 90%;
   overflow: auto;
 }
 
@@ -402,4 +392,27 @@
   right: 10px;
   font-size: 24px;
   cursor: pointer;
+}
+
+.thumbnail {
+  cursor: pointer;
+  margin-bottom: 10px;
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  .khoianh-container {
+    flex-direction: column-reverse;
+  }
+
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+
+  .size-chart-content {
+    max-width: 100%;
+  }
 }
