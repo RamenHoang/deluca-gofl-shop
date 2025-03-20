@@ -17,7 +17,7 @@ const FooterBottom = () => {
               <h3 className="header text-uppercase font-weight-bold">
                 Về DeLuCa
               </h3>
-              <a href="http://shop.deluca-gofl/about">Giới thiệu về DeLuCa</a>
+              <a href="https://deluca.vn/about">Giới thiệu về DeLuCa</a>
               <a href="https://www.facebook.com/profile.php?id=61556549114607">Tuyển dụng</a>
             </div>
           </div>
