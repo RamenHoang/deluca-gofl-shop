@@ -818,12 +818,11 @@ label.chuyenkhoan {
     display: none;
   }
 
-  /* giohang  */
-  .cart-content {
-    padding-right: 16px;
+  .contact-information {
+    flex-direction: column;
   }
 
-  .cart-steps {
+  /* .cart-steps {
     margin-left: 15px;
-  }
+  } */
 }

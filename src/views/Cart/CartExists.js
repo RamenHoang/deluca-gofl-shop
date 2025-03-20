@@ -230,7 +230,7 @@ const CartExists = (props) => {
         ) : (
 
           <div id="cart-steps-accordion" role="tablist" aria-multiselectable="true">
-            <form onSubmit={orderFormik.handleSubmit} name="orderForm">
+            <form onSubmit={orderFormik.handleSubmit} name="orderForm container">
               <div className="card" style={{ borderRadius: "12px" }}>
                 <div id="step2contentid" className="collapse in show" role="tabpanel" aria-labelledby="step2header">
                   <div className="card-body" style={{ padding: '0' }}>
@@ -240,8 +240,8 @@ const CartExists = (props) => {
                         <span style={{ fontSize: "16px" }} className="ml-1">Thông tin liên hệ</span>
                       </div>
                       <hr />
-                      <div className="d-flex">
-                        <div className="form-group col-6">
+                      <div className="d-flex contact-information">
+                        <div className="form-group col-lg-6 col-md-6 col-12">
                           <label htmlFor="inputPhone">Số điện thoại</label>
                           <input type="text" className="form-control" name="inputPhone" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputPhone || ''}
@@ -251,7 +251,7 @@ const CartExists = (props) => {
                             <small className="active-error" >{orderFormik.errors.inputPhone}</small>
                           )}
                         </div>
-                        <div className="form-group col-6">
+                        <div className="form-group col-lg-6 col-md-6 col-12">
                           <label htmlFor="inputEmail">Email</label>
                           <input type="text" className="form-control" name="inputEmail" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputEmail || ''}
@@ -276,8 +276,8 @@ const CartExists = (props) => {
                         <span style={{ fontSize: "16px" }} className="ml-1">Địa chỉ giao hàng</span>
                       </div>
                       <hr />
-                      <div className="d-flex">
-                        <div className="form-group col-6">
+                      <div className="d-flex contact-information">
+                        <div className="form-group col-12 col-lg-6 col-md-6">
                           <label htmlFor="inputFirstName">Họ</label>
                           <input type="text" className="form-control" name="inputFirstName" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputFirstName || ''}
@@ -287,7 +287,7 @@ const CartExists = (props) => {
                             <small className="active-error" >{orderFormik.errors.inputFirstName}</small>
                           )}
                         </div>
-                        <div className="form-group col-6">
+                        <div className="form-group col-12 col-lg-6 col-md-6">
                           <label htmlFor="inputLastName">Tên</label>
                           <input type="text" className="form-control" name="inputLastName" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputLastName || ''}
@@ -298,8 +298,8 @@ const CartExists = (props) => {
                           )}
                         </div>
                       </div>
-                      <div className="d-flex">
-                        <div className="form-group col-8">
+                      <div className="d-flex contact-information">
+                        <div className="form-group col-12 col-lg-8 col-md-8">
                           <label htmlFor="inputAddress1">Địa chỉ 1</label>
                           <input type="text" className="form-control" name="inputAddress1" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputAddress1 || ''}
@@ -309,7 +309,7 @@ const CartExists = (props) => {
                             <small className="active-error" >{orderFormik.errors.inputAddress1}</small>
                           )}
                         </div>
-                        <div className="form-group col-4">
+                        <div className="form-group col-12 col-lg-4 col-md-4">
                           <label htmlFor="inputHouseNumber">Số nhà</label>
                           <input type="text" className="form-control" name="inputHouseNumber" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputHouseNumber || ''}
@@ -320,8 +320,8 @@ const CartExists = (props) => {
                           )}
                         </div>
                       </div>
-                      <div className="d-flex">
-                        <div className="form-group col-12">
+                      <div className="d-flex contact-information">
+                        <div className="form-group col-12 col-lg-6 col-md-6">
                           <label htmlFor="inputAddress2">Địa chỉ 2</label>
                           <input type="text" className="form-control" name="inputAddress2" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputAddress2 || ''}
@@ -332,8 +332,8 @@ const CartExists = (props) => {
                           )}
                         </div>
                       </div>
-                      <div className="d-flex">
-                        <div className="form-group col-6">
+                      <div className="d-flex contact-information">
+                        <div className="form-group col-12 col-lg-6 col-md-6">
                           <label htmlFor="inputCity">Thành phố</label>
                           <input type="text" className="form-control" name="inputCity" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputCity || ''}
@@ -343,7 +343,7 @@ const CartExists = (props) => {
                             <small className="active-error" >{orderFormik.errors.inputCity}</small>
                           )}
                         </div>
-                        <div className="form-group col-6">
+                        <div className="form-group col-12 col-lg-6 col-md-6">
                           <label htmlFor="inputCountry">Quốc gia</label>
                           <input type="text" className="form-control" name="inputCountry" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputCountry || ''}
@@ -354,8 +354,8 @@ const CartExists = (props) => {
                           )}
                         </div>
                       </div>
-                      <div className="d-flex">
-                        <div className="form-group col-6">
+                      <div className="d-flex contact-information">
+                        <div className="form-group col-12 col-lg-6 col-md-6">
                           <label htmlFor="inputState">Quận huyện</label>
                           <input type="text" className="form-control" name="inputState" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputState || ''}
@@ -365,7 +365,7 @@ const CartExists = (props) => {
                             <small className="active-error" >{orderFormik.errors.inputState}</small>
                           )}
                         </div>
-                        <div className="form-group col-6">
+                        <div className="form-group col-12 col-lg-6 col-md-6">
                           <label htmlFor="inputPostalCode">Mã bưu chính</label>
                           <input type="text" className="form-control" name="inputPostalCode" style={{ borderRadius: "12px" }}
                             value={orderFormik.values.inputPostalCode || ''}
@@ -455,7 +455,7 @@ const CartExists = (props) => {
         )}
       </div>
       <div className="col-md-6 cart">
-        <div className="cart-content py-3 pl-3">
+        <div className="cart-content py-3">
           <h4 className=""><strong>Thông tin đơn hàng</strong></h4>
           <hr></hr>
 

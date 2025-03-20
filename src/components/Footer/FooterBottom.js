@@ -18,16 +18,7 @@ const FooterBottom = () => {
                 Về DeLuCa
               </h3>
               <a href="/">Giới thiệu về DeLuCa</a>
-              <a href="/">Tuyển dụng</a>
-              <div
-                className="fb-like"
-                data-href="https://www.facebook.com/tri.doviet.3/"
-                data-width="300px"
-                data-layout="button"
-                data-action="like"
-                data-size="small"
-                data-share="true"
-              />
+              <a href="https://www.facebook.com/groups/774483150431930/user/61556549114607/?locale=vi_VN">Tuyển dụng</a>
             </div>
           </div>
           <div className="col-md-3 col-xs-6">
@@ -35,16 +26,16 @@ const FooterBottom = () => {
               <h3 className="header text-uppercase font-weight-bold">
                 HỖ TRỢ KHÁCH HÀNG
               </h3>
-              <a href="https://www.facebook.com/hohoang.vuong.96?locale=vi_VN">
+              <a href="https://www.facebook.com/groups/774483150431930/user/61556549114607/?locale=vi_VN">
                 Hướng dẫn đặt hàng
               </a>
-              <a href="https://www.facebook.com/hohoang.vuong.96?locale=vi_VN">
+              <a href="https://www.facebook.com/groups/774483150431930/user/61556549114607/?locale=vi_VN">
                 Phương thức thanh toán
               </a>
-              <a href="https://www.facebook.com/hohoang.vuong.96?locale=vi_VN">
+              <a href="https://www.facebook.com/groups/774483150431930/user/61556549114607/?locale=vi_VN">
                 Phương thức vận chuyển
               </a>
-              <a href="https://www.facebook.com/hohoang.vuong.96?locale=vi_VN">
+              <a href="https://www.facebook.com/groups/774483150431930/user/61556549114607/?locale=vi_VN">
                 Chính sách đổi trả
               </a>
             </div>
