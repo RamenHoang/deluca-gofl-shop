@@ -47,7 +47,7 @@ const About = () => {
       <Row className="mb-5 text-left">
         <Col>
           <h1 className="brand-title mb-4">Giới thiệu về thương hiệu Deluca</h1>
-          <p className="brand-description">
+          <p className="brand-description" style={{textAlign: "justify"}}>
             Tại DeLuca Golf, chúng tôi không chỉ đơn thuần cung cấp trang phục và phụ kiện golf
             chúng tôi mang đến phong cách, đẳng cấp và sự tinh tế cho những ai đam mê bộ môn
             thể thao quý tộc này.
@@ -68,13 +68,13 @@ const About = () => {
         <Col md={6}>
           <div className="story-content">
             <h2 className="story-title mb-3">Hành trình khởi nguồn</h2>
-            <p className="story-text">
+            <p className="story-text" style={{textAlign: "justify"}}>
               DeLuca Golf ra đời từ niềm đam mê mãnh liệt với golf và mong muốn mang đến cho golfer
               những sản phẩm không chỉ đẹp mà còn hỗ trợ tối đa hiệu suất trên sân. Chúng tôi hiểu rằng,
               mỗi cú đánh không chỉ là kỹ thuật mà còn là sự tự tin – và trang phục chính là một phần
               quan trọng giúp golfer thể hiện phong thái chuyên nghiệp của mình.
             </p>
-            <p className="story-text">
+            <p className="story-text" style={{textAlign: "justify"}}>
               DeLuca Golf không chỉ đơn thuần là một thương hiệu – đó là một cộng đồng dành cho những
               người yêu golf, đam mê thử thách và không ngừng nâng cao bản thân. Hãy để DeLuca Golf
               đồng hành cùng bạn trên từng đường bóng, cùng bạn tạo nên những khoảnh khắc tuyệt vời trên sân.
@@ -88,13 +88,13 @@ const About = () => {
         <Col md={6}>
           <div className="story-content">
             <h2 className="story-title mb-3">Chất lượng & Đẳng cấp</h2>
-            <p className="story-text">
+            <p className="story-text" style={{textAlign: "justify"}}>
               DeLuca Golf ra đời từ niềm đam mê mãnh liệt với golf và mong muốn mang đến cho golfer
               những sản phẩm không chỉ đẹp mà còn hỗ trợ tối đa hiệu suất trên sân. Chúng tôi hiểu rằng,
               mỗi cú đánh không chỉ là kỹ thuật mà còn là sự tự tin – và trang phục chính là một phần
               quan trọng giúp golfer thể hiện phong thái chuyên nghiệp của mình.
             </p>
-            <p className="story-text">
+            <p className="story-text" style={{textAlign: "justify"}}>
               Mỗi sản phẩm của DeLuca Golf được thiết kế với tiêu chuẩn khắt khe, sử dụng những chất liệu
               cao cấp, thoáng khí và co giãn tốt, giúp golfer luôn cảm thấy thoải mái và tự tin trong từng
               chuyển động. Đội ngũ thiết kế của chúng tôi không ngừng sáng tạo để mang đến những bộ sưu tập
