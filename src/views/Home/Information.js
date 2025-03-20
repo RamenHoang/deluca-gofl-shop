@@ -8,7 +8,7 @@ import returnMoneyPolicyIcon from "../../assets/images/return-money-policy-icon.
 const Information = () => {
   return (
     <div className="container">
-        <div className="row information-container mt-5">
+        <div className="row information-container mt-5 mb-5">
           <div className="information-item d-flex align-items-center justify-content-center">
             <img src={freeShippingIcon} style={{width: "24px", height: "24px", marginRight: "10px"}} alt="Miễn phí vận chuyển" />
             <div>

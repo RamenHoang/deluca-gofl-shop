@@ -81,7 +81,12 @@ const homeAPI = {
         }
 
         return axiosClient.get(url);
-    }
+    },
+
+    getPaymentInfo: () => {
+        let url = '/home/get-payment-info';
+        return axiosClient.get(url);
+    },
 }
 
 export default homeAPI;

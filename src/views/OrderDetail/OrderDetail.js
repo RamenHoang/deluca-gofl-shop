@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './OrderDetail.css';
 import { Link } from 'react-router-dom';
 import orderAPI from '../../apis/orderAPI';
-
-import { size } from 'lodash';
+import homeAPI from '../../apis/homeAPI';
 
 const OrderDetail = (props) => {
   const [order, setOrder] = useState({});
   const [products, setProducts] = useState([]);
+  const [paymentInfo, setPaymentInfo] = useState({});
   useEffect(() => {
     orderAPI.getOrderDetailByCode(props.match.params.code).then((res) => {
       setOrder(res.data.data.order);
@@ -15,6 +15,13 @@ const OrderDetail = (props) => {
     }).catch((err) => {
       console.log(err);
     })
+
+    homeAPI.getPaymentInfo().then(res => {
+      console.log(res.data);
+      setPaymentInfo(res.data);
+    }).catch(err => {
+      console.log(err);
+    });
 
   }, [props.match.params.code]);
   return (
@@ -54,7 +61,24 @@ const OrderDetail = (props) => {
             <div className="col-4 col-md-4">
               <div className="title">HÌNH THỨC THANH TOÁN</div>
               <div className="content-receiver">
-                <p>{order.o_payment === 'pay-cash' ? 'Thanh toán bằng tiền mặt khi nhận hàng' : 'Thanh toán bằng thẻ'}</p>
+                <p>{order.o_payment === 'pay-cash' ? 'Thanh toán bằng tiền mặt khi nhận hàng' : 'Thanh toán QR Code'}</p>
+                {order.o_payment === "pay-qr-code" && paymentInfo && (
+                  <div className="col-12 mt-3 payment-info-container" style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '15px', backgroundColor: '#f9f9f9' }}>
+                    <h5 className="mb-3">Quét mã QR để thanh toán</h5>
+                    {paymentInfo.qrCode && (
+                      <div className="text-center mt-3">
+                        <img
+                          src={paymentInfo.qrCode.url}
+                          alt="QR Code"
+                          style={{ maxWidth: '200px', maxHeight: '200px' }}
+                        />
+                      </div>
+                    )}
+                    <div className="mt-3 text-danger">
+                      <small>* Thông tin chuyển khoản: </small><span><b>{order.o_code}</b></span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
