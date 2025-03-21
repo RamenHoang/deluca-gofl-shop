@@ -155,18 +155,29 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
             </div>
           </div>
           <div className="item-price ml-auto d-flex flex-column align-items-end">
-            <div className="giamoi">
-              {new Intl.NumberFormat('vi-VN', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-              }).format(info.productInfo?.p_promotion)} ₫
-            </div>
-            <div className="giacu">
-              {new Intl.NumberFormat('vi-VN', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-              }).format(info.productInfo?.p_price)} ₫
-            </div>
+            {info.productInfo?.p_promotion ? (
+              <>
+                <div className="giamoi">
+                  {new Intl.NumberFormat('vi-VN', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                  }).format(info.productInfo?.p_promotion)} ₫
+                </div>
+                <div className="giacu">
+                  {new Intl.NumberFormat('vi-VN', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                  }).format(info.productInfo?.p_price)} ₫
+                </div>
+              </>
+            ) : (
+              <div className="giamoi">
+                {new Intl.NumberFormat('vi-VN', {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0
+                }).format(info.productInfo?.p_price)} ₫
+              </div>
+            )}
             <span className="remove mt-auto">
               <i className="far fa-trash-alt" onClick={removeItemFromCart} />
             </span>
