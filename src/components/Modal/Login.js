@@ -8,7 +8,10 @@ import FacebookLogin from "react-facebook-login";
 import GoogleLogin from "react-google-login";
 import ForgotPassword from "./ForgotPassword";
 import { gapi } from "gapi-script";
+import useFullPageLoader from "../../hooks/useFullPageLoader";
 const Login = () => {
+  const [loader, showLoader, hideLoader] = useFullPageLoader();
+
   const clientId =
     "335392280387-movej9d8ba23mctqbbn8j3a21dend1cd.apps.googleusercontent.com";
   const [forgotPass, setForgotPass] = useState(false);
@@ -36,9 +39,11 @@ const Login = () => {
         email: values.inputEmail,
         password: values.inputPassword,
       };
+      showLoader();
       userAPI
         .login(data)
         .then((res) => {
+          hideLoader();
           if (res.data.message === "EMAIL_NOT_EXISTS") {
             errorToast("Email không tồn tại !");
           }
@@ -66,6 +71,7 @@ const Login = () => {
           }
         })
         .catch((err) => {
+          hideLoader();
           errorToast("Có lỗi xảy ra, vui lòng thử lại !");
         });
     },
@@ -88,7 +94,7 @@ const Login = () => {
           window.location.reload();
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   let responseLoginWithGoogle = (res) => {

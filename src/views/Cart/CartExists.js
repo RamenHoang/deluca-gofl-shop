@@ -36,6 +36,7 @@ const CartExists = (props) => {
     setTotalPriceDiscount(cart.totalPriceDiscount);
     // Check stock for each product in cart
     const checkProductStock = async () => {
+      showLoader();
       let updatedCart = {...cart};
       let isCartChanged = false;
       const removedItems = [];
@@ -66,8 +67,10 @@ const CartExists = (props) => {
           if (updatedCart.products[itemId]) {
             updatedCart.products[itemId].productInfo = product;
           }
+          hideLoader();
         } catch (err) {
           console.log(`Error checking product ${itemId}:`, err);
+          hideLoader();
         }
       }
       
@@ -117,9 +120,12 @@ const CartExists = (props) => {
 
     // Get user info
     if (getCookie('currentUserId')) {
+      showLoader();
       userAPI.getUserById(getCookie('currentUserId')).then((res) => {
+        hideLoader();
         setUser(res.data.data);
       }).catch(err => {
+        hideLoader();
         console.log(err);
       });
     }

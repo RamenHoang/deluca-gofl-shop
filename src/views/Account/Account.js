@@ -5,14 +5,19 @@ import TabInfo from './TabInfo';
 import userAPI from './../../apis/userAPI';
 import getCookie from '../../utils/getCookie';
 import TabUpdatePass from './TabUpdatePass';
+import useFullPageLoader from './../../hooks/useFullPageLoader';
 
 const Account = () => {
+  const [loader, showLoader, hideLoader] = useFullPageLoader();
   const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
+    showLoader();
     userAPI.getUserById(getCookie('currentUserId')).then((res) => {
       setUserInfo(res.data.data);
+      hideLoader();
     }).catch(err => {
       console.log(err);
+      hideLoader();
     })
     window.scrollTo(0, 0);
   }, []);
@@ -52,6 +57,7 @@ const Account = () => {
           </div>
         </div>
       </section>
+      {loader}
     </>
   )
 }
