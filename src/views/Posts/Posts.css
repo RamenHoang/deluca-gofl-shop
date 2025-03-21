@@ -1,0 +1,57 @@
+.posts-container {
+  margin-top: 2rem;
+}
+
+.brand-title {
+  font-weight: 600;
+  color: #333;
+}
+
+.brand-description {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.post-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.post-image {
+  height: 200px;
+  object-fit: cover;
+}
+
+.post-title {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.post-excerpt {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.post-date {
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.read-more-btn:hover {
+  background-color: rgb(29, 38, 58) !important;
+}
+
+@media (max-width: 767px) {
+  .post-image {
+    height: 180px;
+  }
+}

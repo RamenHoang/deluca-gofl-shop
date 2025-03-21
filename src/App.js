@@ -14,6 +14,8 @@ import OrderDetail from "./views/OrderDetail/OrderDetail";
 import TrackingOrder from "./views/TrackingOrder/TrackingOrder";
 import Search from "./views/Search/Search";
 import About from "./views/About/About";
+import Posts from "./views/Posts/Posts";
+import PostDetail from "./views/Posts/PostDetail";
 
 const App = () => {
   useEffect(() => {}, []);
@@ -42,6 +44,20 @@ const App = () => {
           exact
           path="/about"
           component={About}
+          layout={Client}
+          cntItem={totalItem}
+        />
+        <PublicRoute
+          exact
+          path="/posts"
+          component={Posts}
+          layout={Client}
+          cntItem={totalItem}
+        />
+        <PublicRoute
+          exact
+          path="/posts/:id"
+          component={PostDetail}
           layout={Client}
           cntItem={totalItem}
         />
