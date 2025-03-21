@@ -67,7 +67,7 @@ const PostDetail = () => {
       </Row>
 
       <Row className="mb-3">
-        <Col>
+        <Col className="d-flex align-items-center justify-content-center">
           <Image
             src={post.featuredImage.url || '/default-post-image.png'}
             alt={post.title}
