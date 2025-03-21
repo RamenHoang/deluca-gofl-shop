@@ -18,14 +18,17 @@ const Search = (props) => {
 
   const [books, setBooks] = useState([]);
   useEffect(() => {
+    showLoader();
     homeAPI.searchBooks(queryString.parse(props.location.search).query).then(res => {
       let data = res.data.data;
       let slice = data.slice(offSet, offSet + perPage);
 
+      hideLoader();
       setBooks(slice);
       setPageCount(Math.ceil(data.length / perPage));
       // setBooks(res.data.data);
     }).catch(err => {
+      hideLoader();
       console.log(err);
     })
   }, [props.location.search]);
