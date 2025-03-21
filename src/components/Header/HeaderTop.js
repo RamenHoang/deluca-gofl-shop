@@ -200,7 +200,7 @@ const HeaderTop = (props) => {
               </div>
             )}
             <li className="nav-item giohang">
-              <Link to="/cart" className="btn btn-secondary rounded-circle _icon">
+              <Link to="/cart" className="btn btn-secondary rounded-circle _icon" style={{ outline: 0 }}>
                 <img src={cartIcon} alt="cart-icon" style={{ width: "24px", height: "24px" }} />
                 <div className="cart-amount"> {props.totalItem} </div>
               </Link>

@@ -19,6 +19,7 @@ const FooterBottom = () => {
               </h3>
               <a href="https://deluca.vn/about">Giới thiệu về DeLuCa</a>
               <a href="https://www.facebook.com/profile.php?id=61556549114607">Tuyển dụng</a>
+              <a href="https://deluca.vn/posts">Tin tức</a>
             </div>
           </div>
           <div className="col-md-3 col-xs-6">
