@@ -15,7 +15,10 @@ const DiscountProducts = () => {
         setProducts((prevProducts) => [...prevProducts, ...res.data.data]);
       } else {
         setHasMore(false);
-        successToast("Đã hiển thị tất cả danh mục ưu đãi.");
+
+        if (products.length > 0) {
+          successToast("Đã hiển thị tất cả danh mục ưu đãi.");
+        }
       }
     }).catch((err) => {
       console.log(err);
