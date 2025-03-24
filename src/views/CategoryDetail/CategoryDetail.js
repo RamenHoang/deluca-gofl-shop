@@ -20,26 +20,36 @@ const CategoryDetail = (props) => {
   const [offSet, setOffSet] = useState(0);
   const [pageCount, setPageCount] = useState(0);
 
-  const [cate, setCate] = useState({});
-
   //all books
   const [books, setBooks] = useState([]);
 
   // Filter states
   const cateId = queryString.parse(props.location.search).cateid;
-  const [selectedCategories, setSelectedCategories] = useState(cateId ? [cateId] : []);
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000000);
+  const [isFirst, setIsFirst] = useState(true);
 
   useEffect(() => {
-    receivedData();
+    // This effect only runs when cateId changes
+    homeAPI.getSubCategories(cateId)
+      .then((res) => {
+        setSubCategories(res.data.data);
+        setSelectedCategories(res.data.data.map(item => item._id));
+      });
     window.scrollTo(0, 0);
+  }, [cateId]);
+
+  useEffect(() => {
+    // This effect handles the book fetching based on filter conditions
+    receivedData();
   }, [props.location.search, selectedCategories, minPrice, maxPrice]);
 
   const debouncedReceivedData = debounce(() => {
     showLoader();
     homeAPI
-      .getBooksByCateIds(selectedCategories, minPrice, maxPrice)
+      .getBooksByCateIds([cateId, ...selectedCategories], minPrice, maxPrice)
       .then((res) => {
         let data = res.data.data;
         let slice = data.slice(offSet, offSet + perPage);
@@ -81,10 +91,6 @@ const CategoryDetail = (props) => {
       });
   };
 
-  let handleFilter = (content) => {
-    setBooks([...content]);
-  };
-
   return (
     <>
       <section className="breadcrumbbar">
@@ -121,6 +127,7 @@ const CategoryDetail = (props) => {
                 </h5> */}
 
                 <FilterCategory
+                  categories={subCategories}
                   selectedCategories={selectedCategories}
                   setSelectedCategories={setSelectedCategories}
                 />
@@ -161,10 +168,13 @@ const CategoryDetail = (props) => {
               <div className="col-12 col-md-9 col-sm-9">
                 <div className="items">
                   <div className="row">
+                    {books.length == 0 && (
+                      <h3 className="text-danger">Không tìm thấy sản phẩm nào.</h3>
+                    )}
                     {books.map((v, i) => {
                       return (
                         <div
-                          className="col-lg-4 col-md-3 col-xs-6 item DeanGraziosi"
+                          className="col-lg-4 col-md-3 col-6 item DeanGraziosi"
                           key={i}
                         >
                           <ItemBook info={v} />
@@ -176,24 +186,26 @@ const CategoryDetail = (props) => {
               </div>
             </div>
             {/* pagination bar */}
-            <div className="pagination-bar my-3">
-              <div className="row">
-                <div className="col-12 ">
-                  <ReactPaginate
-                    previousLabel={"← Prev"}
-                    nextLabel={"Next →"}
-                    breakLabel={"..."}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    pageCount={pageCount}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination"}
-                    subContainerClassName={"pages pagination"}
-                    activeClassName={"active"}
-                  />
+            {books.length > 0 && (
+              <div className="pagination-bar my-3">
+                <div className="row">
+                  <div className="col-12 ">
+                    <ReactPaginate
+                      previousLabel={"← Prev"}
+                      nextLabel={"Next →"}
+                      breakLabel={"..."}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      pageCount={pageCount}
+                      onPageChange={handlePageClick}
+                      containerClassName={"pagination"}
+                      subContainerClassName={"pages pagination"}
+                      activeClassName={"active"}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             {/*het khoi san pham*/}
           </div>
           {/*het div noidung*/}

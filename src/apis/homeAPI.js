@@ -6,6 +6,11 @@ const homeAPI = {
         return axiosClient.get(url);
     },
 
+    getSubCategories: (id) => {
+        let url = `/home/sub-categories/${id}`;
+        return axiosClient.get(url);
+    },
+
     getNewBooks: (page) => {
         let url = '/home/new-books';
 
