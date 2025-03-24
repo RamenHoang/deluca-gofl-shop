@@ -21,20 +21,27 @@ const CategoryDetail = (props) => {
   //all books
   const [books, setBooks] = useState([]);
   const [showNotFound, setShowNotFound] = useState(false);
+  const [shouldSelect, setShouldSelect] = useState(false);
 
   // Filter states
   const cateId = queryString.parse(props.location.search).cateid;
   const [subCategories, setSubCategories] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([cateId]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000000);
 
   useEffect(() => {
     // This effect only runs when cateId changes
-    homeAPI.getSubCategories(cateId)
+    homeAPI.getCateById(cateId)
       .then((res) => {
-        setSubCategories(res.data.data);
-        setSelectedCategories(res.data.data.map(item => item._id));
+        const isParent = res.data.data.is_parent;
+        homeAPI.getSubCategories(cateId)
+          .then((res) => {
+            setSubCategories(res.data.data);
+            if (isParent) {
+              setSelectedCategories(res.data.data.map(item => item._id));
+            }
+          });
       });
     window.scrollTo(0, 0);
   }, [cateId]);
@@ -50,12 +57,20 @@ const CategoryDetail = (props) => {
 
   const debouncedReceivedData = debounce(() => {
     showLoader();
+    if (selectedCategories.length === 0) {
+      hideLoader();
+      setBooks([]);
+      setShouldSelect(true);
+      return;
+    }
+
     homeAPI
-      .getBooksByCateIds([cateId, ...selectedCategories], minPrice, maxPrice, page)
+      .getBooksByCateIds([...selectedCategories], minPrice, maxPrice, page)
       .then((res) => {
         if (res.data.data.length > 0) {
           setBooks([...books, ...res.data.data]);
           setShowNotFound(false);
+          setShouldSelect(false);
         } else if (books.length > 0) {
           setHasMore(false);
           successToast("Đã hiển thị tất cả sản phẩm.");
@@ -161,6 +176,9 @@ const CategoryDetail = (props) => {
                     {showNotFound && (
                       <h3 className="text-danger">Không tìm thấy sản phẩm nào.</h3>
                     )}
+                    {shouldSelect && (
+                      <h3 className="text-danger">Vui lòng chọn danh mục.</h3>
+                    )}
                     {books.map((v, i) => {
                       return (
                         <div
@@ -172,15 +190,15 @@ const CategoryDetail = (props) => {
                       );
                     })}
                   </div>
+                  {books.length > 0 && hasMore && (
+                    <div className="text-center mt-4">
+                      <button className="btn btn-primary load-more-btn" onClick={loadMore}>Load More</button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
             {/* pagination bar */}
-            {books.length > 0 && hasMore && (
-              <div className="text-center mt-4">
-                <button className="btn btn-primary load-more-btn" onClick={loadMore}>Load More</button>
-              </div>
-            )}
             {/*het khoi san pham*/}
           </div>
           {/*het div noidung*/}
