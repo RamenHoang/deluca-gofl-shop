@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Slider from '@mui/material/Slider';
 import './FilterPrice.css';
 
-const FilterPrice = ({ minPrice, maxPrice, setMinPrice, setMaxPrice }) => {
+const FilterPrice = ({ minPrice, maxPrice, setMinPrice, setMaxPrice, setPage, setBooks, setHasMore }) => {
   // Set reasonable default values
   const defaultMin = 0;
   const defaultMax = 1000000;
@@ -31,6 +31,9 @@ const FilterPrice = ({ minPrice, maxPrice, setMinPrice, setMaxPrice }) => {
     }));
     setMinPrice(newValue[0]);
     setMaxPrice(newValue[1]);
+    setPage(1);
+    setBooks([]);
+    setHasMore(true);
   };
 
   return (

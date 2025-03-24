@@ -64,6 +64,7 @@ const HeaderTop = (props) => {
           aria-haspopup="true"
           aria-expanded="false"
           style={{ textTransform: "uppercase" }}
+          onClick={() => window.location.href = `/categories?cateid=${parent._id}&c_slug=${parent.c_slug}`}
         >
           {parent.c_name}
         </Link>
@@ -74,6 +75,7 @@ const HeaderTop = (props) => {
                 <Link
                   className="dropdown-item sub-category"
                   to={`/categories?cateid=${child._id}&c_slug=${child.c_slug}`}
+                  onClick={() => window.location.href = `/categories?cateid=${child._id}&c_slug=${child.c_slug}`}
                 >
                   {child.c_name}
                 </Link>
