@@ -29,6 +29,8 @@ const CategoryDetail = (props) => {
   const [selectedCategories, setSelectedCategories] = useState([cateId]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000000);
+  // Add a state to track when first useEffect completes
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
   useEffect(() => {
     // This effect only runs when cateId changes
@@ -41,6 +43,8 @@ const CategoryDetail = (props) => {
             if (isParent) {
               setSelectedCategories(res.data.data.map(item => item._id));
             }
+            // Mark initial load as complete
+            setInitialLoadComplete(true);
           });
       });
     window.scrollTo(0, 0);
@@ -48,8 +52,11 @@ const CategoryDetail = (props) => {
 
   useEffect(() => {
     // This effect handles the book fetching based on filter conditions
-    receivedData();
-  }, [props.location.search, selectedCategories, minPrice, maxPrice, page]);
+    // Only run if initialLoadComplete is true
+    if (initialLoadComplete) {
+      receivedData();
+    }
+  }, [props.location.search, selectedCategories, minPrice, maxPrice, page, initialLoadComplete]);
 
   const loadMore = () => {
     setPage((prevPage) => prevPage + 1);
@@ -75,6 +82,7 @@ const CategoryDetail = (props) => {
           setHasMore(false);
           successToast("Đã hiển thị tất cả sản phẩm.");
         } else {
+          setShouldSelect(false);
           setShowNotFound(true);
         }
 
@@ -173,7 +181,7 @@ const CategoryDetail = (props) => {
               <div className="col-12 col-md-9 col-sm-9">
                 <div className="items">
                   <div className="row">
-                    {showNotFound && (
+                    {showNotFound && !shouldSelect && (
                       <h3 className="text-danger">Không tìm thấy sản phẩm nào.</h3>
                     )}
                     {shouldSelect && (
