@@ -44,8 +44,8 @@ const homeAPI = {
         let url = `/home/get-book-by-cateid/${cateId}?minPrice=${minPrice}&maxPrice=${maxPrice}`;
         return axiosClient.get(url);
     },
-    getBooksByCateIds: (cateIds, minPrice, maxPrice) => {
-        let url = `/home/get-books-by-cate-ids?cateIds=${cateIds.join(',')}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+    getBooksByCateIds: (cateIds, minPrice, maxPrice, page) => {
+        let url = `/home/get-books-by-cate-ids?cateIds=${cateIds.join(',')}&minPrice=${minPrice}&maxPrice=${maxPrice}&page=${page}`;
         return axiosClient.get(url);
     },
 

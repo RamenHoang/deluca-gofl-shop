@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FilterCategory = ({ categories, selectedCategories, setSelectedCategories }) => {
+const FilterCategory = ({ categories, selectedCategories, setSelectedCategories, setPage, setBooks, setHasMore }) => {
 
   const handleCategoryChange = (e) => {
     const categoryId = e.target.value;
@@ -13,6 +13,9 @@ const FilterCategory = ({ categories, selectedCategories, setSelectedCategories 
       newSelectedCategories = selectedCategories.filter(id => id !== categoryId);
     }
 
+    setPage(1);
+    setBooks([]);
+    setHasMore(true);
     setSelectedCategories(newSelectedCategories);
   };
 

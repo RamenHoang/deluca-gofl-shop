@@ -7,18 +7,16 @@ import "./CategoryDetail.css";
 import ItemBook from "../../components/ItemBook/ItemBook";
 import FilterPrice from "./FilterPrice";
 import FilterCategory from "./FilterCategory";
-import ReactPaginate from "react-paginate";
 import useFullPageLoader from "../../hooks/useFullPageLoader";
 import { debounce } from 'lodash';
+import { successToast } from "../../components/Toasts/Toasts";
 
 const CategoryDetail = (props) => {
   const [loader, showLoader, hideLoader] = useFullPageLoader();
 
   //pagination
-  const [currentPage, setCurrentPage] = useState(0);
-  const [perPage, setPerPage] = useState(6);
-  const [offSet, setOffSet] = useState(0);
-  const [pageCount, setPageCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   //all books
   const [books, setBooks] = useState([]);
@@ -29,7 +27,6 @@ const CategoryDetail = (props) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000000);
-  const [isFirst, setIsFirst] = useState(true);
 
   useEffect(() => {
     // This effect only runs when cateId changes
@@ -44,18 +41,23 @@ const CategoryDetail = (props) => {
   useEffect(() => {
     // This effect handles the book fetching based on filter conditions
     receivedData();
-  }, [props.location.search, selectedCategories, minPrice, maxPrice]);
+  }, [props.location.search, selectedCategories, minPrice, maxPrice, page]);
+
+  const loadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   const debouncedReceivedData = debounce(() => {
     showLoader();
     homeAPI
-      .getBooksByCateIds([cateId, ...selectedCategories], minPrice, maxPrice)
+      .getBooksByCateIds([cateId, ...selectedCategories], minPrice, maxPrice, page)
       .then((res) => {
-        let data = res.data.data;
-        let slice = data.slice(offSet, offSet + perPage);
-
-        setBooks(slice);
-        setPageCount(Math.ceil(data.length / perPage));
+        if (res.data.data.length > 0) {
+          setBooks([...books, ...res.data.data]);
+        } else {
+          setHasMore(false);
+          successToast("Đã hiển thị tất cả sản phẩm.");
+        }
         hideLoader();
       })
       .catch((err) => {
@@ -66,29 +68,6 @@ const CategoryDetail = (props) => {
 
   let receivedData = () => {
     debouncedReceivedData();
-  };
-
-  //Click vao nut chuyen trang
-  let handlePageClick = (e) => {
-    let selectedPage = e.selected;
-    let offset = selectedPage * perPage;
-    setCurrentPage(selectedPage);
-    setOffSet(offset);
-    showLoader();
-    homeAPI
-      .getBooksByCateIds(selectedCategories, minPrice, maxPrice)
-      .then((res) => {
-        let data = res.data.data;
-        let slice = data.slice(offset, offset + perPage);
-
-        setBooks(slice);
-        setPageCount(Math.ceil(data.length / perPage));
-        hideLoader();
-      })
-      .catch((err) => {
-        hideLoader();
-        console.log(err);
-      });
   };
 
   return (
@@ -130,6 +109,9 @@ const CategoryDetail = (props) => {
                   categories={subCategories}
                   selectedCategories={selectedCategories}
                   setSelectedCategories={setSelectedCategories}
+                  setPage={setPage}
+                  setBooks={setBooks}
+                  setHasMore={setHasMore}
                 />
 
                 <FilterPrice
@@ -137,6 +119,9 @@ const CategoryDetail = (props) => {
                   maxPrice={maxPrice}
                   setMinPrice={setMinPrice}
                   setMaxPrice={setMaxPrice}
+                  setPage={setPage}
+                  setBooks={setBooks}
+                  setHasMore={setHasMore}
                 />
 
                 {/* <FilterRating
@@ -186,24 +171,9 @@ const CategoryDetail = (props) => {
               </div>
             </div>
             {/* pagination bar */}
-            {books.length > 0 && (
-              <div className="pagination-bar my-3">
-                <div className="row">
-                  <div className="col-12 ">
-                    <ReactPaginate
-                      previousLabel={"← Prev"}
-                      nextLabel={"Next →"}
-                      breakLabel={"..."}
-                      marginPagesDisplayed={2}
-                      pageRangeDisplayed={5}
-                      pageCount={pageCount}
-                      onPageChange={handlePageClick}
-                      containerClassName={"pagination"}
-                      subContainerClassName={"pages pagination"}
-                      activeClassName={"active"}
-                    />
-                  </div>
-                </div>
+            {books.length > 0 && hasMore && (
+              <div className="text-center mt-4">
+                <button className="btn btn-primary load-more-btn" onClick={loadMore}>Load More</button>
               </div>
             )}
             {/*het khoi san pham*/}
