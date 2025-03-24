@@ -8,7 +8,7 @@ import ItemBook from "../../components/ItemBook/ItemBook";
 import FilterPrice from "./FilterPrice";
 import FilterCategory from "./FilterCategory";
 import useFullPageLoader from "../../hooks/useFullPageLoader";
-import { debounce } from 'lodash';
+import { debounce, set } from 'lodash';
 import { successToast } from "../../components/Toasts/Toasts";
 
 const CategoryDetail = (props) => {
@@ -20,6 +20,7 @@ const CategoryDetail = (props) => {
 
   //all books
   const [books, setBooks] = useState([]);
+  const [showNotFound, setShowNotFound] = useState(false);
 
   // Filter states
   const cateId = queryString.parse(props.location.search).cateid;
@@ -54,10 +55,14 @@ const CategoryDetail = (props) => {
       .then((res) => {
         if (res.data.data.length > 0) {
           setBooks([...books, ...res.data.data]);
-        } else {
+          setShowNotFound(false);
+        } else if (books.length > 0) {
           setHasMore(false);
           successToast("Đã hiển thị tất cả sản phẩm.");
+        } else {
+          setShowNotFound(true);
         }
+
         hideLoader();
       })
       .catch((err) => {
@@ -153,7 +158,7 @@ const CategoryDetail = (props) => {
               <div className="col-12 col-md-9 col-sm-9">
                 <div className="items">
                   <div className="row">
-                    {books.length == 0 && (
+                    {showNotFound && (
                       <h3 className="text-danger">Không tìm thấy sản phẩm nào.</h3>
                     )}
                     {books.map((v, i) => {
