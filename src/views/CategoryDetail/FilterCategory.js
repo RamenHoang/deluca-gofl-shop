@@ -1,16 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import homeAPI from '../../apis/homeAPI';
+import React from 'react';
 
-const FilterCategory = ({ handleFilter, selectedCategories, setSelectedCategories }) => {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    homeAPI.getAllCategories().then((res) => {
-      setCategories(res.data.data);
-    }).catch((err) => {
-      console.log(err);
-    });
-  }, []);
+const FilterCategory = ({ categories, selectedCategories, setSelectedCategories }) => {
 
   const handleCategoryChange = (e) => {
     const categoryId = e.target.value;
@@ -26,29 +16,33 @@ const FilterCategory = ({ handleFilter, selectedCategories, setSelectedCategorie
     setSelectedCategories(newSelectedCategories);
   };
 
-  return (
-    <div className="item-filter">
-      <h6>DANH MỤC</h6>
-      <div>
-        {categories.map((category) => (
-          <div className="form-check" key={category._id}>
-            <input 
-              className="form-check-input" 
-              type="checkbox" 
-              value={category._id} 
-              id={`category-${category._id}`}
-              onChange={handleCategoryChange}
-              checked={selectedCategories.includes(category._id)}
-            />
-            <label className="form-check-label" htmlFor={`category-${category._id}`}>
-              {category.c_name}
-            </label>
+  return <>
+    {
+      categories.length > 0 && (
+        <div className="item-filter">
+          <h6>DANH MỤC</h6>
+          <div>
+            {categories.map((category) => (
+              <div className="form-check" key={category._id}>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value={category._id}
+                  id={`category-${category._id}`}
+                  onChange={handleCategoryChange}
+                  checked={selectedCategories.includes(category._id)}
+                />
+                <label className="form-check-label" htmlFor={`category-${category._id}`}>
+                  {category.c_name}
+                </label>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <hr />
-    </div>
-  );
+          <hr />
+        </div>
+      )
+    }
+  </>
 };
 
 export default FilterCategory;
