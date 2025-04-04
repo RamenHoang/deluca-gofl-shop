@@ -92,7 +92,7 @@ const TabEvaluate = (props) => {
                     <img src={img} alt="avatar-user" />
                   </div>
                   <div className="col-10 col-md-11">
-                    <h6>{v.user.username}</h6>
+                    <h6>{v.user?.username}</h6>
                     <div className="rating-list">
 
                       {rate(v.c_rate)}
