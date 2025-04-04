@@ -27,7 +27,9 @@ const BookDetail = (props) => {
     let bookId = queryString.parse(props.location.search).pid;
     homeAPI.getBookById(bookId).then((res) => {
       setBook(res.data.data);
-      setSelectedImage(res.data.data.variants[0].images[0].url);
+      if (res.data.data.variants.length > 0 && res.data.data.variants[0].images.length > 0) {
+        setSelectedImage(res.data.data.variants[0].images[0].url);
+      }
       setSelectedVariant(res.data.data.variants[0]);
       setSelectedThumbnail(0);
       if (res.data.data.variants[0].sizes.filter((size) => size && size.stock > 0).length > 0) {
@@ -97,7 +99,9 @@ const BookDetail = (props) => {
       setSelectedSize(variant.sizes.filter((size) => size)[0]);
     }
     setSelectedThumbnail(0);
-    setSelectedImage(variant.images[0].url);
+    if (variant.images.length > 0) {
+      setSelectedImage(variant.images[0].url);
+    }
   }
 
   const handleSizeChartClick = () => {
@@ -185,7 +189,7 @@ const BookDetail = (props) => {
                       <br></br>
                       {book.variants && book.variants.map((variant, index) => (
                         <img
-                          src={variant.images[0].url}
+                          src={variant.images.length > 0 ? variant.images[0].url : ''}
                           alt={variant.color.name}
                           onClick={() => handleChangeVariant(variant)}
                           style={{
@@ -203,7 +207,7 @@ const BookDetail = (props) => {
                     <div className="mb-3">
                       <label className="font-weight-bold">Kích thước {selectedSize.size ? `- ${selectedSize.size.name}` : ''}</label>
                       <br></br>
-                      {selectedVariant.sizes && selectedVariant.sizes.filter((size) => size).map((size, index) => (
+                      {selectedVariant.sizes && selectedVariant.sizes.filter((size) => size.size).map((size, index) => (
                         <button
                           key={index}
                           onClick={() => size.stock > 0 ? setSelectedSize(size) : null}

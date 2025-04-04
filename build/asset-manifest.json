@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.f659b144.css",
-    "main.js": "/static/js/main.44dd9802.js",
+    "main.js": "/static/js/main.e7a20b3c.js",
     "static/js/453.258b012d.chunk.js": "/static/js/453.258b012d.chunk.js",
     "static/media/logo.png": "/static/media/logo.c10ffc90be08eb2ede6d.png",
     "static/media/hamburger-menu-icon.png": "/static/media/hamburger-menu-icon.c6d988ae0037068e93f5.png",
@@ -10,11 +10,11 @@
     "static/media/icon-payment-cash.svg": "/static/media/icon-payment-cash.68a37e1ab8410460b2456e25ca395243.svg",
     "static/media/icon-payment-atm.svg": "/static/media/icon-payment-atm.4388cb279d0792669d84ac2a1afdc000.svg",
     "main.f659b144.css.map": "/static/css/main.f659b144.css.map",
-    "main.44dd9802.js.map": "/static/js/main.44dd9802.js.map",
+    "main.e7a20b3c.js.map": "/static/js/main.e7a20b3c.js.map",
     "453.258b012d.chunk.js.map": "/static/js/453.258b012d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f659b144.css",
-    "static/js/main.44dd9802.js"
+    "static/js/main.e7a20b3c.js"
   ]
 }
