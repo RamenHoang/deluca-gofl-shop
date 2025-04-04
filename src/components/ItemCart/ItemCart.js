@@ -93,11 +93,12 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
         <a href="product-item.html" className="img">
           <img
             src={
-              info.variant.images[0].url ||
-              "/assets/images/dai-dich-tren-con-duong-to-lua.jpg"
+              info.variant.images.length > 0
+                ? info.variant.images[0].url
+                : ''
             }
             className="img-fluid"
-            alt="anhsp1"
+            alt={info.productInfo?.p_name}
           />
         </a>
         <div className="item-caption d-flex justify-content-between w-100">
