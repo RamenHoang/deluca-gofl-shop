@@ -11,6 +11,7 @@ import { successToast } from './../../components/Toasts/Toasts';
 import ItemBook from '../../components/ItemBook/ItemBook';
 import addToCartIcon from '../../assets/images/add-to-cart-icon.png';
 import { toast } from 'react-toastify';
+import ModalImage from "react-modal-image";
 
 const BookDetail = (props) => {
   const [book, setBook] = useState({});
@@ -156,9 +157,18 @@ const BookDetail = (props) => {
                 {/* preview area */}
                 <div className="col-md-10 khoianh">
                   <div className="anhto mb-4">
-                    <a className="active" href="# " data-fancybox="thumb-img">
+                    <ModalImage
+                      small={selectedImage}
+                      large={selectedImage}
+                      alt={book.p_name}
+                      hideDownload={true}
+                      hideZoom={true}
+                      className="product-image"
+                      style={{ width: '100%', borderRadius: '16px' }}
+                    />
+                    {/* <a className="active" href="# " data-fancybox="thumb-img">
                       <img className="product-image" src={selectedImage} alt={book.p_name} style={{ width: '100%', borderRadius: '16px' }} />
-                    </a>
+                    </a> */}
                   </div>
                 </div>
               </div>
