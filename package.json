@@ -26,6 +26,7 @@
     "react-google-login": "^5.2.2",
     "react-icons": "^5.5.0",
     "react-messenger-customer-chat": "^0.8.0",
+    "react-modal-image": "^2.6.0",
     "react-paginate": "^8.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
