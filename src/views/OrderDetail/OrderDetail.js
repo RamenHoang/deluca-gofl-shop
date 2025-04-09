@@ -108,12 +108,12 @@ const OrderDetail = (props) => {
                               </span>
                               <br />
                               <span className="ml-2">
-                                Kích thước - {v.size.name}
+                                Kích thước - {v.size?.name}
                               </span>
                               <br />
                             </td>
                             <td>
-                              <img src={v.variant.images[0].url} alt="product" style={{ height: '100px' }} />
+                              <img src={v.variant.images.length > 0 ? v.variant.images[0].url : 'N/A'} alt="product" style={{ height: '100px' }} />
                             </td>
                             <td>{new Intl.NumberFormat('vi-VN', {
                               minimumFractionDigits: 0,
