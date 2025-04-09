@@ -125,9 +125,11 @@ const BookDetail = (props) => {
         <div className="container">
           <ol className="breadcrumb mb-0 p-0 bg-transparent">
             <li className="breadcrumb-item"><Link to="/">Trang chủ</Link></li>
-            <li className="breadcrumb-item">
-              <Link to={`/categories?cateid=${book.category ? book.category._id : ''}&c_slug=${book.category ? book.category.c_slug : ''}`}>{book.category ? book.category.c_name : ''}</Link>
-            </li>
+            {book.category && book.category.map((cate, index) => (
+              <li className="breadcrumb-item">
+                <Link to={`/categories?cateid=${cate._id}&c_slug=${cate.c_slug}`}>{cate.c_name}</Link>
+              </li>
+            ))}
             <li className="breadcrumb-item active"><a href="# "> {book.p_name} </a></li>
           </ol>
         </div>

@@ -90,7 +90,7 @@ const ItemCart = ({ info, callBackRemoveCart, callBackUpdateCart }) => {
   return (
     <>
       <div className="cart-item d-flex">
-        <a href="product-item.html" className="img">
+        <a href={`/categories/${info.productInfo.category.map(item => item.c_slug).join('_')}.html?pid=${info.productInfo._id}&p_slug=${info.productInfo.p_slug}`} className="img">
           <img
             src={
               info.variant.images.length > 0

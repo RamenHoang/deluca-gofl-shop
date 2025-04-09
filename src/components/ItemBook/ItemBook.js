@@ -12,7 +12,7 @@ const ItemBook = ({ info }) => {
           {Math.round(((info.p_price - info.p_promotion) / info.p_price) * 100)}% Discount
         </div>
       )}
-      <Link to={`/categories/${info.category.c_slug}.html?pid=${info._id}&p_slug=${info.p_slug}`} className="motsanpham" style={{ textDecoration: 'none', color: 'black' }} data-toggle="tooltip" data-placement="bottom" title={info.p_name}>
+      <Link to={`/categories/${info.category.map(item => item.c_slug).join('_')}.html?pid=${info._id}&p_slug=${info.p_slug}`} className="motsanpham" style={{ textDecoration: 'none', color: 'black' }} data-toggle="tooltip" data-placement="bottom" title={info.p_name}>
         <img className="card-img-top anh" src={info.variants[0].images.length > 0 ? info.variants[0].images[0].url : ''} alt="item book" />
         <div className="card-body noidungsp mt-3">
           <h3 className="card-title ten">{info.p_name}</h3>
