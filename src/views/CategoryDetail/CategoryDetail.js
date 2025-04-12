@@ -16,7 +16,8 @@ const CategoryDetail = (props) => {
 
   //pagination
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [totalPages, setTotalPages] = useState(1);
+  const [booksPerPage] = useState(9); // Set books per page
 
   //all books
   const [books, setBooks] = useState([]);
@@ -58,8 +59,9 @@ const CategoryDetail = (props) => {
     }
   }, [props.location.search, selectedCategories, minPrice, maxPrice, page, initialLoadComplete]);
 
-  const loadMore = () => {
-    setPage((prevPage) => prevPage + 1);
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    // window.scrollTo(0, 0);
   };
 
   const debouncedReceivedData = debounce(() => {
@@ -72,15 +74,18 @@ const CategoryDetail = (props) => {
     }
 
     homeAPI
-      .getBooksByCateIds([...selectedCategories], minPrice, maxPrice, page)
+      .getBooksByCateIds([...selectedCategories], minPrice, maxPrice, page, booksPerPage)
       .then((res) => {
         if (res.data.data.length > 0) {
-          setBooks([...books, ...res.data.data]);
+          setBooks(res.data.data); // Replace books instead of appending
           setShowNotFound(false);
           setShouldSelect(false);
-        } else if (books.length > 0) {
-          setHasMore(false);
-          successToast("Đã hiển thị tất cả sản phẩm.");
+          
+          // Calculate total pages if total count is available in the response
+          // Assuming the API returns totalCount in the response
+          if (res.data.total) {
+            setTotalPages(Math.ceil(res.data.total));
+          }
         } else {
           setShouldSelect(false);
           setShowNotFound(true);
@@ -96,6 +101,80 @@ const CategoryDetail = (props) => {
 
   let receivedData = () => {
     debouncedReceivedData();
+  };
+
+  // Create pagination controls
+  const renderPagination = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    // Calculate range of visible page numbers
+    let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    
+    // Adjust if we're near the end
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    // Previous button
+    pages.push(
+      <li key="prev" className={`page-item ${page === 1 ? 'disabled' : ''}`}>
+        <button className="page-link" onClick={() => handlePageChange(page - 1)} disabled={page === 1}>
+          &laquo;
+        </button>
+      </li>
+    );
+
+    // First page
+    if (startPage > 1) {
+      pages.push(
+        <li key={1} className="page-item">
+          <button className="page-link" onClick={() => handlePageChange(1)}>1</button>
+        </li>
+      );
+      if (startPage > 2) {
+        pages.push(<li key="ellipsis1" className="page-item disabled"><span className="page-link">...</span></li>);
+      }
+    }
+
+    // Page numbers
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(
+        <li key={i} className={`page-item ${page === i ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handlePageChange(i)}>{i}</button>
+        </li>
+      );
+    }
+
+    // Last page
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pages.push(<li key="ellipsis2" className="page-item disabled"><span className="page-link">...</span></li>);
+      }
+      pages.push(
+        <li key={totalPages} className="page-item">
+          <button className="page-link" onClick={() => handlePageChange(totalPages)}>{totalPages}</button>
+        </li>
+      );
+    }
+
+    // Next button
+    pages.push(
+      <li key="next" className={`page-item ${page === totalPages ? 'disabled' : ''}`}>
+        <button className="page-link" onClick={() => handlePageChange(page + 1)} disabled={page === totalPages}>
+          &raquo;
+        </button>
+      </li>
+    );
+
+    return (
+      <nav aria-label="Page navigation">
+        <ul className="pagination justify-content-center">
+          {pages}
+        </ul>
+      </nav>
+    );
   };
 
   return (
@@ -122,24 +201,15 @@ const CategoryDetail = (props) => {
       <section className="content my-4">
         <div className="container">
           <div className="noidung bg-white" style={{ width: "100%" }}>
-            {/* header của khối sản phẩm : tag(tác giả), bộ lọc và sắp xếp  */}
-            {/* <div className="header-khoi-sp d-flex justify-content-between py-2">
-              <h5 className="pt-2 pl-2">TẤT CẢ SẢN PHẨM</h5>
-            </div> */}
-            {/* các sản phẩm  */}
             <div className="row">
               <div className="col-12 col-md-3 col-sm-3">
-                {/* <h5 style={{ paddingTop: "10px", textAlign: "center" }}>
-                  CHẾ ĐỘ LỌC
-                </h5> */}
-
                 <FilterCategory
                   categories={subCategories}
                   selectedCategories={selectedCategories}
                   setSelectedCategories={setSelectedCategories}
                   setPage={setPage}
                   setBooks={setBooks}
-                  setHasMore={setHasMore}
+                  setHasMore={setTotalPages}
                 />
 
                 <FilterPrice
@@ -149,34 +219,8 @@ const CategoryDetail = (props) => {
                   setMaxPrice={setMaxPrice}
                   setPage={setPage}
                   setBooks={setBooks}
-                  setHasMore={setHasMore}
+                  setHasMore={setTotalPages}
                 />
-
-                {/* <FilterRating
-                  handleFilter={handleFilter}
-                  cateId={queryString.parse(props.location.search).cateid}
-                  books={books}
-                /> */}
-
-                {/* <div className="item-filter">
-                  <h6>TÁC GIẢ</h6>
-                  <hr />
-                </div>
-
-                <div className="item-filter">
-                  <h6>NHÀ XUẤT BẢN</h6>
-                  <div>
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="" />
-                      <label className="form-check-label" htmlFor="defaultCheck2"> Nhà XB Kim Đồng </label>
-                    </div>
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="" />
-                      <label className="form-check-label" htmlFor="defaultCheck2"> Nhà XB Kim Đồng </label>
-                    </div>
-                  </div>
-                  <hr />
-                </div> */}
               </div>
               <div className="col-12 col-md-9 col-sm-9">
                 <div className="items">
@@ -198,20 +242,16 @@ const CategoryDetail = (props) => {
                       );
                     })}
                   </div>
-                  {books.length > 0 && hasMore && (
-                    <div className="text-center mt-4">
-                      <button className="btn btn-primary load-more-btn" onClick={loadMore}>Load More</button>
+                  {books.length > 0 && totalPages > 1 && (
+                    <div className="mt-4">
+                      {renderPagination()}
                     </div>
                   )}
                 </div>
               </div>
             </div>
-            {/* pagination bar */}
-            {/*het khoi san pham*/}
           </div>
-          {/*het div noidung*/}
         </div>
-        {/*het container*/}
         {loader}
       </section>
     </>
