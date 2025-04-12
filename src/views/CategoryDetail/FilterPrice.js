@@ -1,11 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from '@mui/material/Slider';
 import './FilterPrice.css';
+import homeAPI from '../../apis/homeAPI';
 
 const FilterPrice = ({ minPrice, maxPrice, setMinPrice, setMaxPrice, setPage, setBooks, setHasMore }) => {
   // Set reasonable default values
-  const defaultMin = 0;
-  const defaultMax = 1000000;
+  const [defaultMin, setDefaultMin] = useState(0);
+  const [defaultMax, setDefaultMax] = useState(1000000);
+
+  useEffect(() => {
+    // Reset the price range when minPrice or maxPrice changes
+    homeAPI.getMinMaxPrice()
+      .then(res => {
+        const { minPrice, maxPrice } = res.data;
+        setMinPrice(minPrice);
+        setMaxPrice(maxPrice);
+        setDefaultMin(minPrice);
+        setDefaultMax(maxPrice);
+        setPriceRange({
+          min: minPrice,
+          max: maxPrice,
+          currentMin: minPrice,
+          currentMax: maxPrice
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, [])
 
   // Price range state
   const [priceRange, setPriceRange] = useState({

@@ -92,6 +92,11 @@ const homeAPI = {
         let url = '/home/get-payment-info';
         return axiosClient.get(url);
     },
+
+    getMinMaxPrice: () => {
+        let url = '/home/min-max-price';
+        return axiosClient.get(url);
+    },
 }
 
 export default homeAPI;

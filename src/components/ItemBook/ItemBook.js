@@ -9,7 +9,7 @@ const ItemBook = ({ info }) => {
       {info.p_promotion > 0 && (
         <div className='product-item-discount'>
           <img src={discountIcon} alt="Discount Icon" style={{ marginRight: "5px", width: "13px", height: "13px" }} />
-          {Math.round(((info.p_price - info.p_promotion) / info.p_price) * 100)}% Discount
+          {Math.ceil(((info.p_price - info.p_promotion) / info.p_price) * 100)}% Discount
         </div>
       )}
       <Link to={`/categories/${info.category.map(item => item.c_slug).join('_')}.html?pid=${info._id}&p_slug=${info.p_slug}`} className="motsanpham" style={{ textDecoration: 'none', color: 'black' }} data-toggle="tooltip" data-placement="bottom" title={info.p_name}>
