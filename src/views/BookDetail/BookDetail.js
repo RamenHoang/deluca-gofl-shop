@@ -88,6 +88,20 @@ const BookDetail = (props) => {
       setItemCart(1);
     }
   }
+  
+  let handleClickBuyNow = () => {
+    let oldCart = JSON.parse(localStorage.getItem('cart'));
+    let newCart = new Cart(oldCart ? oldCart : null);
+    if (newCart.addCartWithQuantity(book, parseInt(itemCart), selectedVariant, selectedSize)) {
+      localStorage.removeItem('cart');
+      localStorage.setItem('cart', JSON.stringify(newCart));
+      // successToast("Thêm sản phẩm vào giỏ hàng thành công !");`
+      let total = JSON.parse(localStorage.getItem('cart')).totalQuantity;
+      props.totalItem(total);
+      setItemCart(1);
+      props.history.push('/cart');
+    }
+  }
 
   const handleThumbnailClick = (index, url) => {
     setSelectedThumbnail(index);
@@ -216,6 +230,8 @@ const BookDetail = (props) => {
                         />
                       ))}
                     </div>
+                  </div>
+                  <div className="col-md-12">
                     <div className="mb-3">
                       <label className="font-weight-bold">Kích thước {selectedSize.size ? `- ${selectedSize.size.name}` : ''}</label>
                       <br></br>
@@ -239,6 +255,19 @@ const BookDetail = (props) => {
                         </button>
                       ))}
                     </div>
+                  </div>
+                  <div className="col-md-12 d-flex align-items-center justify-content-between mt-3">
+                    <div className="input-number input-group col-3" style={{ paddingLeft: "0px" }}>
+                      <div className="d-flex" style={{ backgroundColor: "#F8F8F8", borderRadius: "9999px", padding: "8px" }}>
+                        <div className="input-group-prepend">
+                          <span className="input-group-text btn-spin btn-dec d-flex" style={{ borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center" }} onClick={itemCartDecrease}>-</span>
+                        </div>
+                        <input type="text" value={itemCart} className="soluongsp text-center" style={{ backgroundColor: "transparent", border: "none" }} onChange={onChangeItemCart} />
+                        <div className="input-group-append">
+                          <span className="input-group-text btn-spin btn-inc" style={{ borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center" }} onClick={itemCartIncrease}>+</span>
+                        </div>
+                      </div>
+                    </div>
                     {book.sizeChart && (
                       <div>
                         <img src="//www.callawayapparel.com/cdn/shop/t/434/assets/size-chart-icon.svg?v=9763383541208223451740753041" width="30" height="auto" alt="Size Guide Image - See the size chart" title="See the size chart"></img>
@@ -248,19 +277,14 @@ const BookDetail = (props) => {
                   </div>
                   {!soldOut && (
                     <div className="col-md-12 d-flex align-items-center justify-content-between mt-3">
-                      <div className="input-number input-group col-4" style={{ paddingLeft: "0px" }}>
-                        <div className="d-flex" style={{ backgroundColor: "#F8F8F8", borderRadius: "9999px", padding: "8px" }}>
-                          <div className="input-group-prepend">
-                            <span className="input-group-text btn-spin btn-dec d-flex" style={{ borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center" }} onClick={itemCartDecrease}>-</span>
-                          </div>
-                          <input type="text" value={itemCart} className="soluongsp text-center" style={{ backgroundColor: "transparent", border: "none" }} onChange={onChangeItemCart} />
-                          <div className="input-group-append">
-                            <span className="input-group-text btn-spin btn-inc" style={{ borderRadius: "50%", width: "30px", height: "30px", alignItems: "center", justifyContent: "center" }} onClick={itemCartIncrease}>+</span>
-                          </div>
-                        </div>
+                      <div className="col-6 justify-content-start" style={{ paddingRight: "0px", paddingLeft: "0px" }}>
+                        <button className="btn btn-primary" style={{ borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "10px" }} onClick={handleClickBuyNow}>
+                          <img src={addToCartIcon} alt="Add to cart" style={{ width: "16px", height: "16px", marginRight: "5px" }} />
+                          Mua ngay
+                        </button>
                       </div>
-                      <div className="col-8 d-flex justify-content-end" style={{ paddingRight: "0px" }}>
-                        <button className="btn btn-primary ml-3" style={{ borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "10px" }} onClick={handleClickBuy}>
+                      <div className="col-6 d-flex justify-content-end" style={{ paddingRight: "0px", paddingLeft: "0px" }}>
+                        <button className="btn btn-primary" style={{ borderRadius: "9999px", backgroundColor: "#111827", border: "none", padding: "10px" }} onClick={handleClickBuy}>
                           <img src={addToCartIcon} alt="Add to cart" style={{ width: "16px", height: "16px", marginRight: "5px" }} />
                           Thêm giỏ hàng
                         </button>
