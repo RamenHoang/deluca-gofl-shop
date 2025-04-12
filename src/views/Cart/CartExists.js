@@ -183,8 +183,6 @@ const CartExists = (props) => {
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      inputEmail: Yup.string()
-        .required("Bắt buộc nhập địa chỉ"),
       inputPhone: Yup.string()
         .required("Bắt buộc nhập số điện thoại")
     }),
