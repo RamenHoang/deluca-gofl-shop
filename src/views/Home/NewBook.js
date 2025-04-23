@@ -36,7 +36,7 @@ const NewBook = () => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
       window.scrollTo({
-        top: document.querySelector(".new-products").offsetTop,
+        top: document.querySelector(".new-products").offsetTop - 200,
         behavior: "smooth"
       });
     }
