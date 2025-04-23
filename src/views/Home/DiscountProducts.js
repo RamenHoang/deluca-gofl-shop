@@ -39,10 +39,10 @@ const DiscountProducts = () => {
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
-      // window.scrollTo({
-      //   top: document.querySelector(".discount-products").offsetTop - 100,
-      //   behavior: "smooth"
-      // });
+      window.scrollTo({
+        top: document.querySelector(".discount-products").offsetTop - 100,
+        behavior: "smooth"
+      });
     }
   };
 

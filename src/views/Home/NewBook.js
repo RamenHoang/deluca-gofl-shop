@@ -35,10 +35,10 @@ const NewBook = () => {
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
-      // window.scrollTo({
-      //   top: document.querySelector(".discount-products").offsetTop - 100,
-      //   behavior: "smooth"
-      // });
+      window.scrollTo({
+        top: document.querySelector(".new-products").offsetTop - 100,
+        behavior: "smooth"
+      });
     }
   };
 
@@ -117,7 +117,7 @@ const NewBook = () => {
   };
 
   return (
-    <div className="container mt-5 discount-products">
+    <div className="container mt-5 discount-products new-products">
       <div className="d-flex justify-content-start">
         <h2 className="title-1">Best Sellers.</h2>
         <h2 className="title-2" style={{color: "#4B5563CC"}}>Sản phẩm được ưa chuộng nhất trong tháng</h2>
