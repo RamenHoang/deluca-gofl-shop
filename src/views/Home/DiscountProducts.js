@@ -40,7 +40,7 @@ const DiscountProducts = () => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
       window.scrollTo({
-        top: document.querySelector(".discount-products").offsetTop - 100,
+        top: document.querySelector(".discount-products").offsetTop,
         behavior: "smooth"
       });
     }
