@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.fb4a4ddc.css",
-    "main.js": "/static/js/main.212c54c5.js",
+    "main.js": "/static/js/main.5b6e830f.js",
     "static/js/453.258b012d.chunk.js": "/static/js/453.258b012d.chunk.js",
     "static/media/logo.png": "/static/media/logo.c10ffc90be08eb2ede6d.png",
     "static/media/hamburger-menu-icon.png": "/static/media/hamburger-menu-icon.c6d988ae0037068e93f5.png",
@@ -10,11 +10,11 @@
     "static/media/icon-payment-cash.svg": "/static/media/icon-payment-cash.68a37e1ab8410460b2456e25ca395243.svg",
     "static/media/icon-payment-atm.svg": "/static/media/icon-payment-atm.4388cb279d0792669d84ac2a1afdc000.svg",
     "main.fb4a4ddc.css.map": "/static/css/main.fb4a4ddc.css.map",
-    "main.212c54c5.js.map": "/static/js/main.212c54c5.js.map",
+    "main.5b6e830f.js.map": "/static/js/main.5b6e830f.js.map",
     "453.258b012d.chunk.js.map": "/static/js/453.258b012d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fb4a4ddc.css",
-    "static/js/main.212c54c5.js"
+    "static/js/main.5b6e830f.js"
   ]
 }

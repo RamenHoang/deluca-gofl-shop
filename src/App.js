@@ -16,6 +16,7 @@ import Search from "./views/Search/Search";
 import About from "./views/About/About";
 import Posts from "./views/Posts/Posts";
 import PostDetail from "./views/Posts/PostDetail";
+import FloatingIcons from "./components/FloatingIcons/FloatingIcons";
 
 const App = () => {
   useEffect(() => {}, []);
@@ -120,6 +121,7 @@ const App = () => {
           cntItem={totalItem}
         />
       </Switch>
+      <FloatingIcons />
     </Router>
   );
 };
