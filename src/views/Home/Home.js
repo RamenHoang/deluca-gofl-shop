@@ -13,12 +13,11 @@ const FloatingIcons = () => {
   const iconStyle = {
     position: 'fixed',
     right: '20px',
+    bottom: '20px',
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',
-    zIndex: 1000,
-    top: '50%',
-    transform: 'translateY(-50%)'
+    zIndex: 1000
   };
 
   const buttonStyle = {
