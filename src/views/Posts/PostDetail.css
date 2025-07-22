@@ -41,12 +41,20 @@
   font-size: 1.1rem;
   line-height: 1.8;
   color: #333;
-  line-break: anywhere;
+  word-break: keep-all;
+  overflow-wrap: break-word;
   text-align: justify;
 }
 
 .post-content p {
   margin-bottom: 1.5rem;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.post-content * {
+  word-break: keep-all !important;
+  overflow-wrap: break-word !important;
 }
 
 .post-content img {

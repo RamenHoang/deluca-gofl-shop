@@ -62,7 +62,7 @@ const Posts = () => {
               />
               <Card.Body className="d-flex flex-column">
                 <Card.Title className="post-title">{post.title}</Card.Title>
-                <Card.Text className="post-excerpt">
+                <Card.Text className="post-excerpt vietnamese-text">
                   <span
                     dangerouslySetInnerHTML={{
                       __html: post.content.length > 40

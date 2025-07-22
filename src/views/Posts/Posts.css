@@ -39,6 +39,12 @@
 .post-excerpt {
   color: #666;
   margin-bottom: 1rem;
+  word-break: break-word !important;
+  overflow-wrap: normal !important;
+  word-wrap: normal !important;
+  white-space: normal !important;
+  line-height: 1.5;
+  text-align: justify;
 }
 
 .post-date {
@@ -54,4 +60,84 @@
   .post-image {
     height: 180px;
   }
+}
+
+/* CKEditor Image Alignment Styles */
+.image-style-align-left {
+    float: left;
+    margin: 0 1em 1em 0;
+}
+
+.image-style-align-center {
+    display: block;
+    margin: 0 auto 1em auto;
+    text-align: center;
+}
+
+.image-style-align-right {
+    float: right;
+    margin: 0 0 1em 1em;
+}
+
+/* Alternative approach using figure tag if CKEditor wraps images in figures */
+figure.image-style-align-left {
+    float: left;
+    margin: 0 1em 1em 0;
+}
+
+figure.image-style-align-center {
+    display: block;
+    margin: 0 auto 1em auto;
+    text-align: center;
+}
+
+figure.image-style-align-right {
+    float: right;
+    margin: 0 0 1em 1em;
+}
+
+/* Ensure images within aligned containers are responsive */
+.image-style-align-left img,
+.image-style-align-center img,
+.image-style-align-right img {
+    max-width: 100%;
+    height: auto;
+}
+
+p {
+  word-break: normal;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.post-excerpt span,
+.post-excerpt p,
+.card-text span,
+.card-text p {
+  word-break: break-word !important;
+  overflow-wrap: normal !important;
+  word-wrap: normal !important;
+  white-space: normal !important;
+  text-align: justify !important;
+}
+
+/* Additional CSS to prevent word breaking in Vietnamese */
+.posts-container * {
+  word-break: break-word !important;
+  overflow-wrap: normal !important;
+}
+
+/* Specific Vietnamese text handling */
+.vietnamese-text {
+  word-break: keep-all !important;
+  overflow-wrap: break-word !important;
+  white-space: pre-wrap !important;
+  word-spacing: normal !important;
+}
+
+.vietnamese-text span {
+  word-break: keep-all !important;
+  overflow-wrap: break-word !important;
+  white-space: pre-wrap !important;
 }
